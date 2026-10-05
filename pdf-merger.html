@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Merger - Merge PDF Files Online Free | KitUpBox</title>
+  <meta name="description" content="Free online PDF Merger. Combine multiple PDF files into one document instantly. No signup, no watermark, 100% secure. Works on mobile & desktop.">
+  <meta name="keywords" content="PDF merger, merge PDF, combine PDF, join PDF files, PDF merger online free">
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --purple: #8b5cf6;
+      --text: #1e293b;
+      --text-muted: #64748b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ==================== HEADER ==================== */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 20px;
+    }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .share-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff; border: none;
+      padding: 8px 14px; border-radius: 8px;
+      cursor: pointer; font-size: 0.82rem; font-weight: 600;
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    /* ==================== BREADCRUMB ==================== */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 30px 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ==================== PAGE TITLE ==================== */
+    .page-header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 30px;
+      text-align: center;
+    }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ==================== TOOL BOX ==================== */
+    .tool-wrapper {
+      max-width: 750px;
+      margin: 20px auto;
+      padding: 0 30px;
+    }
+    .tool-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .tool-box label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .file-input {
+      width: 100%;
+      padding: 14px;
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+      transition: all 0.2s;
+    }
+    .file-input:hover { border-color: var(--primary); background: #eff6ff; }
+
+    .action-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+    }
+    .action-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(59, 130, 246, 0.4); }
+    .action-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .output-box {
+      margin-top: 18px;
+      padding: 15px;
+      background: var(--bg);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      min-height: 50px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .output-box.success { background: #d1fae5; color: #065f46; border-color: #10b981; }
+    .output-box.error { background: #fee2e2; color: #991b1b; border-color: #ef4444; }
+
+    /* ==================== AD SLOT ==================== */
+    .ad-slot {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 30px;
+    }
+    .ad-inner {
+      background: rgba(226, 232, 240, 0.4);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ==================== CONTENT SECTION ==================== */
+    .content-section {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 20px 30px;
+    }
+
+    .content-section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .content-section h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 25px 0 10px;
+      color: var(--text);
+    }
+
+    .content-section p {
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    .content-section ul, .content-section ol {
+      margin: 15px 0 20px 25px;
+      font-size: 0.95rem;
+    }
+
+    .content-section li {
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    /* ==================== FAQ ==================== */
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq-q {
+      padding: 18px 22px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .faq-q:hover { background: var(--bg); }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+
+    .faq-a {
+      display: none;
+      padding: 0 22px 18px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ==================== RELATED TOOLS ==================== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .related-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .related-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12);
+      border-color: var(--primary);
+    }
+
+    .related-card .icon {
+      width: 45px; height: 45px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    /* ==================== FOOTER ==================== */
+    .footer {
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 40px 30px 25px;
+      margin-top: 40px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ==================== TOAST ==================== */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 10001;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    /* ==================== MOBILE ==================== */
+    @media (max-width: 900px) {
+      .nav { display: none; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .header { padding: 10px 15px; }
+      .page-header h1 { font-size: 1.6rem; }
+      .page-header { padding: 15px 20px; }
+      .tool-wrapper { padding: 0 15px; }
+      .tool-box { padding: 22px 18px; }
+      .content-section { padding: 15px 20px; }
+      .content-section h2 { font-size: 1.3rem; }
+      .breadcrumb { padding: 15px 20px 0; }
+      .ad-slot { padding: 0 15px; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="header">
+    <a href="/" class="logo-area">
+      <div class="logo-icon">K</div>
+      <div class="logo-text">
+        <h1>KitUpBox</h1>
+        <p>Tools for a Smarter You</p>
+      </div>
+    </a>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/#popular">Tools</a>
+      <a href="/#categories">Categories</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="share-btn" onclick="shareThisTool()">📤 Share</button>
+    </div>
+  </header>
+
+  <!-- ==================== BREADCRUMB ==================== -->
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>›</span>PDF Merger
+  </div>
+
+  <!-- ==================== PAGE TITLE ==================== -->
+  <section class="page-header">
+    <div class="icon-big">📄</div>
+    <h1>PDF Merger</h1>
+    <p>Merge multiple PDF files into one single document — fast, free, and secure. No signup required.</p>
+  </section>
+
+  <!-- ==================== TOOL ==================== -->
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label>📁 Select PDF Files (2 or more):</label>
+      <input type="file" id="pdfFiles" class="file-input" accept="application/pdf" multiple>
+
+      <button class="action-btn" id="mergeBtn" onclick="mergePDFs()">
+        🔗 Merge & Download PDF
+      </button>
+
+      <div id="pdfOutput" class="output-box">
+        Select 2 or more PDF files to merge them into one.
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== AD SLOT 1 ==================== -->
+  <div class="ad-slot">
+    <div class="ad-inner">
+      <!-- ADSENSE CODE HERE (Slot 1) -->
+      Advertisement Space (Responsive)
+    </div>
+  </div>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section class="content-section">
+    <h2>📖 What is PDF Merger?</h2>
+    <p>PDF Merger is a free online tool that allows you to combine multiple PDF files into a single PDF document. Whether you have separate chapters of a book, multiple invoices, or scanned documents — our PDF Merger helps you merge them quickly and easily, right from your browser.</p>
+    <p>Unlike other online tools, KitUpBox PDF Merger does <strong>not upload your files to any server</strong>. All merging happens locally in your browser using advanced JavaScript technology. This means your files stay 100% private and secure.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>100% Free</strong> — No hidden charges, no signup required</li>
+      <li><strong>No Watermark</strong> — Your merged PDF stays clean</li>
+      <li><strong>Unlimited Files</strong> — Merge as many PDFs as you want</li>
+      <li><strong>Fast Processing</strong> — Merge happens in seconds</li>
+      <li><strong>Secure & Private</strong> — Files never leave your device</li>
+      <li><strong>Works Everywhere</strong> — Mobile, tablet, laptop, desktop</li>
+      <li><strong>No Installation</strong> — Works directly in your browser</li>
+    </ul>
+
+    <h3>🎯 How to Use PDF Merger</h3>
+    <ol>
+      <li>Click on <strong>"Choose Files"</strong> button above</li>
+      <li>Select 2 or more PDF files from your device</li>
+      <li>Click <strong>"Merge & Download PDF"</strong></li>
+      <li>Your merged PDF will download automatically</li>
+    </ol>
+
+    <h3>💡 When Should You Use PDF Merger?</h3>
+    <ul>
+      <li>Combining multiple chapters of an eBook</li>
+      <li>Merging scanned documents into one file</li>
+      <li>Joining invoices or receipts together</li>
+      <li>Creating a single report from multiple PDFs</li>
+      <li>Combining resumes, certificates, or applications</li>
+      <li>Organizing digital documents in one place</li>
+    </ul>
+
+    <h3>❓ Why Choose KitUpBox PDF Merger?</h3>
+    <p>There are many PDF merger tools online, but KitUpBox stands out because of its <strong>privacy-first approach</strong>. Most tools upload your files to their servers — but we don't. Your PDFs are processed directly in your browser, ensuring complete confidentiality. Plus, our tool is designed to work smoothly on all devices — from the smallest phone to the largest desktop screen.</p>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Is PDF Merger really free?</div>
+      <div class="faq-a">Yes, 100% free. There are no hidden charges, no premium plans, and no signup required. You can merge unlimited PDFs without paying anything.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Are my PDF files safe?</div>
+      <div class="faq-a">Absolutely. Your files are processed directly in your browser using JavaScript. They are never uploaded to our servers, so your privacy is completely protected.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Is there a file size limit?</div>
+      <div class="faq-a">No specific limit, but we recommend files under 100 MB each for best performance. Very large files may take longer to process depending on your device.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Will there be a watermark on my merged PDF?</div>
+      <div class="faq-a">No. Unlike many free tools, KitUpBox does not add any watermark, logo, or branding to your merged PDF. Your document stays clean and professional.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Can I use this on my phone?</div>
+      <div class="faq-a">Yes! KitUpBox PDF Merger works perfectly on all devices — Android, iPhone, tablet, laptop, and desktop. No app installation needed.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Does it work offline?</div>
+      <div class="faq-a">After the page loads, the merging process works offline since it happens in your browser. However, you need an internet connection to load the page initially.</div>
+    </div>
+  </section>
+
+  <!-- ==================== AD SLOT 2 ==================== -->
+  <div class="ad-slot">
+    <div class="ad-inner">
+      <!-- ADSENSE CODE HERE (Slot 2) -->
+      Advertisement Space (Responsive)
+    </div>
+  </div>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/image-to-pdf.html">
+        <div class="icon" style="background:#d1fae5;">🖼️</div>
+        <h4>Image to PDF</h4>
+      </a>
+      <a class="related-card" href="/word-to-pdf.html">
+        <div class="icon" style="background:#fee2e2;">📝</div>
+        <h4>Word to PDF</h4>
+      </a>
+      <a class="related-card" href="/pdf-to-word.html">
+        <div class="icon" style="background:#dbeafe;">📋</div>
+        <h4>PDF to Word</h4>
+      </a>
+      <a class="related-card" href="/image-ocr.html">
+        <div class="icon" style="background:#ede9fe;">🔍</div>
+        <h4>Image OCR</h4>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="logo-area" style="margin-bottom: 12px;">
+          <div class="logo-icon">K</div>
+          <div class="logo-text">
+            <h1>KitUpBox</h1>
+            <p>Tools for a Smarter You</p>
+          </div>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="/">Home</a>
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact Us</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+      </div>
+      <div>
+        <h4>Popular Tools</h4>
+        <a href="/pdf-merger.html">PDF Merger</a>
+        <a href="/image-to-pdf.html">Image to PDF</a>
+        <a href="/qr-generator.html">QR Generator</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <!-- ==================== TOAST ==================== -->
+  <div id="toast" class="toast">Success!</div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) {
+      el.classList.toggle('open');
+    }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/pdf-merger.html';
+      if (navigator.share) {
+        navigator.share({
+          title: 'PDF Merger - KitUpBox',
+          text: 'Free online PDF merger - merge PDFs easily!',
+          url: url
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast('✅ Link copied!');
+        }).catch(() => {
+          showToast('❌ Could not copy', true);
+        });
+      }
+    }
+
+    /* ==================== PDF MERGER FUNCTION ==================== */
+    async function mergePDFs(
+          ) {
+      const files = document.getElementById('pdfFiles').files;
+      const out = document.getElementById('pdfOutput');
+      const btn = document.getElementById('mergeBtn');
+
+      if (files.length < 2) {
+        out.innerText = '⚠️ Please select at least 2 PDF files.';
+        out.className = 'output-box error';
+        showToast('Select at least 2 PDFs', true);
+        return;
+      }
+
+      out.innerText = '⏳ Merging your PDFs... Please wait.';
+      out.className = 'output-box';
+      btn.disabled = true;
+      btn.innerText = '⏳ Merging...';
+
+      try {
+        const mergedPdf = await PDFLib.PDFDocument.create();
+        let totalPages = 0;
+
+        for (let file of files) {
+          const bytes = await file.arrayBuffer();
+          const pdf = await PDFLib.PDFDocument.load(bytes);
+          const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+          pages.forEach(p => mergedPdf.addPage(p));
+          totalPages += pages.length;
+        }
+
+        const pdfBytes = await mergedPdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'KitUpBox_Merged.pdf';
+        link.click();
+
+        out.innerText = `✅ Successfully merged ${files.length} files (${totalPages} pages) into one PDF!`;
+        out.className = 'output-box success';
+        showToast('PDF Merged Successfully!');
+      } catch (e) {
+        out.innerText = '❌ Error: ' + e.message;
+        out.className = 'output-box error';
+        showToast('Merge failed', true);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '🔗 Merge & Download PDF';
+      }
+    }
+  </script>
+
+</body>
+</html>
