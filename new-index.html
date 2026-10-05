@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KitUpBox - All-in-One Free Online Tools</title>
+  <meta name="description" content="KitUpBox - 30+ Free Online Tools. PDF Merger, Image Compressor, BMI Calculator, QR Generator, EMI Calculator और भी बहुत कुछ।">
+  <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" />
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode@3.11.5/JsBarcode.all.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --purple: #8b5cf6;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --star: #fbbf24;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ==================== HEADER ==================== */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+
+    .nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .nav a:hover { color: var(--primary); }
+
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+
+    .search-box { position: relative; }
+    .search-box input {
+      padding: 8px 15px 8px 35px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--bg);
+      font-size: 0.85rem;
+      outline: none;
+      width: 180px;
+      transition: all 0.2s;
+    }
+    .search-box input:focus {
+      border-color: var(--primary);
+      background: #fff;
+      width: 220px;
+    }
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+    }
+
+    .share-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: transform 0.2s;
+    }
+    .share-btn:hover { transform: translateY(-2px); }
+
+    .lang-btn, .theme-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .lang-btn:hover, .theme-btn:hover { border-color: var(--primary); }
+
+    /* ==================== HERO ==================== */
+    .hero {
+      padding: 50px 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      font-size: 2.8rem;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .hero h2 span {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    /* ==================== RATING ==================== */
+    .rating-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 25px;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .rating-stars {
+      display: flex;
+      gap: 4px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .rating-stars span {
+      color: #cbd5e1;
+      transition: all 0.15s;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .rating-stars span:hover,
+    .rating-stars span.active {
+      color: var(--star);
+      transform: scale(1.15);
+    }
+
+    .rating-info {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .rating-info strong {
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .rating-thanks {
+      display: none;
+      color: #10b981;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .rating-thanks.show {
+      display: block;
+    }
+
+    .hero-btn {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+      transition: transform 0.2s;
+    }
+    .hero-btn:hover { transform: translateY(-3px); }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 9rem;
+      filter: drop-shadow(0 10px 20px rgba(59, 130, 246, 0.2));
+    }
+
+    /* ==================== SECTIONS ==================== */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 30px 40px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .view-all {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ==================== AD SLOTS ==================== */
+    .ad-slot {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 30px;
+    }
+
+    .ad-inner {
+      background: rgba(226, 232, 240, 0.4);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ==================== TOAST ==================== */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 10001;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.error { background: #ef4444; }
+
+    /* ==================== MOBILE ==================== */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 30px 20px; text-align: center; }
+      .hero h2 { font-size: 2rem; }
+      .hero-visual { font-size: 5rem; }
+      .nav { display: none; }
+      .rating-box { justify-content: center; }
+    }
+
+    @media (max-width: 600px) {
+      .header { padding: 10px 15px; flex-wrap: wrap; gap: 10px; }
+      .search-box input { width: 120px; }
+      .share-btn { padding: 7px 10px; font-size: 0.75rem; }
+      .lang-btn, .theme-btn { padding: 7px 9px; font-size: 0.78rem; }
+      .section { padding: 15px 15px 30px; }
+      .section-title { font-size: 1.2rem; }
+      .hero h2 { font-size: 1.7rem; }
+      .hero-visual { font-size: 4rem; }
+      .rating-stars { font-size: 1.3rem; }
+    }
+  
+  /* ==================== TOOLS GRID ==================== */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.tool-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.tool-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(59, 130, 246, 0.12);
+  border-color: var(--primary);
+}
+
+.tool-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 14px;
+}
+
+.icon-pdf { background: #fee2e2; }
+.icon-image { background: #d1fae5; }
+.icon-text { background: #dbeafe; }
+.icon-calc { background: #fef3c7; }
+.icon-qr { background: #fed7aa; }
+.icon-purple { background: #ede9fe; }
+.icon-health { background: #fce7f3; }
+
+.tool-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.tool-card p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5; }
+
+.tool-btn {
+  font-size: 0.82rem;
+  color: var(--primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ==================== CATEGORIES ==================== */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.cat-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-color: var(--primary);
+}
+
+.cat-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.cat-pdf { background: #fee2e2; }
+.cat-finance { background: #d1fae5; }
+.cat-text { background: #ede9fe; }
+.cat-gen { background: #fed7aa; }
+.cat-convert { background: #dbeafe; }
+.cat-design { background: #fce7f3; }
+.cat-health { background: #fef3c7; }
+
+.cat-card h4 { font-size: 0.9rem; font-weight: 600; }
+.cat-card p { font-size: 0.72rem; color: var(--text-muted); }
+
+/* ==================== FOOTER ==================== */
+.footer {
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 40px 30px 25px;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+.footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+.footer a:hover { color: var(--primary); }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ==================== REPORT ISSUE ==================== */
+.feedback-btn {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  padding: 13px 20px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+  z-index: 9999;
+  transition: transform 0.2s;
+}
+
+.feedback-btn:hover { transform: scale(1.05); }
+
+/* ==================== MODAL ==================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 450px;
+  border: 1px solid var(--border);
+}
+
+.modal-content h3 { color: var(--primary); margin-bottom: 18px; font-size: 1.15rem; }
+
+.modal-content label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.modal-content select,
+.modal-content textarea {
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.modal-content textarea { resize: vertical; min-height: 100px; }
+
+.action-btn {
+  padding: 12px;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action-btn.secondary { background: #475569; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+@media (max-width: 900px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .footer-inner { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="header">
+    <a href="#" class="logo-area">
+      <div class="logo-icon">K</div>
+      <div class="logo-text">
+        <h1>KitUpBox</h1>
+        <p data-lang="tagline">Tools for a Smarter You</p>
+      </div>
+    </a>
+
+    <nav class="nav">
+      <a href="#home" data-lang="navHome">Home</a>
+      <a href="#popular" data-lang="navTools">Tools</a>
+      <a href="#categories" data-lang="navCat">Categories</a>
+      <a href="/about.html" data-lang="navAbout">About</a>
+      <a href="/contact.html" data-lang="navContact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search tools..." data-lang-placeholder="searchPh" oninput="searchTools()">
+      </div>
+      <button class="share-btn" onclick="shareWebsite()">
+        📤 <span data-lang="shareBtn">Share</span>
+      </button>
+      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">🌐 EN</button>
+      <button class="theme-btn">🌙</button>
+    </div>
+  </header>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="home">
+    <div>
+      <span class="hero-badge" data-lang="heroBadge">⚡ 30+ Free Online Utilities</span>
+      <h2 data-lang="heroTitle1">Everything you need.</h2>
+      <h2><span data-lang="heroTitle2">All in one box.</span></h2>
+      <p data-lang="heroDesc">Free, secure, and easy-to-use online tools for productivity, finance, documents, and more. No installation required.</p>
+
+      <!-- ==================== RATING ==================== -->
+      <div class="rating-box">
+        <div class="rating-stars" id="ratingStars">
+          <span onclick="rate(1)">★</span>
+          <span onclick="rate(2)">★</span>
+          <span onclick="rate(3)">★</span>
+          <span onclick="rate(4)">★</span>
+          <span onclick="rate(5)">★</span>
+        </div>
+        <div class="rating-info" id="ratingInfo">
+          <strong>4.8</strong> out of 5 (<span data-lang="basedOn">Based on 152 ratings</span>)
+        </div>
+        <div class="rating-thanks" id="ratingThanks" data-lang="thanksRating">
+          ✅ Thank you for rating!
+        </div>
+      </div>
+
+      <br>
+      <button class="hero-btn" onclick="document.getElementById('popular').scrollIntoView()">
+        🚀 <span data-lang="exploreBtn">Explore All Tools</span> →
+      </button>
+    </div>
+    <div class="hero-visual">📦</div>
+  </section>
+
+  <!-- ==================== AD SLOT 1 ==================== -->
+  <div class="ad-slot">
+    <div class="ad-inner">
+      <!-- ADSENSE CODE HERE (Slot 1 - Below Hero) -->
+      Advertisement Space (Responsive)
+    </div>
+  </div>
+
+ 
+<!-- ==================== POPULAR TOOLS (Top 8) ==================== -->
+<section class="section" id="popular">
+  <div class="section-header">
+    <h3 class="section-title">⭐ <span data-lang="popularTitle">Popular Tools</span></h3>
+    <a class="view-all" onclick="document.getElementById('allTools').scrollIntoView()">
+      <span data-lang="viewAll">View All Tools</span> →
+    </a>
+  </div>
+  <div class="tools-grid" id="popularGrid"></div>
+</section>
+
+<!-- ==================== CATEGORIES ==================== -->
+<section class="section" id="categories">
+  <div class="section-header">
+    <h3 class="section-title">📂 <span data-lang="catTitle">Browse by Category</span></h3>
+  </div>
+
+  <div class="categories">
+    <a class="cat-card" onclick="filterCategory('pdf')">
+      <div class="cat-icon cat-pdf">📄</div>
+      <div>
+        <h4>PDF Utilities</h4>
+        <p>5 tools</p>
+      </div>
+    </a>
+    <a class="cat-card" onclick="filterCategory('finance')">
+      <div class="cat-icon cat-finance">🧮</div>
+      <div>
+        <h4>Finance & Tax</h4>
+        <p>6 tools</p>
+      </div>
+    </a>
+    <a class="cat-card" onclick="filterCategory('text')">
+      <div class="cat-icon cat-text">✍️</div>
+      <div>
+        <h4>Text Tools</h4>
+        <p>5 tools</p>
+      </div>
+    </a>
+    <a class="cat-card" onclick="filterCategory('generators')">
+      <div class="cat-icon cat-gen">⚙️</div>
+      <div>
+        <h4>Generators</h4>
+        <p>4 tools</p>
+      </div>
+    </a>
+    <a class="cat-card" onclick="filterCategory('converters')">
+      <div class="cat-icon cat-convert">🔄</div>
+      <div>
+        <h4>Converters</h4>
+        <p>3 tools</p>
+      </div>
+    </a>
+    <a class="cat-card" onclick="filterCategory('image')">
+      <div class="cat-icon cat-design">🎨</div>
+      <div>
+        <h4>Image & Design</h4>
+        <p>5 tools</p>
+      </div>
+    </a>
+    <a class="cat-card" onclick="filterCategory('health')">
+      <div class="cat-icon cat-health">❤️</div>
+      <div>
+        <h4>Health</h4>
+        <p>2 tools</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ==================== AD SLOT 2 ==================== -->
+<div class="ad-slot">
+  <div class="ad-inner">
+    <!-- ADSENSE CODE HERE (Slot 2 - Between Categories and Tools) -->
+    Advertisement Space (Responsive)
+  </div>
+</div>
+
+<!-- ==================== ALL TOOLS ==================== -->
+<section class="section" id="allTools">
+  <div class="section-header">
+    <h3 class="section-title">🛠️ <span data-lang="allToolsTitle">All Tools</span></h3>
+  </div>
+  <div class="tools-grid" id="allToolsGrid"></div>
+</section>
+
+<!-- ==================== AD SLOT 3 ==================== -->
+<div class="ad-slot">
+  <div class="ad-inner">
+    <!-- ADSENSE CODE HERE (Slot 3 - Before Footer) -->
+    Advertisement Space (Responsive)
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="logo-area" style="margin-bottom: 12px;">
+        <div class="logo-icon">K</div>
+        <div class="logo-text">
+          <h1>KitUpBox</h1>
+          <p>Tools for a Smarter You</p>
+        </div>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Free online tools for everyone.
+      </p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <a href="/">Home</a>
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact Us</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <a href="#">📘 Facebook</a>
+      <a href="#">🐦 Twitter</a>
+      <a href="#">📸 Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 KitUpBox. All rights reserved.
+  </div>
+</footer>
+
+<!-- ==================== REPORT ISSUE BUTTON ==================== -->
+<button class="feedback-btn" onclick="toggleFeedbackModal()">💬 Report Issue</button>
+
+<!-- ==================== REPORT ISSUE MODAL ==================== -->
+<div id="feedbackModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Report an Issue</h3>
+    <label>Select Tool:</label>
+    <select id="issueToolSelect">
+      <option value="General">General / Website</option>
+      <option value="PDF Merger">PDF Merger</option>
+      <option value="Image to PDF">Image to PDF</option>
+      <option value="Image Compressor">Image Compressor</option>
+      <option value="BMI Calculator">BMI Calculator</option>
+      <option value="Age Calculator">Age Calculator</option>
+      <option value="QR Generator">QR Generator</option>
+      <option value="EMI Calculator">EMI Calculator</option>
+      <option value="Other">Other</option>
+    </select>
+    <label>Describe the problem:</label>
+    <textarea id="issueMessage" rows="4" placeholder="Write your complaint here..."></textarea>
+    <div class="grid-2">
+      <button class="action-btn" onclick="submitComplaint()">Submit</button>
+      <button class="action-btn secondary" onclick="toggleFeedbackModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+  <!-- ==================== TOAST ==================== -->
+  <div id="toast" class="toast">Success!</div>
+
+    <script>
+    /* ==================== TOAST ==================== */
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    /* ==================== SHARE WEBSITE ==================== */
+    function shareWebsite() {
+      const url = 'https://kitupbox.onrender.com';
+      if (navigator.share) {
+        navigator.share({
+          title: 'KitUpBox - Free Online Tools',
+          text: 'Check out these 30+ free online tools!',
+          url: url
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast('✅ Link copied! Share with friends');
+        }).catch(() => {
+          showToast('❌ Could not copy link', true);
+        });
+      }
+    }
+
+    /* ==================== RATING SYSTEM ==================== */
+    let userRating = parseInt(localStorage.getItem('kitupbox_rating') || '0');
+
+    function rate(stars) {
+      userRating = stars;
+      localStorage.setItem('kitupbox_rating', stars);
+
+      const starsEl = document.querySelectorAll('#ratingStars span');
+      starsEl.forEach((s, i) => {
+        s.classList.toggle('active', i < stars);
+      });
+
+      document.getElementById('ratingThanks').classList.add('show');
+      showToast(`✅ Thanks for rating ${stars} star${stars > 1 ? 's' : ''}!`);
+
+      fetch('https://formspree.io/f/mnpnwdaq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          type: 'Rating',
+          rating: stars,
+          page: window.location.href,
+          time: new Date().toLocaleString(),
+          _subject: `⭐ New Rating: ${stars} stars`,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      }).catch(() => {});
+    }
+
+    /* ==================== 30 TOOLS DATA ==================== */
+    const tools = [
+      { id: 'pdfMerge', cat: 'pdf', name: 'PDF Merger', desc: 'Merge multiple PDF files into one.', icon: '📄', color: 'icon-pdf', popular: true },
+      { id: 'imgToPdf', cat: 'pdf', name: 'Image to PDF', desc: 'Convert images (JPG/PNG) to PDF.', icon: '🖼️', color: 'icon-image', popular: true },
+      { id: 'imgOcr', cat: 'pdf', name: 'Image OCR', desc: 'Extract text from images.', icon: '🔍', color: 'icon-text' },
+      { id: 'wordToPdf', cat: 'pdf', name: 'Word to PDF', desc: 'Convert Word documents to PDF.', icon: '📝', color: 'icon-pdf', popular: true },
+      { id: 'pdfToWord', cat: 'pdf', name: 'PDF to Word', desc: 'Convert PDF to editable Word.', icon: '📋', color: 'icon-text' },
+      { id: 'emiCalc', cat: 'finance', name: 'EMI Calculator', desc: 'Plan your loan EMI with ease.', icon: '💰', color: 'icon-calc', popular: true },
+      { id: 'gstCalc', cat: 'finance', name: 'GST Calculator', desc: 'Calculate GST quickly and easily.', icon: '🧾', color: 'icon-calc' },
+      { id: 'percentageCalc', cat: 'finance', name: 'Percentage Calculator', desc: 'Calculate X% of Y instantly.', icon: '📊', color: 'icon-calc' },
+      { id: 'expenseTrack', cat: 'finance', name: 'Expense Tracker', desc: 'Track your daily expenses.', icon: '💵', color: 'icon-calc' },
+      { id: 'loanCalc', cat: 'finance', name: 'Loan Calculator', desc: 'Home/Car loan details.', icon: '🏦', color: 'icon-calc', popular: true },
+      { id: 'currencyConv', cat: 'finance', name: 'Currency Converter', desc: 'Convert currencies instantly.', icon: '💱', color: 'icon-calc', popular: true },
+      { id: 'wordCounter', cat: 'text', name: 'Word Counter', desc: 'Count words, characters & sentences.', icon: '🔢', color: 'icon-text', popular: true },
+      { id: 'textCase', cat: 'text', name: 'Text Case Converter', desc: 'Convert text to UPPER, lower, Title.', icon: '🔤', color: 'icon-text' },
+      { id: 'jsonFormat', cat: 'text', name: 'JSON Formatter', desc: 'Format and validate JSON data.', icon: '🧩', color: 'icon-text' },
+      { id: 'base64Tool', cat: 'text', name: 'Base64 Encoder/Decoder', desc: 'Encode or decode text.', icon: '🔡', color: 'icon-text' },
+      { id: 'ageCalc', cat: 'text', name: 'Age Calculator', desc: 'Calculate age from birth date.', icon: '🎂', color: 'icon-text', popular: true },
+      { id: 'qrGen', cat: 'generators', name: 'QR Generator', desc: 'Generate QR codes instantly.', icon: '🔳', color: 'icon-qr', popular: true },
+      { id: 'barcodeGen', cat: 'generators', name: 'Barcode Generator', desc: 'Generate barcode for your text.', icon: '📊', color: 'icon-qr' },
+      { id: 'passGen', cat: 'generators', name: 'Password Generator', desc: 'Create strong & secure passwords.', icon: '🔐', color: 'icon-purple' },
+      { id: 'qrScanner', cat: 'generators', name: 'QR Code Scanner', desc: 'Scan QR codes from images.', icon: '📷', color: 'icon-qr' },
+      { id: 'unitConvert', cat: 'converters', name: 'Unit Converter', desc: 'Convert Meters, Feet, Inches.', icon: '📏', color: 'icon-text' },
+      { id: 'textToSpeech', cat: 'converters', name: 'Text to Speech', desc: 'Convert text into voice.', icon: '🔊', color: 'icon-purple' },
+      { id: 'randomNum', cat: 'converters', name: 'Random Number Generator', desc: 'Generate random numbers.', icon: '🎲', color: 'icon-qr' },
+      { id: 'imageResizer', cat: 'image', name: 'Image Resizer', desc: 'Resize images to any size.', icon: '🖼️', color: 'icon-image' },
+      { id: 'colorPicker', cat: 'image', name: 'Color Picker', desc: 'Pick colors & get HEX code.', icon: '🎨', color: 'icon-purple' },
+      { id: 'stopwatch', cat: 'image', name: 'Stopwatch', desc: 'Simple stopwatch timer.', icon: '⏱️', color: 'icon-calc' },
+      { id: 'imgCompressor', cat: 'image', name: 'Image Compressor', desc: 'Reduce image size without quality loss.', icon: '🗜️', color: 'icon-image', popular: true },
+      { id: 'imgCropper', cat: 'image', name: 'Image Cropper', desc: 'Crop images to custom size.', icon: '✂️', color: 'icon-image' },
+      { id: 'bmiCalc', cat: 'health', name: 'BMI Calculator', desc: 'Check your Body Mass Index.', icon: '⚖️', color: 'icon-health', popular: true },
+      { id: 'calorieCalc', cat: 'health', name: 'Calorie Calculator', desc: 'Calculate daily calorie needs.', icon: '🍎', color: 'icon-health' }
+    ];
+
+    /* ==================== RENDER TOOL CARD ==================== */
+    function createToolCard(tool) {
+      return `
+        <a class="tool-card" onclick="openTool('${tool.id}')">
+          <div class="tool-icon ${tool.color}">${tool.icon}</div>
+          <h4>${tool.name}</h4>
+          <p>${tool.desc}</p>
+          <div class="tool-btn">Open Tool →</div>
+        </a>
+      `;
+    }
+
+    function renderPopularTools() {
+      const popular = tools.filter(t => t.popular).slice(0, 8);
+      const grid = document.getElementById('popularGrid');
+      if (grid) grid.innerHTML = popular.map(createToolCard).join('');
+    }
+
+    function renderAllTools() {
+      const grid = document.getElementById('allToolsGrid');
+      if (grid) grid.innerHTML = tools.map(createToolCard).join('');
+    }
+
+    function filterCategory(cat) {
+      const filtered = tools.filter(t => t.cat === cat);
+      const grid = document.getElementById('allToolsGrid');
+      if (grid) {
+        grid.innerHTML = filtered.map(createToolCard).join('');
+        document.getElementById('allTools').scrollIntoView();
+        showToast(`${filtered.length} tools in this category`);
+      }
+    }
+
+    function searchTools() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const grid = document.getElementById('allToolsGrid');
+      if (!grid) return;
+
+      if (!query) {
+        grid.innerHTML = tools.map(createToolCard).join('');
+        return;
+      }
+
+      const results = tools.filter(t =>
+        t.name.toLowerCase().includes(query) ||
+        t.desc.toLowerCase().includes(query)
+      );
+
+      grid.innerHTML = results.length
+        ? results.map(createToolCard).join('')
+        : '<p style="grid-column: 1/-1; text-align: center; color: #64748b;">No tools found.</p>';
+
+      if (results.length) document.getElementById('allTools').scrollIntoView();
+    }
+
+    function openTool(toolId) {
+      showToast(`Opening ${toolId}...`);
+    }
+
+    /* ==================== REPORT ISSUE ==================== */
+    function toggleFeedbackModal() {
+      document.getElementById('feedbackModal').classList.toggle('show');
+    }
+
+    async function submitComplaint() {
+      const tool = document.getElementById('issueToolSelect').value;
+      const msg = document.getElementById('issueMessage').value.trim();
+
+      if (!msg) { showToast('Please describe the problem', true); return; }
+
+      const btn = event.target;
+      const originalText = btn.innerText;
+      btn.innerText = '⏳ Sending...';
+      btn.disabled = true;
+
+      try {
+        const response = await fetch('https://formspree.io/f/mnpnwdaq', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            type: 'Complaint',
+            tool: tool,
+            message: msg,
+            page: window.location.href,
+            time: new Date().toLocaleString(),
+            _subject: `🚨 Complaint: ${tool}`,
+            _template: 'table',
+            _captcha: 'false'
+          })
+        });
+
+        if (response.ok) {
+          showToast('✅ Complaint submitted!');
+          document.getElementById('issueMessage').value = '';
+          setTimeout(toggleFeedbackModal, 1000);
+        } else throw new Error('Failed');
+      } catch (err) {
+        showToast('❌ Failed. Try again.', true);
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    /* ==================== LANGUAGE SWITCHER ==================== */
+    let currentLang = localStorage.getItem('kitupbox_lang') || 'en';
+
+    const translations = {
+      en: {
+        tagline: 'Tools for a Smarter You',
+        navHome: 'Home', navTools: 'Tools', navCat: 'Categories',
+        navAbout: 'About', navContact: 'Contact',
+        searchPh: 'Search tools...', shareBtn: 'Share',
+        heroBadge: '⚡ 30+ Free Online Utilities',
+        heroTitle1: 'Everything you need.', heroTitle2: 'All in one box.',
+        heroDesc: 'Free, secure, and easy-to-use online tools for productivity, finance, documents, and more. No installation required.',
+        basedOn: 'Based on 152 ratings', thanksRating: '✅ Thank you for rating!',
+        exploreBtn: 'Explore All Tools', popularTitle: 'Popular Tools',
+        viewAll: 'View All Tools', catTitle: 'Browse by Category',
+        allToolsTitle: 'All Tools'
+      },
+      hi: {
+        tagline: 'स्मार्ट तरीके से काम करें',
+        navHome: 'होम', navTools: 'टूल्स', navCat: 'श्रेणियाँ',
+        navAbout: 'हमारे बारे में', navContact: 'संपर्क',
+        searchPh: 'टूल्स खोजें...', shareBtn: 'शेयर',
+        heroBadge: '⚡ 30+ मुफ़्त ऑनलाइन टूल्स',
+        heroTitle1: 'जो चाहिए, सब यहीं।', heroTitle2: 'एक ही बॉक्स में।',
+        heroDesc: 'मुफ़्त, सुरक्षित और आसान ऑनलाइन टूल्स — PDF, फाइनेंस, डॉक्यूमेंट्स और बहुत कुछ। कुछ install करने की ज़रूरत नहीं।',
+        basedOn: '152 रेटिंग्स के आधार पर', thanksRating: '✅ रेटिंग के लिए धन्यवाद!',
+        exploreBtn: 'सभी टूल्स देखें', popularTitle: 'लोकप्रिय टूल्स',
+        viewAll: 'सभी टूल्स देखें', catTitle: 'श्रेणी से देखें',
+        allToolsTitle: 'सभी टूल्स'
+      }
+    };
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'hi' : 'en';
+      localStorage.setItem('kitupbox_lang', currentLang);
+      applyLanguage();
+      document.getElementById('langBtn').innerText = '🌐 ' + (currentLang === 'en' ? 'EN' : 'हिं');
+      showToast(currentLang === 'en' ? 'Switched to English' : 'हिंदी में बदल दिया');
+    }
+
+    function applyLanguage() {
+      const t = translations[currentLang];
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (t[key]) el.innerText = t[key];
+      });
+      document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lang-placeholder');
+        if (t[key]) el.placeholder = t[key];
+      });
+    }
+
+    /* ==================== PAGE LOAD ==================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPopularTools();
+      renderAllTools();
+      applyLanguage();
+      document.getElementById('langBtn').innerText = '🌐 ' + (currentLang === 'en' ? 'EN' : 'हिं');
+
+      if (userRating > 0) {
+        const starsEl = document.querySelectorAll('#ratingStars span');
+        starsEl.forEach((s, i) => {
+          s.classList.toggle('active', i < userRating);
+        });
+        document.getElementById('ratingThanks').classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>
