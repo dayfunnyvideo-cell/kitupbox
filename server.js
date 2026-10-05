@@ -23,8 +23,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Routes
+// Static files serve करें (index.html, pdf-merger.html, आदि)
+app.use(express.static(__dirname));
+
 app.get('/', (req, res) => {
-  res.send('KitUpBox Backend Running Successfully!');
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.post('/upload', upload.single('file'), (req, res) => {
