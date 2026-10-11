@@ -890,38 +890,52 @@
       }).catch(() => {});
     }
 
-    /* ==================== 30 TOOLS DATA ==================== */
-    const tools = [
-      { id: 'pdfMerge', cat: 'pdf', name: 'PDF Merger', desc: 'Merge multiple PDF files into one.', icon: '📄', color: 'icon-pdf', popular: true },
-      { id: 'imgToPdf', cat: 'pdf', name: 'Image to PDF', desc: 'Convert images (JPG/PNG) to PDF.', icon: '🖼️', color: 'icon-image', popular: true },
-      { id: 'imgOcr', cat: 'pdf', name: 'Image OCR', desc: 'Extract text from images.', icon: '🔍', color: 'icon-text' },
-      { id: 'wordToPdf', cat: 'pdf', name: 'Word to PDF', desc: 'Convert Word documents to PDF.', icon: '📝', color: 'icon-pdf', popular: true },
-      { id: 'pdfToWord', cat: 'pdf', name: 'PDF to Word', desc: 'Convert PDF to editable Word.', icon: '📋', color: 'icon-text' },
-      { id: 'emiCalc', cat: 'finance', name: 'EMI Calculator', desc: 'Plan your loan EMI with ease.', icon: '💰', color: 'icon-calc', popular: true },
-      { id: 'gstCalc', cat: 'finance', name: 'GST Calculator', desc: 'Calculate GST quickly and easily.', icon: '🧾', color: 'icon-calc' },
-      { id: 'percentageCalc', cat: 'finance', name: 'Percentage Calculator', desc: 'Calculate X% of Y instantly.', icon: '📊', color: 'icon-calc' },
-      { id: 'expenseTrack', cat: 'finance', name: 'Expense Tracker', desc: 'Track your daily expenses.', icon: '💵', color: 'icon-calc' },
-      { id: 'loanCalc', cat: 'finance', name: 'Loan Calculator', desc: 'Home/Car loan details.', icon: '🏦', color: 'icon-calc', popular: true },
-      { id: 'currencyConv', cat: 'finance', name: 'Currency Converter', desc: 'Convert currencies instantly.', icon: '💱', color: 'icon-calc', popular: true },
-      { id: 'wordCounter', cat: 'text', name: 'Word Counter', desc: 'Count words, characters & sentences.', icon: '🔢', color: 'icon-text', popular: true },
-      { id: 'textCase', cat: 'text', name: 'Text Case Converter', desc: 'Convert text to UPPER, lower, Title.', icon: '🔤', color: 'icon-text' },
-      { id: 'jsonFormat', cat: 'text', name: 'JSON Formatter', desc: 'Format and validate JSON data.', icon: '🧩', color: 'icon-text' },
-      { id: 'base64Tool', cat: 'text', name: 'Base64 Encoder/Decoder', desc: 'Encode or decode text.', icon: '🔡', color: 'icon-text' },
-      { id: 'ageCalc', cat: 'text', name: 'Age Calculator', desc: 'Calculate age from birth date.', icon: '🎂', color: 'icon-text', popular: true },
-      { id: 'qrGen', cat: 'generators', name: 'QR Generator', desc: 'Generate QR codes instantly.', icon: '🔳', color: 'icon-qr', popular: true },
-      { id: 'barcodeGen', cat: 'generators', name: 'Barcode Generator', desc: 'Generate barcode for your text.', icon: '📊', color: 'icon-qr' },
-      { id: 'passGen', cat: 'generators', name: 'Password Generator', desc: 'Create strong & secure passwords.', icon: '🔐', color: 'icon-purple' },
-      { id: 'qrScanner', cat: 'generators', name: 'QR Code Scanner', desc: 'Scan QR codes from images.', icon: '📷', color: 'icon-qr' },
-      { id: 'unitConvert', cat: 'converters', name: 'Unit Converter', desc: 'Convert Meters, Feet, Inches.', icon: '📏', color: 'icon-text' },
-      { id: 'textToSpeech', cat: 'converters', name: 'Text to Speech', desc: 'Convert text into voice.', icon: '🔊', color: 'icon-purple' },
-      { id: 'randomNum', cat: 'converters', name: 'Random Number Generator', desc: 'Generate random numbers.', icon: '🎲', color: 'icon-qr' },
-      { id: 'imageResizer', cat: 'image', name: 'Image Resizer', desc: 'Resize images to any size.', icon: '🖼️', color: 'icon-image' },
-      { id: 'colorPicker', cat: 'image', name: 'Color Picker', desc: 'Pick colors & get HEX code.', icon: '🎨', color: 'icon-purple' },
-      { id: 'stopwatch', cat: 'image', name: 'Stopwatch', desc: 'Simple stopwatch timer.', icon: '⏱️', color: 'icon-calc' },
-      { id: 'imgCompressor', cat: 'image', name: 'Image Compressor', desc: 'Reduce image size without quality loss.', icon: '🗜️', color: 'icon-image', popular: true },
-      { id: 'imgCropper', cat: 'image', name: 'Image Cropper', desc: 'Crop images to custom size.', icon: '✂️', color: 'icon-image' },
-      { id: 'bmiCalc', cat: 'health', name: 'BMI Calculator', desc: 'Check your Body Mass Index.', icon: '⚖️', color: 'icon-health', popular: true },
-      { id: 'calorieCalc', cat: 'health', name: 'Calorie Calculator', desc: 'Calculate daily calorie needs.', icon: '🍎', color: 'icon-health' }
+    /* ==================== 30 TOOLS ==================== */
+const tools = [
+  // PDF Utilities (5)
+  { id: 'pdf-merger', cat: 'pdf', name: 'PDF Merger', desc: 'Merge multiple PDF files into one.', icon: '📄', color: 'icon-pdf', popular: true },
+  { id: 'image-to-pdf', cat: 'pdf', name: 'Image to PDF', desc: 'Convert images (JPG/PNG) to PDF.', icon: '🖼️', color: 'icon-image', popular: true },
+  { id: 'image-ocr', cat: 'pdf', name: 'Image OCR', desc: 'Extract text from images.', icon: '🔍', color: 'icon-text' },
+  { id: 'word-to-pdf', cat: 'pdf', name: 'Word to PDF', desc: 'Convert Word documents to PDF.', icon: '📝', color: 'icon-pdf', popular: true },
+  { id: 'pdf-to-word', cat: 'pdf', name: 'PDF to Word', desc: 'Convert PDF to editable Word.', icon: '📋', color: 'icon-text' },
+
+  // Finance & Tax (6)
+  { id: 'emi-calculator', cat: 'finance', name: 'EMI Calculator', desc: 'Plan your loan EMI with ease.', icon: '💰', color: 'icon-calc', popular: true },
+  { id: 'gst-calculator', cat: 'finance', name: 'GST Calculator', desc: 'Calculate GST quickly and easily.', icon: '🧾', color: 'icon-calc' },
+  { id: 'percentage-calculator', cat: 'finance', name: 'Percentage Calculator', desc: 'Calculate X% of Y instantly.', icon: '📊', color: 'icon-calc' },
+  { id: 'expense-tracker', cat: 'finance', name: 'Expense Tracker', desc: 'Track your daily expenses.', icon: '💵', color: 'icon-calc' },
+  { id: 'loan-calculator', cat: 'finance', name: 'Loan Calculator', desc: 'Home/Car loan details.', icon: '🏦', color: 'icon-calc', popular: true },
+  { id: 'currency-converter', cat: 'finance', name: 'Currency Converter', desc: 'Convert currencies instantly.', icon: '💱', color: 'icon-calc', popular: true },
+
+  // Text Tools (5)
+  { id: 'word-counter', cat: 'text', name: 'Word Counter', desc: 'Count words, characters & sentences.', icon: '🔢', color: 'icon-text', popular: true },
+  { id: 'text-case-converter', cat: 'text', name: 'Text Case Converter', desc: 'Convert text to UPPER, lower, Title.', icon: '🔤', color: 'icon-text' },
+  { id: 'json-formatter', cat: 'text', name: 'JSON Formatter', desc: 'Format and validate JSON data.', icon: '🧩', color: 'icon-text' },
+  { id: 'base64-tool', cat: 'text', name: 'Base64 Encoder/Decoder', desc: 'Encode or decode text.', icon: '🔡', color: 'icon-text' },
+  { id: 'age-calculator', cat: 'text', name: 'Age Calculator', desc: 'Calculate age from birth date.', icon: '🎂', color: 'icon-text', popular: true },
+
+  // Generators (4)
+  { id: 'qr-generator', cat: 'generators', name: 'QR Generator', desc: 'Generate QR codes instantly.', icon: '🔳', color: 'icon-qr', popular: true },
+  { id: 'barcode-generator', cat: 'generators', name: 'Barcode Generator', desc: 'Generate barcode for your text.', icon: '📊', color: 'icon-qr' },
+  { id: 'password-generator', cat: 'generators', name: 'Password Generator', desc: 'Create strong & secure passwords.', icon: '🔐', color: 'icon-purple' },
+  { id: 'qr-scanner', cat: 'generators', name: 'QR Code Scanner', desc: 'Scan QR codes from images.', icon: '📷', color: 'icon-qr' },
+
+  // Converters (3)
+  { id: 'unit-converter', cat: 'converters', name: 'Unit Converter', desc: 'Convert Meters, Feet, Inches.', icon: '📏', color: 'icon-text' },
+  { id: 'text-to-speech', cat: 'converters', name: 'Text to Speech', desc: 'Convert text into voice.', icon: '🔊', color: 'icon-purple' },
+  { id: 'random-number-generator', cat: 'converters', name: 'Random Number Generator', desc: 'Generate random numbers.', icon: '🎲', color: 'icon-qr' },
+
+  // Image & Design (5)
+  { id: 'image-resizer', cat: 'image', name: 'Image Resizer', desc: 'Resize images to any size.', icon: '🖼️', color: 'icon-image' },
+  { id: 'color-picker', cat: 'image', name: 'Color Picker', desc: 'Pick colors & get HEX code.', icon: '🎨', color: 'icon-purple' },
+  { id: 'stopwatch', cat: 'image', name: 'Stopwatch', desc: 'Simple stopwatch timer.', icon: '⏱️', color: 'icon-calc' },
+  { id: 'image-compressor', cat: 'image', name: 'Image Compressor', desc: 'Reduce image size without quality loss.', icon: '🗜️', color: 'icon-image', popular: true },
+  { id: 'image-cropper', cat: 'image', name: 'Image Cropper', desc: 'Crop images to custom size.', icon: '✂️', color: 'icon-image' },
+
+  // Health (2)
+  { id: 'bmi-calculator', cat: 'health', name: 'BMI Calculator', desc: 'Check your Body Mass Index.', icon: '⚖️', color: 'icon-health', popular: true },
+  { id: 'calorie-calculator', cat: 'health', name: 'Calorie Calculator', desc: 'Calculate daily calorie needs.', icon: '🍎', color: 'icon-health' }
+  
     ];
 
     /* ==================== RENDER TOOL CARD ==================== */
