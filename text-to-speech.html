@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text to Speech - Convert Text to Voice Free | KitUpBox</title>
+  <meta name="description" content="Free online Text to Speech converter. Convert any text to natural-sounding voice. Choose from multiple voices, speeds, and pitches.">
+  <meta name="keywords" content="text to speech, tts, voice generator, text reader, speak text, text to voice">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; --red: #ef4444; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 850px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-area { width: 100%; min-height: 180px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 1rem; outline: none; font-family: inherit; resize: vertical; line-height: 1.7; margin-bottom: 18px; }
+    .text-area:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+
+    .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 18px; }
+    .control-item label { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
+    .control-item select, .control-item input[type="range"] { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); font-size: 0.9rem; outline: none; margin-top: 6px; }
+    .control-item input[type="range"] { padding: 0; height: 6px; }
+    .control-value { font-size: 0.85rem; color: var(--primary); font-weight: 700; }
+
+    .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .action-btn { padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .action-btn:hover { transform: translateY(-2px); }
+    .action-btn.stop { background: var(--red); }
+    .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .status-box { margin-top: 15px; padding: 12px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; text-align: center; display: none; }
+    .status-box.show { display: block; }
+    .status-box.speaking { background: #dbeafe; color: #1e40af; }
+    .status-box.done { background: #d1fae5; color: #065f46; }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 20px 15px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } .controls-grid { grid-template-columns: 1fr; } .btn-group { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Text to Speech</div>
+
+  <section class="page-header">
+    <div class="icon-big">🔊</div>
+    <h1>Text to Speech</h1>
+    <p>Convert any text into natural-sounding voice. Choose voice, speed, and pitch.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label>📝 Enter Your Text:</label>
+      <textarea id="speechText" class="text-area" placeholder="Type or paste the text you want to hear...">Hello! Welcome to KitUpBox. This is a free text to speech tool. Type any text and click Speak to hear it in a natural voice.</textarea>
+
+      <div class="controls-grid">
+        <div class="control-item">
+          <label>🎙️ Voice:</label>
+          <select id="voiceSelect"></select>
+        </div>
+        <div class="control-item">
+          <label>🌍 Language:</label>
+          <select id="langFilter" onchange="filterVoices()">
+            <option value="all">All Languages</option>
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="ja">Japanese</option>
+            <option value="zh">Chinese</option>
+          </select>
+        </div>
+        <div class="control-item">
+          <label>⚡ Speed: <span class="control-value" id="rateVal">1.0x</span></label>
+          <input type="range" id="rateRange" min="0.5" max="2" step="0.1" value="1" oninput="document.getElementById('rateVal').innerText = this.value + 'x'">
+        </div>
+        <div class="control-item">
+          <label>🎵 Pitch: <span class="control-value" id="pitchVal">1.0</span></label>
+          <input type="range" id="pitchRange" min="0.5" max="2" step="0.1" value="1" oninput="document.getElementById('pitchVal').innerText = this.value">
+        </div>
+        <div class="control-item">
+          <label>🔊 Volume: <span class="control-value" id="volVal">1.0</span></label>
+          <input type="range" id="volRange" min="0" max="1" step="0.1" value="1" oninput="document.getElementById('volVal').innerText = this.value">
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="action-btn" id="speakBtn" onclick="speakText()">🔊 Speak</button>
+        <button class="action-btn stop" id="stopBtn" onclick="stopSpeech()" disabled>⏹️ Stop</button>
+      </div>
+
+      <div class="status-box" id="statusBox"></div>
+    </div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>📖 What is Text to Speech?</h2>
+    <p>Text to Speech (TTS) is a technology that converts written text into spoken voice. It's helpful for reading long articles, learning pronunciation, accessibility, and multitasking.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>Multiple Voices</strong> — Choose from available system voices</li>
+      <li><strong>Adjustable Speed</strong> — 0.5x to 2x playback</li>
+      <li><strong>Custom Pitch & Volume</strong> — Personalize the voice</li>
+      <li><strong>Language Filter</strong> — Find voices in your language</li>
+      <li><strong>Works Offline</strong> — After loading, uses browser voices</li>
+      <li><strong>100% Free</strong> — No signup, no limits</li>
+    </ul>
+
+    <h3>🎯 When to Use Text to Speech?</h3>
+    <ul>
+      <li>Listening to articles while multitasking</li>
+      <li>Learning correct pronunciation</li>
+      <li>Accessibility for visually impaired users</li>
+      <li>Studying — hear notes aloud</li>
+      <li>Language learning practice</li>
+      <li>Proofreading by listening</li>
+    </ul>
+
+    <h3>💡 Tips for Best Results</h3>
+    <ul>
+      <li>Use punctuation (., ? !) for natural pauses</li>
+      <li>Break long text into shorter sections</li>
+      <li>Try different voices to find your favorite</li>
+      <li>Adjust speed to 0.9x for clearer pronunciation</li>
+    </ul>
+
+    <h3>❓ Why Use KitUpBox Text to Speech?</h3>
+    <p>Uses your browser's built-in voices — no data sent to servers. Fast, private, and completely free.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How many voices are available?</div><div class="faq-a">It depends on your device and browser. Most devices have 10-50 voices in various languages.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Why don't I hear anything?</div><div class="faq-a">Check your device volume. Some browsers require user interaction first. Try clicking Speak again.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it support Hindi?</div><div class="faq-a">If your device has a Hindi voice installed, yes! Filter by Hindi to see available voices.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I download the audio?</div><div class="faq-a">Currently no direct download. This uses browser voices, so recording would require screen recording tools.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is there a text limit?</div><div class="faq-a">Very long text may be split by the browser. For best results, use text under 5000 characters.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my text saved?</div><div class="faq-a">No. Everything is processed in your browser. Nothing is sent to any server.</div></div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/word-counter.html"><div class="icon" style="background:#dbeafe;">🔢</div><h4>Word Counter</h4></a>
+      <a class="related-card" href="/text-case-converter.html"><div class="icon" style="background:#dbeafe;">🔤</div><h4>Text Case Converter</h4></a>
+      <a class="related-card" href="/base64-tool.html"><div class="icon" style="background:#ede9fe;">🔡</div><h4>Base64 Tool</h4></a>
+      <a class="related-card" href="/json-formatter.html"><div class="icon" style="background:#dbeafe;">🧩</div><h4>JSON Formatter</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/text-to-speech.html">Text to Speech</a><a href="/qr-generator.html">QR Generator</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    let voices = [];
+    let speaking = false;
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/text-to-speech.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Text to Speech - KitUpBox', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    function loadVoices() {
+      voices = speechSynthesis.getVoices();
+      populateVoiceList();
+    }
+
+    function populateVoiceList() {
+      const langFilter = document.getElementById('langFilter').value;
+      const sel = document.getElementById('voiceSelect');
+      sel.innerHTML = '';
+      voices.forEach((v, i) => {
+        if (langFilter === 'all' || v.lang.toLowerCase().startsWith(langFilter)) {
+          sel.innerHTML += `<option value="${i}">${v.name} (${v.lang})</option>`;
+        }
+      });
+      if (sel.innerHTML === '') {
+        sel.innerHTML = '<option value="">No voices found for this language</option>';
+      }
+    }
+
+    function filterVoices() { populateVoiceList(); }
+
+    function speakText() {
+      const text = document.getElementById('speechText').value.trim();
+      if (!text) { showToast('Enter some text first', true); return; }
+
+      speechSynthesis.cancel();
+
+      const utt = new SpeechSynthesisUtterance(text);
+      const voiceIdx = document.getElementById('voiceSelect').value;
+      if (voiceIdx !== '' && voices[voiceIdx]) utt.voice = voices[voiceIdx];
+      utt.rate = parseFloat(document.getElementById('rateRange').value);
+      utt.pitch = parseFloat(document.getElementById('pitchRange').value);
+      utt.volume = parseFloat(document.getElementById('volRange').value);
+
+      utt.onstart = () => {
+        speaking = true;
+        document.getElementById('speakBtn').disabled = true;
+        document.getElementById('stopBtn').disabled = false;
+        const sb = document.getElementById('statusBox');
+        sb.innerText = '🔊 Speaking...';
+        sb.className = 'status-box show speaking';
+      };
+
+      utt.onend = () => {
+        speaking = false;
+        document.getElementById('speakBtn').disabled = false;
+        document.getElementById('stopBtn').disabled = true;
+        const sb = document.getElementById('statusBox');
+        sb.innerText = '✅ Finished speaking.';
+        sb.className = 'status-box show done';
+      };
+
+      utt.onerror = () => {
+        speaking = false;
+        document.getElementById('speakBtn').disabled = false;
+        document.getElementById('stopBtn').disabled = true;
+        showToast('❌ Speech error', true);
+      };
+
+      speechSynthesis.speak(utt);
+    }
+
+    function stopSpeech() {
+      speechSynthesis.cancel();
+      speaking = false;
+      document.getElementById('speakBtn').disabled = false;
+      document.getElementById('stopBtn').disabled = true;
+      document.getElementById('statusBox').className = 'status-box';
+      showToast('⏹️ Stopped');
+    }
+
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    window.addEventListener('DOMContentLoaded', () => setTimeout(loadVoices, 500));
+  </script>
+
+</body>
+</html>
