@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image OCR - Extract Text from Images Free | KitUpBox</title>
+  <meta name="description" content="Free online Image OCR tool. Extract text from images (JPG, PNG) instantly using AI-powered OCR. Supports English and multiple languages. No signup.">
+  <meta name="keywords" content="image ocr, extract text from image, ocr online, photo to text, image to text">
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --purple: #8b5cf6;
+      --text: #1e293b;
+      --text-muted: #64748b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 20px;
+    }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .share-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff; border: none;
+      padding: 8px 14px; border-radius: 8px;
+      cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    }
+
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 30px 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 30px;
+      text-align: center;
+    }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .tool-box label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .file-input {
+      width: 100%;
+      padding: 14px;
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+      transition: all 0.2s;
+    }
+    .file-input:hover { border-color: var(--primary); background: #eff6ff; }
+
+    .action-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+    }
+    .action-btn:hover { transform: translateY(-2px); }
+    .action-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .output-box {
+      margin-top: 18px;
+      padding: 15px;
+      background: var(--bg);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      min-height: 50px;
+      border: 1px solid var(--border);
+      white-space: pre-wrap;
+      line-height: 1.7;
+    }
+    .output-box.success { background: #d1fae5; color: #065f46; border-color: #10b981; }
+    .output-box.error { background: #fee2e2; color: #991b1b; border-color: #ef4444; }
+
+    .copy-btn {
+      margin-top: 10px;
+      padding: 10px 18px;
+      background: #475569;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: none;
+    }
+    .copy-btn.show { display: inline-block; }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner {
+      background: rgba(226, 232, 240, 0.4);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; line-height: 1.7; }
+
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .faq-q {
+      padding: 18px 22px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a {
+      display: none;
+      padding: 0 22px 18px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .related-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .related-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12);
+      border-color: var(--primary);
+    }
+    .related-card .icon {
+      width: 45px; height: 45px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer {
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 40px 30px 25px;
+      margin-top: 40px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 10001;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) {
+      .nav { display: none; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .header { padding: 10px 15px; }
+      .page-header h1 { font-size: 1.6rem; }
+      .page-header { padding: 15px 20px; }
+      .tool-wrapper { padding: 0 15px; }
+      .tool-box { padding: 22px 18px; }
+      .content-section { padding: 15px 20px; }
+      .content-section h2 { font-size: 1.3rem; }
+      .breadcrumb { padding: 15px 20px 0; }
+      .ad-slot { padding: 0 15px; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area">
+      <div class="logo-icon">K</div>
+      <div class="logo-text">
+        <h1>KitUpBox</h1>
+        <p>Tools for a Smarter You</p>
+      </div>
+    </a>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/#popular">Tools</a>
+      <a href="/#categories">Categories</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="share-btn" onclick="shareThisTool()">📤 Share</button>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>›</span>Image OCR
+  </div>
+
+  <section class="page-header">
+    <div class="icon-big">🔍</div>
+    <h1>Image OCR</h1>
+    <p>Extract text from any image (JPG, PNG) instantly using AI-powered OCR technology. 100% free and secure.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label>📁 Select Image (JPG, PNG):</label>
+      <input type="file" id="ocrInput" class="file-input" accept="image/*">
+
+      <button class="action-btn" id="ocrBtn" onclick="processOCR()">
+        🔍 Extract Text
+      </button>
+
+      <div id="ocrOutput" class="output-box">
+        Extracted text will appear here...
+      </div>
+
+      <button class="copy-btn" id="copyBtn" onclick="copyText()">📋 Copy Text</button>
+    </div>
+  </section>
+
+  <div class="ad-slot">
+    <div class="ad-inner">
+      <!-- ADSENSE CODE HERE (Slot 1) -->
+      Advertisement Space (Responsive)
+    </div>
+  </div>
+
+  <section class="content-section">
+    <h2>📖 What is Image OCR?</h2>
+    <p>Image OCR (Optical Character Recognition) is a technology that converts text from images into editable, searchable text. Our free online OCR tool uses AI to accurately extract text from photos, scanned documents, screenshots, and more.</p>
+    <p>Whether you have a photo of a printed page, a screenshot of an article, or a scanned receipt — our OCR tool converts it to text instantly. It works entirely in your browser, so your images never leave your device.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>100% Free</strong> — No charges, no signup required</li>
+      <li><strong>AI-Powered</strong> — High accuracy OCR technology</li>
+      <li><strong>Multiple Formats</strong> — JPG, PNG, JPEG, and more</li>
+      <li><strong>Fast Processing</strong> — Text extracted in seconds</li>
+      <li><strong>Secure & Private</strong> — Images never leave your browser</li>
+      <li><strong>Copy to Clipboard</strong> — One-click text copy</li>
+      <li><strong>Works Everywhere</strong> — Mobile, tablet, laptop, desktop</li>
+    </ul>
+
+    <h3>🎯 How to Use Image OCR</h3>
+    <ol>
+      <li>Click on <strong>"Choose Files"</strong> button above</li>
+      <li>Select an image with text (JPG, PNG)</li>
+      <li>Click <strong>"Extract Text"</strong></li>
+      <li>Wait a few seconds for AI to process</li>
+      <li>Copy the extracted text using the button</li>
+    </ol>
+
+    <h3>💡 When Should You Use Image OCR?</h3>
+    <ul>
+      <li>Digitizing printed documents and books</li>
+      <li>Extracting text from screenshots</li>
+      <li>Converting scanned PDFs into editable text</li>
+      <li>Copying text from photos (notifications, signs)</li>
+      <li>Reading text from receipts and invoices</li>
+      <li>Translating text from images</li>
+      <li>Getting text from handwritten notes (limited)</li>
+    </ul>
+
+    <h3>❓ Why Choose KitUpBox Image OCR?</h3>
+    <p>Unlike other OCR tools that upload your images to their servers, KitUpBox processes everything <strong>locally in your browser</strong> using advanced JavaScript. Your images stay completely private. Plus, our tool is completely free with no signup, no watermark, and no limits.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Which image formats are supported?</div>
+      <div class="faq-a">We support all common image formats including JPG, JPEG, PNG, BMP, and more. Simply select your image and the OCR will process it.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Which languages are supported?</div>
+      <div class="faq-a">Our OCR tool supports English (default). It can also detect and extract text in many Latin-based languages with decent accuracy.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">How accurate is the OCR?</div>
+      <div class="faq-a">Accuracy depends on image quality. Clear, high-resolution images with printed text give the best results (95%+). Handwritten text and blurry images may have lower accuracy.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Is my image safe?</div>
+      <div class="faq-a">Yes, 100%. Your image is processed directly in your browser and is never uploaded to any server. Complete privacy guaranteed.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Can I OCR handwritten text?</div>
+      <div class="faq-a">Our OCR works best with printed text. Handwritten text recognition is limited and may not be 100% accurate.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Does it work on mobile phones?</div>
+      <div class="faq-a">Absolutely! KitUpBox Image OCR works perfectly on Android, iPhone, tablets, and desktop computers. No app installation needed.</div>
+    </div>
+  </section>
+
+  <div class="ad-slot">
+    <div class="ad-inner">
+      <!-- ADSENSE CODE HERE (Slot 2) -->
+      Advertisement Space (Responsive)
+    </div>
+  </div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/pdf-merger.html">
+        <div class="icon" style="background:#fee2e2;">📄</div>
+        <h4>PDF Merger</h4>
+      </a>
+      <a class="related-card" href="/image-to-pdf.html">
+        <div class="icon" style="background:#d1fae5;">🖼️</div>
+        <h4>Image to PDF</h4>
+      </a>
+      <a class="related-card" href="/image-resizer.html">
+        <div class="icon" style="background:#dbeafe;">📐</div>
+        <h4>Image Resizer</h4>
+      </a>
+      <a class="related-card" href="/image-compressor.html">
+        <div class="icon" style="background:#fef3c7;">🗜️</div>
+        <h4>Image Compressor</h4>
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="logo-area" style="margin-bottom: 12px;">
+          <div class="logo-icon">K</div>
+          <div class="logo-text">
+            <h1>KitUpBox</h1>
+            <p>Tools for a Smarter You</p>
+          </div>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="/">Home</a>
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact Us</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+      </div>
+      <div>
+        <h4>Popular Tools</h4>
+        <a href="/pdf-merger.html">PDF Merger</a>
+        <a href="/image-to-pdf.html">Image to PDF</a>
+        <a href="/image-ocr.html">Image OCR</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/image-ocr.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Image OCR - KitUpBox', text: 'Extract text from images free!', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    function copyText() {
+      const txt = document.getElementById('ocrOutput').innerText;
+      if (txt && !txt.includes('Extracted text will appear')) {
+        navigator.clipboard.writeText(txt).then(() => showToast('✅ Text copied!'));
+      }
+    }
+
+    async function processOCR() {
+      const file = document.getElementById('ocrInput').files[0];
+      const out = document.getElementById('ocrOutput');
+      const btn = document.getElementById('ocrBtn');
+      const copyBtn = document.getElementById('copyBtn');
+
+      if (!file) {
+        out.innerText = '⚠️ Please select an image first.';
+        out.className = 'output-box error';
+        showToast('Select image first', true);
+        return;
+      }
+
+      out.innerText = '⏳ Extracting text... Please wait. This may take 10-30 seconds.';
+      out.className = 'output-box';
+      btn.disabled = true;
+      btn.innerText = '⏳ Processing...';
+      copyBtn.classList.remove('show');
+
+      try {
+        const worker = await Tesseract.createWorker('eng');
+        const ret = await worker.recognize(file);
+        const text = ret.data.text.trim();
+        await worker.terminate();
+
+        if (text) {
+          out.innerText = text;
+          out.className = 'output-box success';
+          copyBtn.classList.add('show');
+          showToast('✅ Text extracted successfully!');
+        } else {
+          out.innerText = '⚠️ No text found in this image. Try a clearer image.';
+          out.className = 'output-box error';
+          showToast('No text found', true);
+        }
+      } catch (e) {
+        out.innerText = '❌ Error: ' + e.message;
+        out.className = 'output-box error';
+        showToast('OCR failed', true);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '🔍 Extract Text';
+      }
+    }
+  </script>
+
+</body>
+</html>
