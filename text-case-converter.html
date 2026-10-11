@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Case Converter - UPPER, lower, Title Case Free | KitUpBox</title>
+  <meta name="description" content="Free online Text Case Converter. Convert text to UPPERCASE, lowercase, Title Case, Sentence case, and more instantly.">
+  <meta name="keywords" content="text case converter, uppercase converter, lowercase converter, title case, sentence case">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 850px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+    .text-area { width: 100%; min-height: 150px; padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); font-size: 1rem; outline: none; font-family: inherit; resize: vertical; line-height: 1.7; margin-bottom: 18px; }
+    .text-area:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+
+    .case-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 15px; }
+    .case-btn { padding: 13px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .case-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3); }
+    .case-btn.secondary { background: #475569; }
+    .case-btn.secondary:hover { background: #334155; }
+
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } .btn-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Text Case Converter</div>
+
+  <section class="page-header">
+    <div class="icon-big">🔤</div>
+    <h1>Text Case Converter</h1>
+    <p>Convert text to UPPERCASE, lowercase, Title Case, Sentence case, and more.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <textarea id="textInput" class="text-area" placeholder="Type or paste your text here..."></textarea>
+
+      <div class="case-buttons">
+        <button class="case-btn" onclick="convertCase('upper')">UPPERCASE</button>
+        <button class="case-btn" onclick="convertCase('lower')">lowercase</button>
+        <button class="case-btn" onclick="convertCase('title')">Title Case</button>
+        <button class="case-btn" onclick="convertCase('sentence')">Sentence case</button>
+        <button class="case-btn secondary" onclick="convertCase('capitalize')">Capitalize Each Word</button>
+        <button class="case-btn secondary" onclick="convertCase('alternate')">aLtErNaTiNg</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="case-btn" onclick="copyText()">📋 Copy Text</button>
+        <button class="case-btn secondary" onclick="clearText()">🗑️ Clear</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>📖 What is a Text Case Converter?</h2>
+    <p>A Text Case Converter transforms text between different capitalization styles — UPPERCASE, lowercase, Title Case, Sentence case, and more. Perfect for writers, editors, students, and anyone working with text.</p>
+
+    <h3>✨ Available Case Types</h3>
+    <ul>
+      <li><strong>UPPERCASE</strong> — ALL LETTERS CAPITALIZED</li>
+      <li><strong>lowercase</strong> — all letters small</li>
+      <li><strong>Title Case</strong> — Every Word Capitalized</li>
+      <li><strong>Sentence case</strong> — Only first letter capitalized</li>
+      <li><strong>Capitalize Each Word</strong> — Each Word Capitalized</li>
+      <li><strong>aLtErNaTiNg</strong> — AlTeRnAtInG cAsE</li>
+    </ul>
+
+    <h3>🎯 When to Use Text Case Converter?</h3>
+    <ul>
+      <li>Fixing accidental Caps Lock text</li>
+      <li>Formatting titles and headings</li>
+      <li>Preparing content for social media</li>
+      <li>Standardizing text in documents</li>
+      <li>Creating stylized text for captions</li>
+      <li>Correcting poorly formatted text</li>
+    </ul>
+
+    <h3>❓ Why Use KitUpBox Text Case Converter?</h3>
+    <p>Fast, free, and simple. No signup, no limits. Everything runs in your browser — your text never leaves your device.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is Title Case?</div><div class="faq-a">Title Case capitalizes the first letter of every word. Example: "This Is Title Case".</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is Sentence case?</div><div class="faq-a">Sentence case capitalizes only the first letter of the first word. Example: "This is sentence case."</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is Alternating case?</div><div class="faq-a">Alternating case switches between upper and lower for each letter. Example: "aLtErNaTiNg".</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my text saved?</div><div class="faq-a">No. Everything happens in your browser. Your text is never uploaded.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is there a text limit?</div><div class="faq-a">No specific limit. Paste as much text as you want.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it work on mobile?</div><div class="faq-a">Yes! Works perfectly on all devices.</div></div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/word-counter.html"><div class="icon" style="background:#dbeafe;">🔢</div><h4>Word Counter</h4></a>
+      <a class="related-card" href="/json-formatter.html"><div class="icon" style="background:#dbeafe;">🧩</div><h4>JSON Formatter</h4></a>
+      <a class="related-card" href="/base64-tool.html"><div class="icon" style="background:#dbeafe;">🔡</div><h4>Base64 Tool</h4></a>
+      <a class="related-card" href="/text-to-speech.html"><div class="icon" style="background:#ede9fe;">🔊</div><h4>Text to Speech</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/text-case-converter.html">Text Case Converter</a><a href="/word-counter.html">Word Counter</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/text-case-converter.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Text Case Converter - KitUpBox', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    function convertCase(type) {
+      const ta = document.getElementById('textInput');
+      const text = ta.value;
+      if (!text) { showToast('Enter some text first', true); return; }
+
+      let result = '';
+      switch (type) {
+        case 'upper':
+          result = text.toUpperCase();
+          break;
+        case 'lower':
+          result = text.toLowerCase();
+          break;
+        case 'title':
+          result = text.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+          break;
+        case 'sentence':
+          result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+          break;
+        case 'capitalize':
+          result = text.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase());
+          break;
+        case 'alternate':
+          result = text.split('').map((c, i) => i % 2 === 0 ? c.toLowerCase() : c.toUpperCase()).join('');
+          break;
+      }
+      ta.value = result;
+      showToast('✅ Converted!');
+    }
+
+    function copyText() {
+      const ta = document.getElementById('textInput');
+      if (!ta.value) { showToast('No text to copy', true); return; }
+      navigator.clipboard.writeText(ta.value).then(() => showToast('✅ Text copied!'));
+    }
+
+    function clearText() {
+      document.getElementById('textInput').value = '';
+      showToast('🗑️ Cleared');
+    }
+  </script>
+
+</body>
+</html>
