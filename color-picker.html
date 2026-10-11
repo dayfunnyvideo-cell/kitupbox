@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Picker - Pick Colors & Get HEX, RGB, HSL Free | KitUpBox</title>
+  <meta name="description" content="Free online Color Picker. Pick any color, get HEX, RGB, and HSL codes instantly. Perfect for designers and developers.">
+  <meta name="keywords" content="color picker, hex color, rgb color, hsl color, color codes, color converter">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px; }
+
+    .color-preview { width: 100%; height: 180px; border-radius: 12px; border: 2px solid var(--border); margin-bottom: 20px; background: #3b82f6; transition: background 0.2s; }
+
+    .color-input-row { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .color-input-row input[type="color"] { width: 80px; height: 60px; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; padding: 4px; background: var(--bg); }
+    .color-input-row input[type="text"] { flex: 1; min-width: 200px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-family: 'Courier New', monospace; font-size: 1rem; outline: none; text-transform: uppercase; }
+
+    .color-codes { display: grid; gap: 12px; }
+    .color-code-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; }
+    .color-code-item .label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+    .color-code-item .value { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1rem; color: var(--text); }
+    .copy-icon { background: var(--primary); color: #fff; border: none; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 0.75rem; font-weight: 600; }
+    .copy-icon:hover { background: var(--purple); }
+
+    .palette { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 8px; margin-top: 10px; }
+    .palette-swatch { aspect-ratio: 1; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
+    .palette-swatch:hover { transform: scale(1.1); border-color: var(--primary); }
+
+    .section-title-sm { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Color Picker</div>
+
+  <section class="page-header">
+    <div class="icon-big">🎨</div>
+    <h1>Color Picker</h1>
+    <p>Pick any color and get HEX, RGB, and HSL codes instantly.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <div class="color-preview" id="colorPreview"></div>
+
+      <div class="color-input-row">
+        <input type="color" id="colorInput" value="#3b82f6">
+        <input type="text" id="hexInput" value="#3B82F6" maxlength="7" placeholder="#RRGGBB">
+      </div>
+
+      <div class="color-codes">
+        <div class="color-code-item">
+          <div>
+            <div class="label">HEX</div>
+            <div class="value" id="hexCode">#3B82F6</div>
+          </div>
+          <button class="copy-icon" onclick="copyCode('hexCode')">📋 Copy</button>
+        </div>
+        <div class="color-code-item">
+          <div>
+            <div class="label">RGB</div>
+            <div class="value" id="rgbCode">rgb(59, 130, 246)</div>
+          </div>
+          <button class="copy-icon" onclick="copyCode('rgbCode')">📋 Copy</button>
+        </div>
+        <div class="color-code-item">
+          <div>
+            <div class="label">HSL</div>
+            <div class="value" id="hslCode">hsl(217, 91%, 60%)</div>
+          </div>
+          <button class="copy-icon" onclick="copyCode('hslCode')">📋 Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-box">
+      <div class="section-title-sm">🎨 Quick Palette</div>
+      <div class="palette" id="palette"></div>
+    </div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>📖 What is a Color Picker?</h2>
+    <p>A Color Picker lets you select any color and instantly get its codes in different formats — HEX, RGB, and HSL. These codes are used in web design, graphic design, and development.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>Visual Picker</strong> — Pick colors from a palette</li>
+      <li><strong>HEX Code</strong> — #RRGGBB format</li>
+      <li><strong>RGB Code</strong> — Red, Green, Blue values</li>
+      <li><strong>HSL Code</strong> — Hue, Saturation, Lightness</li>
+      <li><strong>Quick Palette</strong> — 30 preset colors</li>
+      <li><strong>Copy to Clipboard</strong> — One-click copy</li>
+      <li><strong>100% Free</strong> — No signup required</li>
+    </ul>
+
+    <h3>🎯 Color Code Formats</h3>
+    <ul>
+      <li><strong>HEX</strong> — Most common in web design (e.g., #FF5733)</li>
+      <li><strong>RGB</strong> — Red-Green-Blue values 0-255 (e.g., rgb(255, 87, 51))</li>
+      <li><strong>HSL</strong> — Hue 0-360, Saturation & Lightness 0-100% (e.g., hsl(9, 100%, 60%))</li>
+    </ul>
+
+    <h3>🎯 When to Use Color Picker?</h3>
+    <ul>
+      <li>Web design and development</li>
+      <li>Graphic design projects</li>
+      <li>Social media posts</li>
+      <li>Brand color matching</li>
+      <li>Matching colors from screenshots</li>
+      <li>CSS styling</li>
+    </ul>
+
+    <h3>❓ Why Use KitUpBox Color Picker?</h3>
+    <p>Fast, accurate, and free. Works entirely in your browser — no data uploaded. Get all three color codes instantly.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What's the difference between HEX and RGB?</div><div class="faq-a">HEX is a hexadecimal representation, RGB uses decimal values. Both represent the same colors — just different formats.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is HSL?</div><div class="faq-a">HSL stands for Hue, Saturation, Lightness — an intuitive way to describe colors that designers often prefer.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I type a HEX code manually?</div><div class="faq-a">Yes! Type any HEX code in the text field and press Enter. The preview will update automatically.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is the Quick Palette for?</div><div class="faq-a">The palette has 30 preset colors — click any to load it instantly. Great for common design colors.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I use these codes in CSS?</div><div class="faq-a">Yes! All three formats — HEX, RGB, and HSL — work perfectly in CSS and other styling languages.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it work on mobile?</div><div class="faq-a">Yes! Works perfectly on all devices with a built-in color picker.</div></div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/image-resizer.html"><div class="icon" style="background:#d1fae5;">🖼️</div><h4>Image Resizer</h4></a>
+      <a class="related-card" href="/image-compressor.html"><div class="icon" style="background:#fef3c7;">🗜️</div><h4>Image Compressor</h4></a>
+      <a class="related-card" href="/image-cropper.html"><div class="icon" style="background:#d1fae5;">✂️</div><h4>Image Cropper</h4></a>
+      <a class="related-card" href="/qr-generator.html"><div class="icon" style="background:#fed7aa;">🔳</div><h4>QR Generator</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/color-picker.html">Color Picker</a><a href="/qr-generator.html">QR Generator</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/color-picker.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Color Picker - KitUpBox', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) { h = s = 0; }
+      else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+    }
+
+    function updateColor(hex) {
+      hex = hex.toUpperCase();
+      if (!hex.startsWith('#')) hex = '#' + hex;
+      if (!/^#[A-F0-9]{6}$/.test(hex)) return;
+
+      const rgb = hexToRgb(hex);
+      if (!rgb) return;
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+      document.getElementById('colorPreview').style.background = hex;
+      document.getElementById('hexCode').innerText = hex;
+      document.getElementById('rgbCode').innerText = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+      document.getElementById('hslCode').innerText = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+      document.getElementById('colorInput').value = hex;
+      document.getElementById('hexInput').value = hex;
+    }
+
+    function copyCode(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => showToast('✅ Copied!'));
+    }
+
+    // Build quick palette
+    const paletteColors = [
+      '#ef4444','#f97316','#f59e0b','#eab308','#84cc16','#22c55e',
+      '#10b981','#14b8a6','#06b6d4','#0ea5e9','#3b82f6','#6366f1',
+      '#8b5cf6','#a855f7','#d946ef','#ec4899','#f43f5e','#64748b',
+      '#1e293b','#0f172a','#000000','#ffffff','#fef3c7','#fee2e2',
+      '#d1fae5','#dbeafe','#ede9fe','#fce7f3','#fed7aa','#ccfbf1'
+    ];
+
+    function buildPalette() {
+      const p = document.getElementById('palette');
+      p.innerHTML = paletteColors.map(c =>
+        `<div class="palette-swatch" style="background:${c};" onclick="updateColor('${c}')" title="${c}"></div>`
+      ).join('');
+    }
+
+    document.getElementById('colorInput').addEventListener('input', e => updateColor(e.target.value));
+    document.getElementById('hexInput').addEventListener('input', e => {
+      let v = e.target.value.trim();
+      if (v.length === 7) updateColor(v);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildPalette();
+      updateColor('#3B82F6');
+    });
+  </script>
+
+</body>
+</html>
