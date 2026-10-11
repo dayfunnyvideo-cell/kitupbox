@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barcode Generator - Create Free Barcodes Online | KitUpBox</title>
+  <meta name="description" content="Free online Barcode Generator. Create Code128, EAN, UPC, and other barcodes instantly. Download as PNG. No signup required.">
+  <meta name="keywords" content="barcode generator, create barcode, free barcode, barcode maker, code128 generator">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode@3.11.5/JsBarcode.all.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; }
+    .text-input, .select-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus, .select-input:focus { border-color: var(--primary); }
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+    .action-btn.secondary { background: #475569; box-shadow: none; }
+    .output-box { margin-top: 18px; padding: 25px; background: var(--bg); border-radius: 10px; font-size: 0.9rem; min-height: 80px; border: 1px solid var(--border); text-align: center; }
+    .barcode-display { display: flex; justify-content: center; align-items: center; padding: 20px; background: #fff; border-radius: 12px; margin-top: 15px; }
+    .barcode-display svg { max-width: 100%; height: auto; }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Barcode Generator</div>
+
+  <section class="page-header">
+    <div class="icon-big">📊</div>
+    <h1>Barcode Generator</h1>
+    <p>Create barcodes in Code128, EAN, UPC, and other formats — free and instant.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label>📝 Enter Text or Number:</label>
+      <input type="text" id="barcodeText" class="text-input" placeholder="e.g. 1234567890" value="1234567890">
+
+      <label>📋 Barcode Format:</label>
+      <select id="barcodeFormat" class="select-input">
+        <option value="CODE128">CODE128 (Any text)</option>
+        <option value="EAN13">EAN-13 (13 digits)</option>
+        <option value="EAN8">EAN-8 (8 digits)</option>
+        <option value="UPC">UPC (12 digits)</option>
+        <option value="CODE39">CODE39 (Letters + Numbers)</option>
+        <option value="ITF14">ITF-14 (14 digits)</option>
+        <option value="MSI">MSI</option>
+        <option value="pharmacode">Pharmacode</option>
+      </select>
+
+      <button class="action-btn" onclick="generateBarcode()">📊 Generate Barcode</button>
+      <button class="action-btn secondary" id="downloadBtn" onclick="downloadBarcode()" style="display:none;">⬇️ Download Barcode (PNG)</button>
+
+      <div class="output-box" id="barcodeOutput">
+        <div class="barcode-display">
+          <svg id="barcode"></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>📖 What is a Barcode?</h2>
+    <p>A barcode is a machine-readable representation of data in the form of parallel lines of varying widths. Barcodes are used everywhere — from product packaging to inventory management to event tickets.</p>
+    <p>Our Barcode Generator creates high-quality barcodes in multiple formats, entirely in your browser. No data is uploaded to any server.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>100% Free</strong> — No signup, no charges</li>
+      <li><strong>8 Formats</strong> — Code128, EAN, UPC, Code39, and more</li>
+      <li><strong>PNG Download</strong> — High-quality barcode images</li>
+      <li><strong>Instant Generation</strong> — Barcode in one click</li>
+      <li><strong>Secure & Private</strong> — Nothing uploaded</li>
+      <li><strong>Works Everywhere</strong> — All devices</li>
+    </ul>
+
+    <h3>🎯 Supported Barcode Formats</h3>
+    <ul>
+      <li><strong>CODE128</strong> — Any text or numbers (most versatile)</li>
+      <li><strong>EAN-13</strong> — Standard retail barcode (13 digits)</li>
+      <li><strong>EAN-8</strong> — Small retail products (8 digits)</li>
+      <li><strong>UPC</strong> — North American retail (12 digits)</li>
+      <li><strong>CODE39</strong> — Industrial use (letters + numbers)</li>
+      <li><strong>ITF-14</strong> — Shipping containers (14 digits)</li>
+    </ul>
+
+    <h3>🎯 How to Use Barcode Generator</h3>
+    <ol>
+      <li>Enter your text or number</li>
+      <li>Select barcode format</li>
+      <li>Click "Generate Barcode"</li>
+      <li>Download as PNG</li>
+    </ol>
+
+    <h3>💡 When Should You Use Barcodes?</h3>
+    <ul>
+      <li>Product packaging and labels</li>
+      <li>Inventory management</li>
+      <li>Event tickets and passes</li>
+      <li>Library book tracking</li>
+      <li>Asset tracking</li>
+      <li>Shipping and logistics</li>
+    </ul>
+
+    <h3>❓ Why Choose KitUpBox Barcode Generator?</h3>
+    <p>Unlike other generators, we don't track or store what you create. Everything happens in your browser, ensuring complete privacy. Plus, our barcodes are high quality and work with all standard barcode scanners.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Which format should I use?</div><div class="faq-a">For general text/numbers, use CODE128. For retail products, use EAN-13 or UPC. For industrial, CODE39 works best.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Do barcodes expire?</div><div class="faq-a">No! Barcodes are static and never expire. They work forever.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I use these commercially?</div><div class="faq-a">Yes! The barcodes are yours to use for any purpose — personal or commercial.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Why does my barcode fail with certain text?</div><div class="faq-a">Each format has its own rules. EAN-13 needs exactly 13 digits, UPC needs 12. Use CODE128 for any text.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I scan a barcode?</div><div class="faq-a">Use any barcode scanner app or hardware scanner. Most modern phone cameras can also scan barcodes.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is it free?</div><div class="faq-a">Yes, 100% free with no limits. Create as many barcodes as you want.</div></div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/qr-generator.html"><div class="icon" style="background:#fed7aa;">🔳</div><h4>QR Generator</h4></a>
+      <a class="related-card" href="/qr-scanner.html"><div class="icon" style="background:#fed7aa;">📷</div><h4>QR Scanner</h4></a>
+      <a class="related-card" href="/password-generator.html"><div class="icon" style="background:#ede9fe;">🔐</div><h4>Password Generator</h4></a>
+      <a class="related-card" href="/image-ocr.html"><div class="icon" style="background:#dbeafe;">🔍</div><h4>Image OCR</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/qr-generator.html">QR Generator</a><a href="/barcode-generator.html">Barcode Generator</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+    function toggleFaq(el) { el.classList.toggle('open'); }
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/barcode-generator.html';
+      if (navigator.share) navigator.share({ title: 'Barcode Generator - KitUpBox', url }).catch(() => {});
+      else navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+    }
+
+    function generateBarcode() {
+      const text = document.getElementById('barcodeText').value.trim();
+      const format = document.getElementById('barcodeFormat').value;
+      const dlBtn = document.getElementById('downloadBtn');
+
+      if (!text) {
+        showToast('Enter text or number first', true);
+        return;
+      }
+
+      try {
+        JsBarcode("#barcode", text, {
+          format: format,
+          width: 2.5,
+          height: 90,
+          displayValue: true,
+          fontSize: 18,
+          margin: 15,
+          background: "#ffffff",
+          lineColor: "#000000"
+        });
+        dlBtn.style.display = 'block';
+        showToast('✅ Barcode generated!');
+      } catch (e) {
+        showToast('❌ Invalid input for this format', true);
+      }
+    }
+
+    function downloadBarcode() {
+      const svg = document.getElementById('barcode');
+      if (!svg || !svg.innerHTML) {
+        showToast('Generate barcode first', true);
+        return;
+      }
+
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'KitUpBox_Barcode.png';
+        link.click();
+        showToast('⬇️ Barcode downloaded!');
+      };
+
+      img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+    }
+
+    // Auto-generate on load
+    window.addEventListener('DOMContentLoaded', () => {
+      generateBarcode();
+    });
+  </script>
+
+</body>
+</html>
