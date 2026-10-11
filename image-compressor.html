@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Compressor - Compress JPG, PNG Free Online | KitUpBox</title>
+  <meta name="description" content="Free online Image Compressor. Compress JPG, PNG images without losing quality. Reduce file size for web, email, and social media.">
+  <meta name="keywords" content="image compressor, compress image, reduce image size, jpg compressor, png compressor">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .file-input { width: 100%; padding: 14px; border: 2px dashed var(--border); border-radius: 10px; background: var(--bg); cursor: pointer; font-size: 0.9rem; margin-bottom: 18px; }
+    .file-input:hover { border-color: var(--primary); background: #eff6ff; }
+
+    .slider-row { margin-bottom: 18px; }
+    .slider-row label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; }
+    .slider-row label span { background: var(--primary); color: #fff; padding: 3px 10px; border-radius: 6px; font-size: 0.82rem; }
+    .slider-row input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: var(--border); outline: none; -webkit-appearance: none; }
+    .slider-row input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+    .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .action-btn.secondary { background: #475569; box-shadow: none; }
+
+    .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+    .stat-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+    .stat-item .label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .stat-item .value { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .stat-item.highlight { background: #d1fae5; border-color: var(--green); }
+    .stat-item.highlight .value { color: #065f46; }
+
+    .preview-box { margin-top: 15px; text-align: center; display: none; }
+    .preview-box.show { display: block; }
+    .preview-box img { max-width: 100%; max-height: 300px; border-radius: 10px; border: 1px solid var(--border); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .stats-row { grid-template-columns: 1fr; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Image Compressor</div>
+
+  <section class="page-header">
+    <div class="icon-big">🗜️</div>
+    <h1>Image Compressor</h1>
+    <p>Reduce image file size without losing quality. Perfect for websites, emails, and social media.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label>📁 Select Image:</label>
+      <input type="file" id="imageInput" class="file-input" accept="image/*">
+
+      <div class="slider-row">
+        <label>🎚️ Quality: <span id="qualityVal">80%</span></label>
+        <input type="range" id="qualityRange" min="10" max="100" value="80" oninput="document.getElementById('qualityVal').innerText = this.value + '%'">
+      </div>
+
+      <div class="slider-row">
+        <label>📐 Max Width (px): <span id="widthVal">Original</span></label>
+        <input type="range" id="widthRange" min="200" max="4000" value="1920" step="100" oninput="document.getElementById('widthVal').innerText = this.value + 'px'">
+      </div>
+
+      <button class="action-btn" id="compressBtn" onclick="compressImage()" disabled>🗜️ Compress & Download</button>
+      <button class="action-btn secondary" onclick="resetAll()">🔄 Reset</button>
+
+      <div class="stats-row" id="statsRow" style="display:none;">
+        <div class="stat-item">
+          <div class="label">Original</div>
+          <div class="value" id="origSize">—</div>
+        </div>
+        <div class="stat-item highlight">
+          <div class="label">Compressed</div>
+          <div class="value" id="compSize">—</div>
+        </div>
+        <div class="stat-item">
+          <div class="label">Saved</div>
+          <div class="value" id="savedPct">—</div>
+        </div>
+      </div>
+
+      <div class="preview-box" id="previewBox">
+        <img id="previewImg" alt="Compressed preview">
+      </div>
+    </div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>📖 What is Image Compressor?</h2>
+    <p>An Image Compressor reduces the file size of an image while keeping acceptable visual quality. Smaller images load faster on websites, send easily via email, and use less storage.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>Adjustable Quality</strong> — 10% to 100%</li>
+      <li><strong>Resize Option</strong> — Limit max width</li>
+      <li><strong>Instant Preview</strong> — See result before download</li>
+      <li><strong>Shows Savings</strong> — % size reduced</li>
+      <li><strong>No Quality Loss</strong> — Smart compression</li>
+      <li><strong>100% Free</strong> — No signup, no limits</li>
+      <li><strong>Privacy First</strong> — All in browser</li>
+    </ul>
+
+    <h3>🎯 When to Use Image Compressor?</h3>
+    <ul>
+      <li>Uploading images to websites (faster loading)</li>
+      <li>Sending photos via email (attachment limits)</li>
+      <li>Posting on social media (faster uploads)</li>
+      <li>Saving storage space on your device</li>
+      <li>Preparing images for e-commerce</li>
+      <li>Optimizing blog images for SEO</li>
+    </ul>
+
+    <h3>💡 Recommended Settings</h3>
+    <ul>
+      <li><strong>Web images</strong> — 80% quality, 1920px max width</li>
+      <li><strong>Email photos</strong> — 70% quality, 1280px max width</li>
+      <li><strong>Thumbnails</strong> — 80% quality, 400px max width</li>
+      <li><strong>Print quality</strong> — 95% quality, no resize</li>
+    </ul>
+
+    <h3>❓ Why Use KitUpBox Image Compressor?</h3>
+    <p>Fast, free, and privacy-focused. Your images never leave your device — compression happens entirely in your browser using the HTML5 Canvas API.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Will compression reduce quality?</div><div class="faq-a">At 80%+ quality, most people can't tell the difference. For maximum savings, use lower quality (60-70%).</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What's the best quality setting?</div><div class="faq-a">80% is the sweet spot for most web images. It reduces size significantly with minimal quality loss.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Which formats are supported?</div><div class="faq-a">JPG, JPEG, PNG, WebP, and most common image formats.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my image uploaded to a server?</div><div class="faq-a">No! Everything is processed locally in your browser. Your image never leaves your device.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I compress multiple images?</div><div class="faq-a">Currently one at a time. Batch compression may come in future updates.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What output format is used?</div><div class="faq-a">Images are saved as JPEG for best compression. PNG transparency will be converted to white background.</div></div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/image-resizer.html"><div class="icon" style="background:#d1fae5;">🖼️</div><h4>Image Resizer</h4></a>
+      <a class="related-card" href="/image-cropper.html"><div class="icon" style="background:#d1fae5;">✂️</div><h4>Image Cropper</h4></a>
+      <a class="related-card" href="/image-to-pdf.html"><div class="icon" style="background:#d1fae5;">🖼️</div><h4>Image to PDF</h4></a>
+      <a class="related-card" href="/image-ocr.html"><div class="icon" style="background:#dbeafe;">🔍</div><h4>Image OCR</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/image-compressor.html">Image Compressor</a><a href="/image-to-pdf.html">Image to PDF</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    let originalFile = null;
+    let originalImage = null;
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/image-compressor.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Image Compressor - KitUpBox', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    document.getElementById('imageInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      originalFile = file;
+      document.getElementById('compressBtn').disabled = false;
+      document.getElementById('widthVal').innerText = 'Original';
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => {
+          originalImage = img;
+          document.getElementById('widthRange').max = img.width;
+          document.getElementById('widthRange').value = Math.min(1920, img.width);
+          document.getElementById('widthVal').innerText = Math.min(1920, img.width) + 'px';
+          document.getElementById('origSize').innerText = formatBytes(file.size);
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      showToast('✅ Image loaded!');
+    });
+
+    function compressImage() {
+      if (!originalImage) { showToast('Select an image first', true); return; }
+
+      const quality = parseInt(document.getElementById('qualityRange').value) / 100;
+      const maxWidth = parseInt(document.getElementById('widthRange').value);
+      const btn = document.getElementById('compressBtn');
+
+      btn.disabled = true;
+      btn.innerText = '⏳ Compressing...';
+
+      let w = originalImage.width;
+      let h = originalImage.height;
+
+      if (w > maxWidth) {
+        h = Math.round((maxWidth / w) * h);
+        w = maxWidth;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(originalImage, 0, 0, w, h);
+
+      canvas.toBlob(blob => {
+        if (!blob) {
+          showToast('❌ Compression failed', true);
+          btn.disabled = false;
+          btn.innerText = '🗜️ Compress & Download';
+          return;
+        }
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'KitUpBox_Compressed.jpg';
+        link.click();
+
+        const saved = ((originalFile.size - blob.size) / originalFile.size * 100).toFixed(1);
+        document.getElementById('compSize').innerText = formatBytes(blob.size);
+        document.getElementById('savedPct').innerText = saved + '%';
+        document.getElementById('statsRow').style.display = 'grid';
+
+        document.getElementById('previewImg').src = URL.createObjectURL(blob);
+        document.getElementById('previewBox').classList.add('show');
+
+        btn.disabled = false;
+        btn.innerText = '🗜️ Compress & Download';
+        showToast(`✅ Compressed! Saved ${saved}%`);
+       }, 'image/jpeg', quality);
+    }
+
+    function resetAll() {
+      document.getElementById('imageInput').value = '';
+      document.getElementById('compressBtn').disabled = true;
+      document.getElementById('statsRow').style.display = 'none';
+      document.getElementById('previewBox').classList.remove('show');
+      originalFile = null;
+      originalImage = null;
+      showToast('🔄 Reset');
+    }
+  </script>
+
+</body>
+</html>
