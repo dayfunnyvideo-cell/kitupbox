@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calorie Calculator - Calculate Daily Calorie Needs Free | KitUpBox</title>
+  <meta name="description" content="Free online Calorie Calculator. Calculate your daily calorie needs based on age, gender, weight, height, and activity level. Includes BMR and TDEE.">
+  <meta name="keywords" content="calorie calculator, daily calorie needs, bmr calculator, tdee calculator, calorie intake">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; --red: #ef4444; --orange: #f59e0b; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-input, .select-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus, .select-input:focus { border-color: var(--primary); }
+
+    .gender-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+    .gender-btn { padding: 14px; background: var(--bg); border: 2px solid var(--border); border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--text); }
+    .gender-btn:hover { border-color: var(--primary); }
+    .gender-btn.active { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border-color: transparent; }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); }
+    .action-btn:hover { transform: translateY(-2px); }
+
+    .result-box { margin-top: 20px; display: none; }
+    .result-box.show { display: block; }
+    .result-main { background: linear-gradient(135deg, #10b981, #059669); color: #fff; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+    .result-main .label { font-size: 0.9rem; opacity: 0.9; margin-bottom: 8px; }
+    .result-main .value { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .result-main .unit { font-size: 1rem; opacity: 0.9; margin-top: 6px; }
+
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+    .result-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
+    .result-item .label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
+    .result-item .value { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+
+    .goal-box { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 15px; }
+    .goal-box h3 { font-size: 1rem; margin-bottom: 15px; color: var(--text); }
+    .goal-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-radius: 8px; margin-bottom: 10px; }
+    .goal-row.lose { background: #fef3c7; }
+    .goal-row.maintain { background: #d1fae5; }
+    .goal-row.gain { background: #dbeafe; }
+    .goal-row:last-child { margin-bottom: 0; }
+    .goal-row .goal-label { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+    .goal-row .goal-value { font-weight: 800; font-size: 1.1rem; color: var(--text); }
+
+    .macro-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+    .macro-item { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
+    .macro-item .label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
+    .macro-item .value { font-size: 1rem; font-weight: 800; color: var(--primary); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } .result-main .value { font-size: 2.5rem; } .macro-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Calorie Calculator</div>
+
+  <section class="page-header">
+    <div class="icon-big">🍎</div>
+    <h1>Calorie Calculator</h1>
+    <p>Calculate your daily calorie needs based on your body and lifestyle.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label>👤 Gender:</label>
+      <div class="gender-row">
+        <button class="gender-btn active" id="maleBtn" onclick="setGender('male')">👨 Male</button>
+        <button class="gender-btn" id="femaleBtn" onclick="setGender('female')">👩 Female</button>
+      </div>
+
+      <label>🎂 Age (years):</label>
+      <input type="number" id="age" class="text-input" placeholder="e.g. 25" value="25" min="10" max="120">
+
+      <label>📏 Height:</label>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+        <input type="number" id="heightFt" class="text-input" placeholder="Feet" value="5">
+        <input type="number" id="heightIn" class="text-input" placeholder="Inches" value="8">
+      </div>
+
+      <label>⚖️ Weight (kg):</label>
+      <input type="number" id="weight" class="text-input" placeholder="e.g. 70" value="70" step="0.1">
+
+      <label>🏃 Activity Level:</label>
+      <select id="activity" class="select-input">
+        <option value="1.2">Sedentary (little or no exercise)</option>
+        <option value="1.375">Lightly Active (1-3 days/week)</option>
+        <option value="1.55" selected>Moderately Active (3-5 days/week)</option>
+        <option value="1.725">Very Active (6-7 days/week)</option>
+        <option value="1.9">Extra Active (athlete, physical job)</option>
+      </select>
+
+      <button class="action-btn" onclick="calculateCalories()">🍎 Calculate Calories</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-main">
+          <div class="label">Daily Calorie Needs (TDEE)</div>
+          <div class="value" id="tdeeValue">0</div>
+          <div class="unit">calories / day</div>
+        </div>
+
+        <div class="result-grid">
+          <div class="result-item">
+            <div class="label">BMR (Basal Metabolic Rate)</div>
+            <div class="value" id="bmrValue">0 cal</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Activity Multiplier</div>
+            <div class="value" id="multValue">1.55x</div>
+          </div>
+        </div>
+
+        <div class="goal-box">
+          <h3>🎯 Calorie Goals</h3>
+          <div class="goal-row lose">
+            <span class="goal-label">📉 Lose Weight (-500 cal)</span>
+            <span class="goal-value" id="loseValue">0 cal</span>
+          </div>
+          <div class="goal-row maintain">
+            <span class="goal-label">⚖️ Maintain Weight</span>
+            <span class="goal-value" id="maintainValue">0 cal</span>
+          </div>
+          <div class="goal-row gain">
+            <span class="goal-label">📈 Gain Weight (+500 cal)</span>
+            <span class="goal-value" id="gainValue">0 cal</span>
+          </div>
+        </div>
+
+        <div class="goal-box">
+          <h3>🥗 Suggested Macros (for maintenance)</h3>
+          <div class="macro-grid">
+            <div class="macro-item">
+              <div class="label">🥩 Protein</div>
+              <div class="value" id="proteinValue">0g</div>
+            </div>
+            <div class="macro-item">
+              <div class="label">🍞 Carbs</div>
+              <div class="value" id="carbsValue">0g</div>
+            </div>
+            <div class="macro-item">
+              <div class="label">🥑 Fats</div>
+              <div class="value" id="fatsValue">0g</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>📖 What is Calorie Calculator?</h2>
+    <p>A Calorie Calculator estimates how many calories you need daily to maintain, lose, or gain weight. It uses the Mifflin-St Jeor formula, the most accurate BMR formula available.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>BMR Calculation</strong> — Your base calorie needs</li>
+      <li><strong>TDEE</strong> — Total daily energy expenditure</li>
+      <li><strong>Weight Goals</strong> — Lose, maintain, or gain</li>
+      <li><strong>Macro Breakdown</strong> — Protein, carbs, fat suggestions</li>
+      <li><strong>Accurate Formula</strong> — Mifflin-St Jeor equation</li>
+      <li><strong>100% Free</strong> — No signup required</li>
+    </ul>
+
+    <h3>🎯 Understanding BMR vs TDEE</h3>
+    <ul>
+      <li><strong>BMR</strong> — Calories your body burns at rest (breathing, heartbeat, etc.)</li>
+      <li><strong>TDEE</strong> — BMR + calories burned through daily activity and exercise</li>
+    </ul>
+
+    <h3>💡 Activity Levels Explained</h3>
+    <ul>
+      <li><strong>Sedentary</strong> — Desk job, minimal exercise</li>
+      <li><strong>Lightly Active</strong> — 1-3 days of light exercise</li>
+      <li><strong>Moderately Active</strong> — 3-5 days of moderate exercise</li>
+      <li><strong>Very Active</strong> — 6-7 days of hard exercise</li>
+      <li><strong>Extra Active</strong> — Athletes, physical labor jobs</li>
+    </ul>
+
+    <h3>🎯 Goal-Based Calorie Adjustment</h3>
+    <ul>
+      <li><strong>Lose Weight</strong> — Eat 500 cal less (≈0.5 kg/week loss)</li>
+      <li><strong>Maintain</strong> — Eat at TDEE level</li>
+      <li><strong>Gain Weight</strong> — Eat 500 cal more (≈0.5 kg/week gain)</li>
+    </ul>
+
+    <h3>❓ Why Use KitUpBox Calorie Calculator?</h3>
+    <p>Uses the Mifflin-St Jeor equation (most accurate), provides complete insights, and works entirely in your browser. Free and private.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How accurate is this calculator?</div><div class="faq-a">It uses the Mifflin-St Jeor formula, which is accurate within 5-10% for most people. Individual metabolism varies.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What's the difference between BMR and TDEE?</div><div class="faq-a">BMR is calories at complete rest. TDEE includes all your daily activity. TDEE is always higher than BMR.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is 500 cal deficit safe?</div><div class="faq-a">Yes, a 500 cal deficit is generally considered safe and leads to ~0.5 kg loss per week. Don't go below 1200 (women) or 1500 (men) calories.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I use macro recommendations?</div><div class="faq-a">The macros are a starting point (40% carbs, 30% protein, 30% fat). Adjust based on your fitness goals.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Do I need to track every calorie?</div><div class="faq-a">Not necessarily. Use the calculation as a guide. Consistency matters more than perfection.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my data stored?</div><div class="faq-a">No. Everything is calculated in your browser. Nothing is stored or shared.</div></div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/bmi-calculator.html"><div class="icon" style="background:#fce7f3;">⚖️</div><h4>BMI Calculator</h4></a>
+      <a class="related-card" href="/age-calculator.html"><div class="icon" style="background:#dbeafe;">🎂</div><h4>Age Calculator</h4></a>
+      <a class="related-card" href="/percentage-calculator.html"><div class="icon" style="background:#fef3c7;">📊</div><h4>Percentage Calculator</h4></a>
+      <a class="related-card" href="/stopwatch.html"><div class="icon" style="background:#fef3c7;">⏱️</div><h4>Stopwatch</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/calorie-calculator.html">Calorie Calculator</a><a href="/bmi-calculator.html">BMI Calculator</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    let gender = 'male';
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/calorie-calculator.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Calorie Calculator - KitUpBox', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    function setGender(g) {
+      gender = g;
+      document.getElementById('maleBtn').classList.toggle('active', g === 'male');
+      document.getElementById('femaleBtn').classList.toggle('active', g === 'female');
+    }
+
+    function calculateCalories() {
+      const age = parseInt(document.getElementById('age').value);
+      const ft = parseFloat(document.getElementById('heightFt').value) || 0;
+      const inch = parseFloat(document.getElementById('heightIn').value) || 0;
+      const weight = parseFloat(document.getElementById('weight').value);
+      const mult = parseFloat(document.getElementById('activity').value);
+
+      if (!age || !weight || (ft === 0 && inch === 0)) {
+        showToast('Please fill all fields correctly', true);
+        return;
+      }
+
+      const heightCm = ((ft * 12) + inch) * 2.54;
+
+      let bmr;
+      if (gender === 'male') {
+        bmr = (10 * weight) + (6.25 * heightCm) - (5 * age) + 5;
+      } else {
+        bmr = (10 * weight) + (6.25 * heightCm) - (5 * age) - 161;
+      }
+
+      const tdee = bmr * mult;
+
+      const lose = tdee - 500;
+      const gain = tdee + 500;
+
+      const protein = Math.round((tdee * 0.30) / 4);
+      const carbs = Math.round((tdee * 0.40) / 4);
+      const fats = Math.round((tdee * 0.30) / 9);
+
+      document.getElementById('tdeeValue').innerText = Math.round(tdee).toLocaleString();
+      document.getElementById('bmrValue').innerText = Math.round(bmr).toLocaleString() + ' cal';
+      document.getElementById('multValue').innerText = mult + 'x';
+      document.getElementById('loseValue').innerText = Math.round(lose).toLocaleString() + ' cal';
+      document.getElementById('maintainValue').innerText = Math.round(tdee).toLocaleString() + ' cal';
+      document.getElementById('gainValue').innerText = Math.round(gain).toLocaleString() + ' cal';
+      document.getElementById('proteinValue').innerText = protein + 'g';
+      document.getElementById('carbsValue').innerText = carbs + 'g';
+      document.getElementById('fatsValue').innerText = fats + 'g';
+
+      document.getElementById('resultBox').classList.add('show');
+      showToast('✅ Calories Calculated!');
+    }
+  </script>
+
+</body>
+</html>
