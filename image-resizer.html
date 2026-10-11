@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Resizer - Resize Images Online Free | KitUpBox</title>
+  <meta name="description" content="Free online Image Resizer. Resize JPG, PNG images to any dimensions instantly. Maintain aspect ratio. No signup, 100% secure.">
+  <meta name="keywords" content="image resizer, resize image, resize photo, image dimensions, jpg resizer, png resizer">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .file-input { width: 100%; padding: 14px; border: 2px dashed var(--border); border-radius: 10px; background: var(--bg); cursor: pointer; font-size: 0.9rem; margin-bottom: 18px; }
+    .file-input:hover { border-color: var(--primary); background: #eff6ff; }
+
+    .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+    .text-input { width: 100%; padding: 13px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; font-family: inherit; }
+    .text-input:focus { border-color: var(--primary); }
+
+    .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; padding: 12px; background: var(--bg); border-radius: 10px; }
+    .checkbox-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
+    .checkbox-row label { margin: 0; font-weight: 500; cursor: pointer; font-size: 0.9rem; }
+
+    .info-text { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+    .action-btn.secondary { background: #475569; box-shadow: none; }
+
+    .preview-box { margin-top: 15px; text-align: center; }
+    .preview-box img { max-width: 100%; max-height: 300px; border-radius: 10px; border: 1px solid var(--border); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } .input-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Image Resizer</div>
+
+  <section class="page-header">
+    <div class="icon-big">🖼️</div>
+    <h1>Image Resizer</h1>
+    <p>Resize any JPG, PNG, or WebP image to your desired dimensions — free and instant.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label>📁 Select Image:</label>
+      <input type="file" id="imageInput" class="file-input" accept="image/*">
+
+      <div class="info-text" id="originalSize">Original: — x —</div>
+
+      <div class="input-row">
+        <div>
+          <label>Width (px):</label>
+          <input type="number" id="resizeWidth" class="text-input" placeholder="e.g. 800">
+        </div>
+        <div>
+          <label>Height (px):</label>
+          <input type="number" id="resizeHeight" class="text-input" placeholder="e.g. 600">
+        </div>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="maintainRatio" checked onchange="toggleRatioLock()">
+        <label for="maintainRatio">Maintain aspect ratio</label>
+      </div>
+
+      <button class="action-btn" onclick="resizeImage()">🖼️ Resize & Download</button>
+      <button class="action-btn secondary" onclick="resetAll()">🔄 Reset</button>
+
+      <div class="preview-box" id="previewBox"></div>
+    </div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>📖 What is Image Resizer?</h2>
+    <p>An Image Resizer lets you change the dimensions (width and height) of an image. Whether you need to reduce file size, fit a specific size requirement, or prepare images for web/print, this tool makes it easy.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>Custom Dimensions</strong> — Set any width/height</li>
+      <li><strong>Aspect Ratio Lock</strong> — Keep proportions correct</li>
+      <li><strong>Multiple Formats</strong> — JPG, PNG, WebP</li>
+      <li><strong>Instant Preview</strong> — See result before download</li>
+      <li><strong>Secure & Private</strong> — Files never leave your device</li>
+      <li><strong>100% Free</strong> — No signup, no limits</li>
+    </ul>
+
+    <h3>🎯 When to Use Image Resizer?</h3>
+    <ul>
+      <li>Meeting website upload requirements</li>
+      <li>Preparing photos for social media</li>
+      <li>Reducing image size for emails</li>
+      <li>Matching specific print dimensions</li>
+      <li>Creating thumbnails</li>
+      <li>Standardizing multiple images</li>
+    </ul>
+
+    <h3>💡 Common Image Sizes</h3>
+    <ul>
+      <li><strong>Instagram Post</strong> — 1080 × 1080 px</li>
+      <li><strong>Facebook Cover</strong> — 820 × 312 px</li>
+      <li><strong>YouTube Thumbnail</strong> — 1280 × 720 px</li>
+      <li><strong>Passport Photo</strong> — 600 × 600 px</li>
+      <li><strong>Website Hero</strong> — 1920 × 1080 px</li>
+    </ul>
+
+    <h3>❓ Why Use KitUpBox Image Resizer?</h3>
+    <p>Fast, accurate, and completely free. Your images are processed locally in your browser — they never get uploaded to any server.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What image formats are supported?</div><div class="faq-a">We support all common formats: JPG, JPEG, PNG, WebP, GIF, and BMP.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Will my image lose quality?</div><div class="faq-a">Reducing size keeps most quality. Enlarging may cause slight blurriness — this is normal for all resizing tools.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What does "Maintain aspect ratio" do?</div><div class="faq-a">It automatically adjusts the other dimension to keep your image from looking stretched or squished.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my image safe?</div><div class="faq-a">Yes, 100%. Images are processed in your browser — never uploaded.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I resize multiple images?</div><div class="faq-a">Currently one image at a time. Batch resizing may come in future updates.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it work on mobile?</div><div class="faq-a">Yes! Works perfectly on Android, iPhone, and tablets.</div></div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/image-compressor.html"><div class="icon" style="background:#fef3c7;">🗜️</div><h4>Image Compressor</h4></a>
+      <a class="related-card" href="/image-cropper.html"><div class="icon" style="background:#d1fae5;">✂️</div><h4>Image Cropper</h4></a>
+      <a class="related-card" href="/image-to-pdf.html"><div class="icon" style="background:#d1fae5;">🖼️</div><h4>Image to PDF</h4></a>
+      <a class="related-card" href="/image-ocr.html"><div class="icon" style="background:#dbeafe;">🔍</div><h4>Image OCR</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/image-resizer.html">Image Resizer</a><a href="/image-to-pdf.html">Image to PDF</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    let originalImage = null;
+    let originalWidth = 0;
+    let originalHeight = 0;
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/image-resizer.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Image Resizer - KitUpBox', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    document.getElementById('imageInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => {
+          originalImage = img;
+          originalWidth = img.width;
+          originalHeight = img.height;
+          document.getElementById('resizeWidth').value = img.width;
+          document.getElementById('resizeHeight').value = img.height;
+          document.getElementById('originalSize').innerText = `Original: ${img.width} × ${img.height} px`;
+          document.getElementById('previewBox').innerHTML = `<img src="${ev.target.result}" alt="Preview">`;
+          showToast('✅ Image loaded!');
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('resizeWidth').addEventListener('input', function() {
+      if (document.getElementById('maintainRatio').checked && originalWidth) {
+        const ratio = originalHeight / originalWidth;
+        document.getElementById('resizeHeight').value = Math.round(this.value * ratio);
+      }
+    });
+
+    document.getElementById('resizeHeight').addEventListener('input', function() {
+      if (document.getElementById('maintainRatio').checked && originalHeight) {
+        const ratio = originalWidth / originalHeight;
+        document.getElementById('resizeWidth').value = Math.round(this.value * ratio);
+      }
+    });
+
+    function toggleRatioLock() {
+      if (document.getElementById('maintainRatio').checked && originalWidth) {
+        document.getElementById('resizeWidth').value = originalWidth;
+        document.getElementById('resizeHeight').value = originalHeight;
+      }
+    }
+
+    function resizeImage() {
+      if (!originalImage) { showToast('Select an image first', true); return; }
+
+      const w = parseInt(document.getElementById('resizeWidth').value);
+      const h = parseInt(document.getElementById('resizeHeight').value);
+
+      if (!w || !h || w < 1 || h < 1) { showToast('Enter valid dimensions', true); return; }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(originalImage, 0, 0, w, h);
+
+      canvas.toBlob(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `KitUpBox_Resized_${w}x${h}.png`;
+        link.click();
+        showToast(`✅ Resized to ${w}×${h}px!`);
+      }, 'image/png');
+    }
+
+    function resetAll() {
+      document.getElementById('imageInput').value = '';
+      document.getElementById('resizeWidth').value = '';
+      document.getElementById('resizeHeight').value = '';
+      document.getElementById('originalSize').innerText = 'Original: — x —';
+      document.getElementById('previewBox').innerHTML = '';
+      originalImage = null;
+      showToast('🔄 Reset');
+    }
+  </script>
+
+</body>
+</html>
