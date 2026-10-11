@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Number Generator - Generate Random Numbers Free | KitUpBox</title>
+  <meta name="description" content="Free online Random Number Generator. Generate random numbers, lottery picks, dice rolls, and more. Choose range and quantity.">
+  <meta name="keywords" content="random number generator, random number, lottery number generator, dice roller, random picker">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus { border-color: var(--primary); }
+
+    .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+    .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; padding: 12px; background: var(--bg); border-radius: 10px; }
+    .checkbox-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
+    .checkbox-row label { margin: 0; font-weight: 500; font-size: 0.9rem; cursor: pointer; }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+    .action-btn.secondary { background: #475569; box-shadow: none; }
+
+    .result-box { margin-top: 20px; display: none; }
+    .result-box.show { display: block; }
+    .result-main { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+    .result-main .label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 8px; }
+    .result-main .value { font-size: 3rem; font-weight: 800; letter-spacing: 2px; }
+    .numbers-list { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .num-chip { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; font-weight: 700; color: var(--primary); font-size: 1rem; }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } .input-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Random Number Generator</div>
+
+  <section class="page-header">
+    <div class="icon-big">🎲</div>
+    <h1>Random Number Generator</h1>
+    <p>Generate random numbers for lottery, games, draws, or any purpose.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <div class="input-row">
+        <div>
+          <label>🔢 Minimum Number:</label>
+          <input type="number" id="minNum" class="text-input" value="1">
+        </div>
+        <div>
+          <label>🔢 Maximum Number:</label>
+          <input type="number" id="maxNum" class="text-input" value="100">
+        </div>
+      </div>
+
+      <label>🎯 How Many Numbers?</label>
+      <input type="number" id="howMany" class="text-input" value="1" min="1" max="100">
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="allowDuplicates" checked>
+        <label for="allowDuplicates">Allow duplicate numbers</label>
+      </div>
+
+      <button class="action-btn" onclick="generateNumbers()">🎲 Generate Random Numbers</button>
+      <button class="action-btn secondary" onclick="copyResults()">📋 Copy Numbers</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-main" id="mainResult">
+          <div class="label">Generated Number</div>
+          <div class="value" id="mainValue">0</div>
+        </div>
+        <div class="numbers-list" id="numbersList"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>📖 What is a Random Number Generator?</h2>
+    <p>A Random Number Generator produces unpredictable numbers within a specified range. It's useful for games, lottery picks, statistical sampling, and any situation requiring randomness.</p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+      <li><strong>Custom Range</strong> — Set any min and max</li>
+      <li><strong>Multiple Numbers</strong> — Generate up to 100 at once</li>
+      <li><strong>No Duplicates Option</strong> — Unique numbers only</li>
+      <li><strong>Cryptographically Secure</strong> — Uses crypto.getRandomValues()</li>
+      <li><strong>Copy to Clipboard</strong> — One-click copy</li>
+      <li><strong>100% Free</strong> — No signup, no limits</li>
+    </ul>
+
+    <h3>🎯 Common Uses</h3>
+    <ul>
+      <li><strong>Lottery Numbers</strong> — Pick lucky numbers</li>
+      <li><strong>Dice Rolls</strong> — 1-6 random rolls</li>
+      <li><strong>Raffles & Draws</strong> — Pick random winners</li>
+      <li><strong>Team Selection</strong> — Random team assignments</li>
+      <li><strong>Statistical Sampling</strong> — Random data selection</li>
+      <li><strong>Games</strong> — Any game requiring randomness</li>
+      <li><strong>Passwords</strong> — Random number PINs</li>
+    </ul>
+
+    <h3>❓ Why Use KitUpBox Random Number Generator?</h3>
+    <p>Uses your browser's cryptographically secure random number generator — much more random than basic Math.random(). Everything runs locally.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Are the numbers truly random?</div><div class="faq-a">Yes! We use crypto.getRandomValues() — the most secure random number generator available in browsers.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I generate unique numbers only?</div><div class="faq-a">Yes! Uncheck "Allow duplicate numbers" to get only unique values.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What's the maximum amount?</div><div class="faq-a">You can generate up to 100 numbers at once.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I use negative numbers?</div><div class="faq-a">Yes! Just enter negative values in min or max fields.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is this suitable for lottery?</div><div class="faq-a">For entertainment purposes, yes. But we cannot guarantee any lottery results.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it work on mobile?</div><div class="faq-a">Yes! Works perfectly on all devices.</div></div>
+  </section>
+
+  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/password-generator.html"><div class="icon" style="background:#ede9fe;">🔐</div><h4>Password Generator</h4></a>
+      <a class="related-card" href="/qr-generator.html"><div class="icon" style="background:#fed7aa;">🔳</div><h4>QR Generator</h4></a>
+      <a class="related-card" href="/barcode-generator.html"><div class="icon" style="background:#fed7aa;">📊</div><h4>Barcode Generator</h4></a>
+      <a class="related-card" href="/stopwatch.html"><div class="icon" style="background:#fef3c7;">⏱️</div><h4>Stopwatch</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/random-number-generator.html">Random Number</a><a href="/password-generator.html">Password Generator</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    let generatedNumbers = [];
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/random-number-generator.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Random Number Generator - KitUpBox', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    function secureRandom(min, max) {
+      const range = max - min + 1;
+      const array = new Uint32Array(1);
+      crypto.getRandomValues(array);
+      return min + (array[0] % range);
+    }
+
+    function generateNumbers() {
+      const min = parseInt(document.getElementById('minNum').value);
+      const max = parseInt(document.getElementById('maxNum').value);
+      const count = parseInt(document.getElementById('howMany').value);
+      const allowDup = document.getElementById('allowDuplicates').checked;
+
+      if (isNaN(min) || isNaN(max) || isNaN(count)) {
+        showToast('Please fill all fields', true);
+        return;
+      }
+      if (min > max) { showToast('Minimum cannot be greater than maximum', true); return; }
+      if (count < 1 || count > 100) { showToast('Count must be between 1 and 100', true); return; }
+
+      const range = max - min + 1;
+      if (!allowDup && count > range) {
+        showToast(`Cannot generate ${count} unique numbers from range of ${range}`, true);
+        return;
+      }
+
+      generatedNumbers = [];
+
+      if (!allowDup) {
+        const pool = [];
+        for (let i = min; i <= max; i++) pool.push(i);
+        for (let i = 0; i < count; i++) {
+          const idx = secureRandom(0, pool.length - 1);
+          generatedNumbers.push(pool[idx]);
+          pool.splice(idx, 1);
+        }
+      } else {
+        for (let i = 0; i < count; i++) {
+          generatedNumbers.push(secureRandom(min, max));
+        }
+      }
+
+      if (count === 1) {
+        document.getElementById('mainResult').style.display = 'block';
+        document.getElementById('mainValue').innerText = generatedNumbers[0];
+        document.getElementById('numbersList').style.display = 'none';
+      } else {
+        document.getElementById('mainResult').style.display = 'none';
+        document.getElementById('numbersList').style.display = 'flex';
+        document.getElementById('numbersList').innerHTML = generatedNumbers.map(n => `<div class="num-chip">${n}</div>`).join('');
+      }
+
+      document.getElementById('resultBox').classList.add('show');
+      showToast(`✅ ${count} number(s) generated!`);
+    }
+
+    function copyResults() {
+      if (!generatedNumbers.length) { showToast('Generate numbers first', true); return; }
+      navigator.clipboard.writeText(generatedNumbers.join(', ')).then(() => showToast('✅ Copied!'));
+    }
+  </script>
+
+</body>
+</html>
