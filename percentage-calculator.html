@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Percentage Calculator - Calculate Percentages Online Free | KitUpBox</title>
   <meta name="description" content="Free online Percentage Calculator. Calculate X% of Y, what percent X is of Y, and percentage increase/decrease instantly.">
-  <meta name="keywords" content="percentage calculator, percent calculator, calculate percentage, percentage increase, percentage decrease">
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -21,7 +20,6 @@
     .nav { display: flex; gap: 22px; align-items: center; }
     .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
     .nav a:hover { color: var(--primary); }
-    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
 
     .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
     .breadcrumb a { color: var(--primary); text-decoration: none; }
@@ -74,7 +72,6 @@
     .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
     .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
     .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
-    .footer a:hover { color: var(--primary); }
     .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
@@ -89,8 +86,7 @@
 
   <header class="header">
     <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
-    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
-    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
   </header>
 
   <div class="breadcrumb"><a href="/">Home</a><span>›</span>Percentage Calculator</div>
@@ -156,118 +152,4 @@
     <h3>✨ Three Ways to Use This Tool</h3>
     <ul>
       <li><strong>What is X% of Y?</strong> — Find the value of a percentage (e.g., 25% of 200 = 50)</li>
-      <li><strong>X is what % of Y?</strong> — Find the percentage (e.g., 50 is 25% of 200)</li>
-      <li><strong>Increase/Decrease</strong> — Calculate change between two values</li>
-    </ul>
-
-    <h3>🎯 Common Percentage Formulas</h3>
-    <ul>
-      <li><strong>X% of Y</strong> = (X/100) × Y</li>
-      <li><strong>X is what % of Y</strong> = (X/Y) × 100</li>
-      <li><strong>% Increase</strong> = ((New − Old) / Old) × 100</li>
-      <li><strong>% Decrease</strong> = ((Old − New) / Old) × 100</li>
-    </ul>
-
-    <h3>💡 When to Use Percentage Calculator?</h3>
-    <ul>
-      <li>Calculating discounts while shopping</li>
-      <li>Computing exam scores and grades</li>
-      <li>Finding tips at restaurants</li>
-      <li>Calculating tax amounts</li>
-      <li>Analyzing business growth</li>
-      <li>Computing interest rates</li>
-      <li>Tracking weight loss/gain</li>
-    </ul>
-
-    <h3>❓ Why Choose KitUpBox Percentage Calculator?</h3>
-    <p>Our calculator is fast, accurate, and free. Everything runs in your browser. No data is stored or transmitted. Perfect for students, shoppers, and professionals.</p>
-  </section>
-
-  <section class="content-section">
-    <h2>❓ Frequently Asked Questions</h2>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I calculate X% of Y?</div><div class="faq-a">Multiply Y by X and divide by 100. Example: 25% of 200 = (25 × 200) / 100 = 50.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I find what percent X is of Y?</div><div class="faq-a">Divide X by Y and multiply by 100. Example: 50 is what percent of 200? (50/200) × 100 = 25%.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I calculate percentage increase?</div><div class="faq-a">Subtract old from new, divide by old, multiply by 100. Example: from 100 to 150 = ((150-100)/100) × 100 = 50% increase.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can percentages be greater than 100?</div><div class="faq-a">Yes! For example, if something doubles, that's a 100% increase, making the new value 200% of the original.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is this calculator free?</div><div class="faq-a">Yes, 100% free with no limits. Use it as many times as you want.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it work on mobile?</div><div class="faq-a">Yes! It works perfectly on all devices — phones, tablets, and desktops.</div></div>
-  </section>
-
-  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
-
-  <section class="content-section">
-    <h2>🔗 Related Tools</h2>
-    <div class="related-grid">
-      <a class="related-card" href="/emi-calculator.html"><div class="icon" style="background:#fef3c7;">💰</div><h4>EMI Calculator</h4></a>
-      <a class="related-card" href="/gst-calculator.html"><div class="icon" style="background:#d1fae5;">🧾</div><h4>GST Calculator</h4></a>
-      <a class="related-card" href="/age-calculator.html"><div class="icon" style="background:#dbeafe;">🎂</div><h4>Age Calculator</h4></a>
-      <a class="related-card" href="/bmi-calculator.html"><div class="icon" style="background:#fce7f3;">⚖️</div><h4>BMI Calculator</h4></a>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
-      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
-      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
-      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/percentage-calculator.html">Percentage Calculator</a><a href="/gst-calculator.html">GST Calculator</a></div>
-    </div>
-    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
-  </footer>
-
-  <div id="toast" class="toast">Success!</div>
-
-  <script>
-    function showToast(msg, isError = false) {
-      const t = document.getElementById('toast');
-      t.innerText = msg;
-      t.classList.toggle('error', isError);
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 3000);
-    }
-
-    function toggleFaq(el) { el.classList.toggle('open'); }
-
-    function shareThisTool() {
-      const url = 'https://kitupbox.onrender.com/percentage-calculator.html';
-      if (navigator.share) {
-        navigator.share({ title: 'Percentage Calculator - KitUpBox', url }).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
-      }
-    }
-
-    function calc1() {
-      const x = parseFloat(document.getElementById('p1X').value);
-      const y = parseFloat(document.getElementById('p1Y').value);
-      if (isNaN(x) || isNaN(y)) { showToast('Enter both values', true); return; }
-      const res = (x / 100) * y;
-      document.getElementById('r1v').innerText = res.toFixed(2).replace(/\.00$/, '');
-      document.getElementById('r1').classList.add('show');
-      showToast('✅ Calculated!');
-    }
-
-    function calc2() {
-      const x = parseFloat(document.getElementById('p2X').value);
-      const y = parseFloat(document.getElementById('p2Y').value);
-      if (isNaN(x) || isNaN(y) || y === 0) { showToast('Enter valid values', true); return; }
-      const res = (x / y) * 100;
-      document.getElementById('r2v').innerText = res.toFixed(2).replace(/\.00$/, '') + '%';
-      document.getElementById('r2').classList.add('show');
-      showToast('✅ Calculated!');
-    }
-
-    function calc3() {
-      const oldV = parseFloat(document.getElementById('p3Old').value);
-      const newV = parseFloat(document.getElementById('p3New').value);
-      if (isNaN(oldV) || isNaN(newV) || oldV === 0) { showToast('Enter valid values', true); return; }
-      const change = ((newV - oldV) / oldV) * 100;
-      const label = change >= 0 ? 'Increase' : 'Decrease';
-      document.getElementById('r3v').innerText = Math.abs(change).toFixed(2).replace(/\.00$/, '') + '% ' + label;
-      document.getElementById('r3').classList.add('show');
-      showToast('✅ Calculated!');
-    }
-  </script>
-
-</body>
-</html>
+      <li><strong>X is
