@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KitUpBox - All-in-One Free Online Tools</title>
   <meta name="description" content="KitUpBox - 30+ Free Online Tools. PDF Merger, Image Compressor, BMI Calculator, QR Generator, EMI Calculator और भी बहुत कुछ।">
-  <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" />
 
   <!-- Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
@@ -645,7 +644,7 @@
           <span onclick="rate(5)">★</span>
         </div>
         <div class="rating-info" id="ratingInfo">
-          <strong>4.8</strong> out of 5 (<span data-lang="basedOn">Based on 152 ratings</span>)
+  <span data-lang="basedOn">Rate your experience with our tools!</span>
         </div>
         <div class="rating-thanks" id="ratingThanks" data-lang="thanksRating">
           ✅ Thank you for rating!
@@ -661,7 +660,7 @@
   </section>
 
   <!-- ==================== AD SLOT 1 ==================== -->
-  <div class="ad-slot">
+  <div class="ad-slot" style="display: none;">
     <div class="ad-inner">
       <!-- ADSENSE CODE HERE (Slot 1 - Below Hero) -->
       Advertisement Space (Responsive)
@@ -670,14 +669,17 @@
 
  
 <!-- ==================== POPULAR TOOLS (Top 8) ==================== -->
-<section class="section" id="popular">
-  <div class="section-header">
-    <h3 class="section-title">⭐ <span data-lang="popularTitle">Popular Tools</span></h3>
-    <a class="view-all" onclick="document.getElementById('allTools').scrollIntoView()">
-      <span data-lang="viewAll">View All Tools</span> →
-    </a>
+<!-- SEO Content Section -->
+<section class="section" style="text-align: center; padding-top: 10px; padding-bottom: 20px;">
+  <div style="max-width: 850px; margin: 0 auto; color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
+    <h2 style="color: var(--text); font-size: 1.6rem; margin-bottom: 15px;">Your Everyday Digital Toolkit</h2>
+    
+    <p>Welcome to <strong>KitUpBox</strong>, your ultimate digital toolkit for everyday tasks. We offer a comprehensive suite of over 30 free, secure, and incredibly easy-to-use online utilities designed to boost your productivity. Whether you are a student managing assignments, a professional handling documents, or a business owner organizing data, our tools are built to simplify your digital life without the need for heavy software downloads or mandatory sign-ups.</p>
+    
+    <p>Our diverse collection includes powerful <strong>PDF utilities</strong> that allow you to merge, split, convert, and extract text from documents effortlessly. For image manipulation, you can resize, crop, and compress high-resolution photos without losing their original quality. Additionally, our wide range of <strong>calculators</strong>—including BMI, EMI, GST, and age calculators—provides instant and accurate results for your health and financial planning needs.</p>
+    
+    <p>At KitUpBox, we prioritize your privacy above all else. Every single tool operates entirely within your web browser using advanced JavaScript. This means your personal files and sensitive data are never uploaded to our servers, guaranteeing 100% confidentiality and peace of mind. Our platform is fast, completely free, and works seamlessly across all devices—whether you are on a smartphone, tablet, or desktop. Discover the easiest way to get things done today!</p>
   </div>
-  <div class="tools-grid" id="popularGrid"></div>
 </section>
 
 <!-- ==================== CATEGORIES ==================== -->
@@ -740,7 +742,7 @@
 </section>
 
 <!-- ==================== AD SLOT 2 ==================== -->
-<div class="ad-slot">
+<div class="ad-slot" style="display: none;">
   <div class="ad-inner">
     <!-- ADSENSE CODE HERE (Slot 2 - Between Categories and Tools) -->
     Advertisement Space (Responsive)
@@ -756,7 +758,7 @@
 </section>
 
 <!-- ==================== AD SLOT 3 ==================== -->
-<div class="ad-slot">
+  <div class="ad-slot" style="display: none;">
   <div class="ad-inner">
     <!-- ADSENSE CODE HERE (Slot 3 - Before Footer) -->
     Advertisement Space (Responsive)
@@ -792,9 +794,6 @@
     </div>
     <div>
       <h4>Connect</h4>
-      <a href="#">📘 Facebook</a>
-      <a href="#">🐦 Twitter</a>
-      <a href="#">📸 Instagram</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -941,14 +940,14 @@ const tools = [
 
     /* ==================== RENDER TOOL CARD ==================== */
     function createToolCard(tool) {
-      return `
-        <a class="tool-card" onclick="openTool('${tool.id}')">
-          <div class="tool-icon ${tool.color}">${tool.icon}</div>
-          <h4>${tool.name}</h4>
-          <p>${tool.desc}</p>
-          <div class="tool-btn">Open Tool →</div>
-        </a>
-      `;
+  return `
+    <a class="tool-card" href="/${tool.id}.html">
+      <div class="tool-icon ${tool.color}">${tool.icon}</div>
+      <h4>${tool.name}</h4>
+      <p>${tool.desc}</p>
+      <div class="tool-btn">Open Tool →</div>
+    </a>
+  `;
     }
 
     function renderPopularTools() {
