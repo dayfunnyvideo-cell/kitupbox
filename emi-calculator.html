@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMI Calculator - Calculate Loan EMI Online Free | KitUpBox</title>
+  <meta name="description" content="Free online EMI Calculator. Calculate monthly EMI, total interest, and total payment for home loans, car loans, and personal loans instantly.">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text .brand-name { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus { border-color: var(--primary); }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+
+    .results { margin-top: 20px; display: none; }
+    .results.show { display: block; }
+    .result-main { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+    .result-main .label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 5px; }
+    .result-main .value { font-size: 2rem; font-weight: 800; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .result-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
+    .result-item .label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 5px; }
+    .result-item .value { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>EMI Calculator</div>
+
+  <section class="page-header">
+    <div class="icon-big">💰</div>
+    <h1>EMI Calculator</h1>
+    <p>Calculate your monthly loan EMI, total interest, and total payment instantly.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label>💵 Loan Amount (₹):</label>
+      <input type="number" id="loanAmount" class="text-input" placeholder="e.g. 500000" value="500000">
+
+      <label>📊 Annual Interest Rate (%):</label>
+      <input type="number" id="interestRate" class="text-input" placeholder="e.g. 8.5" value="8.5" step="0.01">
+
+      <label>⏱️ Loan Tenure (Months):</label>
+      <input type="number" id="tenure" class="text-input" placeholder="e.g. 60" value="60">
+
+      <button class="action-btn" onclick="calculateEMI()">💰 Calculate EMI</button>
+
+      <div class="results" id="results">
+        <div class="result-main">
+          <div class="label">Monthly EMI</div>
+          <div class="value" id="emiValue">₹0</div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item">
+            <div class="label">Principal Amount</div>
+            <div class="value" id="principalValue">₹0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Total Interest</div>
+            <div class="value" id="interestValue">₹0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Total Payment</div>
+            <div class="value" id="totalValue">₹0</div>
+          </div>
+        </div>
+        <div class="result-item">
+          <div class="label">Interest Share of Total</div>
+          <div class="value" id="shareValue">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section">
+  <h2>What is an EMI?</h2>
+  <p>EMI stands for Equated Monthly Instalment. It is the fixed amount you pay your lender every month until a loan is fully repaid. Each EMI has two parts: the interest charged on the balance you still owe, and a portion that repays the principal. In the early months most of the EMI goes toward interest. As the balance falls, the principal part grows and the interest part shrinks.</p>
+  <p>This EMI calculator works for home loans, car loans, personal loans and education loans. Enter the loan amount, the annual interest rate and the tenure in months to see your monthly EMI, the total interest and the total amount you will repay.</p>
+
+  <h2>How to use the EMI calculator</h2>
+  <ol>
+    <li>Enter the loan amount in rupees.</li>
+    <li>Enter the annual interest rate quoted by your lender.</li>
+    <li>Enter the tenure in months. For a 5-year loan, enter 60. For a 20-year loan, enter 240.</li>
+    <li>Press Calculate EMI to see your monthly payment, total interest and total payment.</li>
+  </ol>
+
+  <h2>EMI formula</h2>
+  <p>The calculator uses the standard reducing balance formula:</p>
+  <p><strong>EMI = P × r × (1 + r)<sup>n</sup> ÷ ((1 + r)<sup>n</sup> − 1)</strong></p>
+  <ul>
+    <li><strong>P</strong> is the loan amount (principal).</li>
+    <li><strong>r</strong> is the monthly interest rate: the annual rate divided by 12, then by 100.</li>
+    <li><strong>n</strong> is the number of monthly instalments.</li>
+  </ul>
+  <h3>Worked example</h3>
+  <p>For a loan of ₹5,00,000 at 8.5% a year for 60 months, r = 8.5 ÷ 12 ÷ 100 = 0.007083 and n = 60. The EMI comes to about ₹10,258. Over 60 months you pay about ₹6,15,496 in total, of which about ₹1,15,496 is interest.</p>
+
+  <h3>What changes your EMI</h3>
+  <ul>
+    <li><strong>Loan amount:</strong> a larger loan means a larger EMI and more interest.</li>
+    <li><strong>Interest rate:</strong> even a small difference in the rate adds up over several years.</li>
+    <li><strong>Tenure:</strong> a longer tenure lowers the EMI but raises the total interest. The same ₹5,00,000 at 8.5% over 36 months has an EMI of about ₹15,784 and total interest of about ₹68,216, compared with ₹1,15,496 over 60 months.</li>
+  </ul>
+
+  <h3>Ways to lower the interest you pay</h3>
+  <ul>
+    <li>Make a larger down payment so you borrow less.</li>
+    <li>Choose the shortest tenure whose EMI you can pay comfortably.</li>
+    <li>Compare rates and fees from several lenders before you sign.</li>
+    <li>Part-prepay the loan when you have spare money. Check the lender's prepayment charges first.</li>
+    <li>Keep your credit score healthy, since lenders often offer better rates to borrowers with a strong record.</li>
+  </ul>
+  <p style="color:var(--text-muted);font-size:0.85rem">Results are estimates for planning. Your lender's figures can differ because of processing fees, insurance, rounding and how interest is counted by day. Check the repayment schedule your lender gives you.</p>
+</section>
+
+<section class="content-section">
+  <h2>Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How is EMI calculated?</div><div class="faq-a">EMI is calculated with the reducing balance formula shown above. Interest each month is charged on the loan balance that is still outstanding, so the interest part of each EMI falls over time.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Will my bank's EMI match this result exactly?</div><div class="faq-a">It should be very close. Banks may differ slightly because of rounding, processing fees, insurance premiums or the way they count days between payments. Use this result for planning and rely on your lender's schedule for the final figures.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Does a longer tenure reduce my EMI?</div><div class="faq-a">Yes, the monthly EMI falls when you spread the loan over more months. The trade-off is that you pay interest for longer, so the total interest cost rises.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">What is the difference between flat rate and reducing balance?</div><div class="faq-a">With a flat rate, interest is charged on the original loan amount for the whole tenure. With a reducing balance rate, interest is charged only on what you still owe. This calculator assumes a reducing balance rate. If a lender quotes a flat rate, the real cost is higher than the number suggests, so ask for the reducing balance rate.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Can I use this calculator for a floating rate loan?</div><div class="faq-a">You can use it to estimate the EMI at today's rate. On a floating rate loan, your EMI or tenure changes when the lender changes the rate, so recalculate with the new rate when that happens.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Is the calculation done on my device?</div><div class="faq-a">Yes. The calculation runs in your browser when you press Calculate EMI.</div></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div><h4>KitUpBox</h4><p style="font-size:0.85rem;color:var(--text-muted)">Free online tools for everyday work. No installation needed.</p></div>
+    <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></div>
+    <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+  function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+
+  function showToast(msg, isError) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isError ? ' error' : '');
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(function () { t.className = 'toast'; }, 3000);
+  }
+
+  function calculateEMI() {
+    var P = parseFloat(document.getElementById('loanAmount').value);
+    var R = parseFloat(document.getElementById('interestRate').value);
+    var N = parseInt(document.getElementById('tenure').value, 10);
+    if (!(P > 0) || !(N > 0) || isNaN(R) || R < 0) {
+      showToast('Enter a loan amount and tenure above zero, and an interest rate of 0 or more.', true);
+      return;
+    }
+    var r = R / 12 / 100;
+    var emi = r === 0 ? P / N : P * r * Math.pow(1 + r, N) / (Math.pow(1 + r, N) - 1);
+    var total = emi * N;
+    var interest = total - P;
+    document.getElementById('emiValue').textContent = fmt(emi);
+    document.getElementById('principalValue').textContent = fmt(P);
+    document.getElementById('interestValue').textContent = fmt(interest);
+    document.getElementById('totalValue').textContent = fmt(total);
+    document.getElementById('shareValue').textContent = (interest / total * 100).toFixed(1) + '%';
+    document.getElementById('results').classList.add('show');
+  }
+
+  document.querySelectorAll('.text-input').forEach(function (el) {
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') calculateEMI(); });
+  });
+
+  document.querySelectorAll('.faq-q').forEach(function (q) {
+    function toggle() { q.parentElement.classList.toggle('open'); }
+    q.addEventListener('click', toggle);
+    q.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+
+  calculateEMI();
+</script>
+
+</body>
+</html>
