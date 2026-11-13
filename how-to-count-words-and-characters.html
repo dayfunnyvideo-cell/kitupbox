@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Count Words and Characters (Complete Guide) | KitUpBox</title>
+<meta name="description" content="Learn how words and characters are counted, how many words fit on a page, and how to stay within a length limit, with a free word counter.">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+:root { --bg:#f8fafc; --card:#fff; --border:#e2e8f0; --primary:#3b82f6; --purple:#8b5cf6; --text:#1e293b; --muted:#64748b; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+.header { background:#fff; border-bottom:1px solid var(--border); padding:12px 30px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:1000; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+.logo-area { display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+.logo-icon { width:40px; height:40px; background:linear-gradient(135deg,#3b82f6,#8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:20px; }
+.brand-name { font-size:1.1rem; font-weight:700; }
+.logo-text p { font-size:0.68rem; color:var(--muted); }
+.nav { display:flex; gap:22px; align-items:center; }
+.nav a { color:var(--muted); text-decoration:none; font-size:0.9rem; font-weight:500; }
+.nav a:hover, .nav a.on { color:var(--primary); }
+.breadcrumb { max-width:780px; margin:0 auto; padding:20px 20px 0; font-size:0.85rem; color:var(--muted); }
+.breadcrumb a { color:var(--primary); text-decoration:none; }
+.breadcrumb span { margin:0 8px; }
+.post { max-width:780px; margin:0 auto; padding:10px 20px 20px; }
+.post-head { text-align:center; padding:22px 0 10px; }
+.tag { display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--primary); margin-bottom:12px; }
+.post-head h1 { font-size:2.1rem; line-height:1.2; font-weight:800; margin-bottom:12px; }
+.meta { font-size:0.85rem; color:var(--muted); }
+.lead { font-size:1.05rem; color:var(--muted); margin:22px 0 6px; }
+.post h2 { font-size:1.45rem; font-weight:700; margin:34px 0 12px; }
+.post h3 { font-size:1.1rem; font-weight:700; margin:22px 0 8px; }
+.post p { margin-bottom:14px; line-height:1.8; font-size:0.98rem; }
+.post ul, .post ol { margin:12px 0 18px 24px; font-size:0.98rem; }
+.post li { margin-bottom:8px; line-height:1.7; }
+.post a { color:var(--primary); }
+.formula { background:#fff; border:1px solid var(--border); border-left:4px solid var(--primary); border-radius:0 10px 10px 0; padding:14px 18px; margin:14px 0 16px; font-weight:600; overflow-x:auto; }
+.example { background:#eff6ff; border-radius:10px; padding:14px 18px; margin:14px 0 18px; font-size:0.95rem; }
+.tw { overflow-x:auto; margin:14px 0 20px; border:1px solid var(--border); border-radius:10px; background:#fff; }
+table { border-collapse:collapse; width:100%; min-width:360px; font-size:0.93rem; }
+th, td { text-align:left; padding:10px 16px; border-bottom:1px solid var(--border); }
+tr:last-child td { border-bottom:0; }
+th { background:#f1f5f9; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); }
+.cta { background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:#fff; border-radius:14px; padding:26px; text-align:center; margin:34px 0; }
+.cta h2 { color:#fff; margin:0 0 8px; font-size:1.3rem; }
+.cta p { color:#fff; opacity:0.95; margin-bottom:16px; }
+.cta a.btn { display:inline-block; background:#fff; color:#1d4ed8; font-weight:700; text-decoration:none; padding:12px 26px; border-radius:10px; }
+.faq h3 { margin-top:20px; }
+.note { font-size:0.82rem; color:var(--muted); border-top:1px solid var(--border); padding-top:14px; margin-top:30px; }
+.more { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:12px; }
+.more a { background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px 16px; text-decoration:none; color:var(--text); font-weight:600; font-size:0.92rem; }
+.more a:hover { border-color:var(--primary); color:var(--primary); }
+.footer { background:#fff; border-top:1px solid var(--border); padding:40px 30px 25px; margin-top:40px; }
+.footer-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:30px; margin-bottom:30px; }
+.footer h4 { font-size:0.95rem; margin-bottom:15px; font-weight:700; }
+.footer a { font-size:0.85rem; color:var(--muted); text-decoration:none; display:block; margin-bottom:8px; }
+.footer a:hover { color:var(--primary); }
+.footer-bottom { max-width:1100px; margin:0 auto; padding-top:20px; border-top:1px solid var(--border); text-align:center; font-size:0.8rem; color:var(--muted); }
+@media (max-width:900px) { .nav { display:none; } .footer-inner { grid-template-columns:1fr 1fr; } }
+@media (max-width:600px) { .header { padding:10px 15px; } .post-head h1 { font-size:1.6rem; } .post h2 { font-size:1.25rem; } .footer-inner { grid-template-columns:1fr; } .cta { padding:22px 16px; } }
+</style>
+</head>
+<body>
+<header class="header">
+  <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+  <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/blog.html" class="on">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+</header>
+<div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/blog.html">Blog</a><span>›</span>How to Count Words and Characters</div>
+<article class="post">
+  <div class="post-head">
+    <div class="tag">Productivity</div>
+    <h1>How to Count Words and Characters (Complete Guide)</h1>
+    <div class="meta">3 min read · Nov 13, 2026</div>
+  </div>
+
+  <p class="lead">Essays, cover letters, product descriptions and text messages often come with a length limit. Counting by hand is slow and easy to get wrong. This guide explains how words and characters are counted, how long common documents tend to be, and how to check your length in seconds.</p>
+
+  <h2>How words are counted</h2>
+  <p>Most word counters split your text wherever there is a space or a line break, and each piece counts as one word. A hyphenated word such as "well-known" usually counts as one word. A phrase such as "New York" counts as two. Different programs can give slightly different totals, so if a limit is strict, check your count with the tool the other side uses.</p>
+
+  <h2>Words versus characters</h2>
+  <p>Characters are every letter, number, punctuation mark and symbol. Some limits count spaces and some do not, so find out which version applies to you.</p>
+  <div class="example"><strong>Example:</strong> "Hello, world!" has <strong>2 words</strong>, <strong>13 characters</strong> with spaces and <strong>12 characters</strong> without spaces.</div>
+
+  <h2>How many words fit on a page</h2>
+  <p>The answer depends on font, size, margins and line spacing. For 12-point type with standard margins, these are common estimates:</p>
+  <div class="tw"><table>
+    <tr><th>Pages</th><th>Double-spaced</th></tr>
+    <tr><td>1 page</td><td>250 to 300 words</td></tr>
+    <tr><td>2 pages</td><td>500 to 600 words</td></tr>
+    <tr><td>5 pages</td><td>1,250 to 1,500 words</td></tr>
+    <tr><td>10 pages</td><td>2,500 to 3,000 words</td></tr>
+  </table></div>
+  <p>Single-spaced text fits roughly twice as many words on a page.</p>
+
+  <h2>Common length targets</h2>
+  <ul>
+    <li><strong>Text message:</strong> about 160 characters of plain text fit in one standard SMS. Longer messages are split into parts.</li>
+    <li><strong>Page title for search results:</strong> roughly 50 to 60 characters before it may be cut off.</li>
+    <li><strong>Meta description:</strong> roughly 150 to 160 characters.</li>
+    <li><strong>Cover letter:</strong> often one page, around 250 to 400 words.</li>
+    <li><strong>College application essay:</strong> the Common App personal essay has a 650-word maximum. Check the current instructions before you submit.</li>
+  </ul>
+  <p>Search engines cut titles by width, not by a fixed character count, so treat the search figures as guidelines.</p>
+
+  <h2>Speaking and reading time</h2>
+  <p>At a comfortable pace most people speak about 130 words a minute and read silently at about 200 to 250 words a minute.</p>
+  <div class="tw"><table>
+    <tr><th>Speaking time</th><th>Words at 130 a minute</th></tr>
+    <tr><td>1 minute</td><td>130 words</td></tr>
+    <tr><td>5 minutes</td><td>650 words</td></tr>
+    <tr><td>10 minutes</td><td>1,300 words</td></tr>
+  </table></div>
+  <p>A 1,000-word article takes about 4 to 5 minutes to read.</p>
+
+  <h2>How to count with the KitUpBox Word Counter</h2>
+  <ol>
+    <li>Open the Word Counter.</li>
+    <li>Type or paste your text.</li>
+    <li>Read the totals for words, characters and sentences.</li>
+  </ol>
+
+  <h2>Tips for staying within a limit</h2>
+  <ul>
+    <li>Write a full first draft, then cut. It is easier to trim than to stretch.</li>
+    <li>Delete filler such as "very", "really" and "in order to".</li>
+    <li>Replace long phrases with short ones. "Because" beats "due to the fact that".</li>
+    <li>Remove sentences that repeat an earlier point.</li>
+    <li>Read the text aloud. Wordy parts are easy to hear.</li>
+  </ul>
+
+  <h2>Common mistakes</h2>
+  <ul>
+    <li><strong>Counting the wrong thing.</strong> Check whether the limit is in words or characters.</li>
+    <li><strong>Ignoring what is included.</strong> Some limits include headings, footnotes or references and some do not.</li>
+    <li><strong>Trusting text copied from a PDF.</strong> Stray line breaks can change the count.</li>
+    <li><strong>Counting once, then editing.</strong> Count again after your final changes.</li>
+  </ul>
+
+  <div class="cta">
+    <h2>Check your word count now</h2>
+    <p>Paste your text and see the totals right away.</p>
+    <a class="btn" href="/word-counter.html">Open the Word Counter</a>
+  </div>
+
+  <div class="faq">
+    <h2>Frequently asked questions</h2>
+    <h3>Do spaces count as characters?</h3>
+    <p>It depends on the limit. Many platforms count spaces, and some forms count only visible characters. Look for the words "with spaces" or "without spaces".</p>
+    <h3>Does a hyphenated word count as one word or two?</h3>
+    <p>Most counters treat it as one word. A few programs may treat it differently, so check if the limit is strict.</p>
+    <h3>How many words is 500 words?</h3>
+    <p>About one single-spaced page, or about two double-spaced pages. It takes roughly 4 minutes to speak at 130 words a minute.</p>
+  </div>
+
+  <h2>More free tools</h2>
+  <div class="more"><a href="/text-case-converter.html">Text Case Converter</a><a href="/percentage-calculator.html">Percentage Calculator</a><a href="/age-calculator.html">Age Calculator</a></div>
+
+  <p class="note">Length limits and typical word counts are approximate. Always follow the instructions of your school, employer or platform.</p>
+</article>
+<footer class="footer">
+  <div class="footer-inner">
+    <div><a href="/" class="logo-area" style="margin-bottom:12px;"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a><p style="font-size:0.85rem;color:var(--muted);">Free online tools for everyone.</p></div>
+    <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+    <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+    <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/image-to-pdf.html">Image to PDF</a><a href="/bmi-calculator.html">BMI Calculator</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+</footer>
+</body>
+</html>
