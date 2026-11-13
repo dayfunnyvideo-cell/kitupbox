@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Create a QR Code for Free (Complete Guide) | KitUpBox</title>
+<meta name="description" content="Learn how QR codes work, how to create one for a link or text, and how to make sure it scans every time, with simple tips for print and screens.">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+:root { --bg:#f8fafc; --card:#fff; --border:#e2e8f0; --primary:#3b82f6; --purple:#8b5cf6; --text:#1e293b; --muted:#64748b; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+.header { background:#fff; border-bottom:1px solid var(--border); padding:12px 30px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:1000; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+.logo-area { display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+.logo-icon { width:40px; height:40px; background:linear-gradient(135deg,#3b82f6,#8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:20px; }
+.brand-name { font-size:1.1rem; font-weight:700; }
+.logo-text p { font-size:0.68rem; color:var(--muted); }
+.nav { display:flex; gap:22px; align-items:center; }
+.nav a { color:var(--muted); text-decoration:none; font-size:0.9rem; font-weight:500; }
+.nav a:hover, .nav a.on { color:var(--primary); }
+.breadcrumb { max-width:780px; margin:0 auto; padding:20px 20px 0; font-size:0.85rem; color:var(--muted); }
+.breadcrumb a { color:var(--primary); text-decoration:none; }
+.breadcrumb span { margin:0 8px; }
+.post { max-width:780px; margin:0 auto; padding:10px 20px 20px; }
+.post-head { text-align:center; padding:22px 0 10px; }
+.tag { display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--primary); margin-bottom:12px; }
+.post-head h1 { font-size:2.1rem; line-height:1.2; font-weight:800; margin-bottom:12px; }
+.meta { font-size:0.85rem; color:var(--muted); }
+.lead { font-size:1.05rem; color:var(--muted); margin:22px 0 6px; }
+.post h2 { font-size:1.45rem; font-weight:700; margin:34px 0 12px; }
+.post h3 { font-size:1.1rem; font-weight:700; margin:22px 0 8px; }
+.post p { margin-bottom:14px; line-height:1.8; font-size:0.98rem; }
+.post ul, .post ol { margin:12px 0 18px 24px; font-size:0.98rem; }
+.post li { margin-bottom:8px; line-height:1.7; }
+.post a { color:var(--primary); }
+.formula { background:#fff; border:1px solid var(--border); border-left:4px solid var(--primary); border-radius:0 10px 10px 0; padding:14px 18px; margin:14px 0 16px; font-weight:600; overflow-x:auto; }
+.example { background:#eff6ff; border-radius:10px; padding:14px 18px; margin:14px 0 18px; font-size:0.95rem; }
+.tw { overflow-x:auto; margin:14px 0 20px; border:1px solid var(--border); border-radius:10px; background:#fff; }
+table { border-collapse:collapse; width:100%; min-width:360px; font-size:0.93rem; }
+th, td { text-align:left; padding:10px 16px; border-bottom:1px solid var(--border); }
+tr:last-child td { border-bottom:0; }
+th { background:#f1f5f9; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); }
+.cta { background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:#fff; border-radius:14px; padding:26px; text-align:center; margin:34px 0; }
+.cta h2 { color:#fff; margin:0 0 8px; font-size:1.3rem; }
+.cta p { color:#fff; opacity:0.95; margin-bottom:16px; }
+.cta a.btn { display:inline-block; background:#fff; color:#1d4ed8; font-weight:700; text-decoration:none; padding:12px 26px; border-radius:10px; }
+.faq h3 { margin-top:20px; }
+.note { font-size:0.82rem; color:var(--muted); border-top:1px solid var(--border); padding-top:14px; margin-top:30px; }
+.more { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:12px; }
+.more a { background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px 16px; text-decoration:none; color:var(--text); font-weight:600; font-size:0.92rem; }
+.more a:hover { border-color:var(--primary); color:var(--primary); }
+.footer { background:#fff; border-top:1px solid var(--border); padding:40px 30px 25px; margin-top:40px; }
+.footer-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:30px; margin-bottom:30px; }
+.footer h4 { font-size:0.95rem; margin-bottom:15px; font-weight:700; }
+.footer a { font-size:0.85rem; color:var(--muted); text-decoration:none; display:block; margin-bottom:8px; }
+.footer a:hover { color:var(--primary); }
+.footer-bottom { max-width:1100px; margin:0 auto; padding-top:20px; border-top:1px solid var(--border); text-align:center; font-size:0.8rem; color:var(--muted); }
+@media (max-width:900px) { .nav { display:none; } .footer-inner { grid-template-columns:1fr 1fr; } }
+@media (max-width:600px) { .header { padding:10px 15px; } .post-head h1 { font-size:1.6rem; } .post h2 { font-size:1.25rem; } .footer-inner { grid-template-columns:1fr; } .cta { padding:22px 16px; } }
+</style>
+</head>
+<body>
+<header class="header">
+  <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+  <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/blog.html" class="on">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+</header>
+<div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/blog.html">Blog</a><span>›</span>How to Create a QR Code</div>
+<article class="post">
+  <div class="post-head">
+    <div class="tag">Generators</div>
+    <h1>How to Create a QR Code for Free (Complete Guide)</h1>
+    <div class="meta">3 min read · Nov 13, 2026</div>
+  </div>
+
+  <p class="lead">A QR code lets someone open a link or read a line of text by pointing a phone camera at a square of black and white dots. You see them on menus, posters, receipts and business cards. Making one takes a minute, and a few simple choices decide whether it scans every time.</p>
+
+  <h2>What a QR code can hold</h2>
+  <ul>
+    <li>A website link, which is the most common use</li>
+    <li>Plain text, such as a short message or a code</li>
+    <li>A phone number or an email address</li>
+    <li>Wi-Fi network details, so guests can join without typing a password</li>
+    <li>A contact card with a name, phone number and email</li>
+  </ul>
+
+  <h2>How to create a QR code in four steps</h2>
+  <ol>
+    <li>Decide what the code should open, and check that the link works on your phone.</li>
+    <li>Open the KitUpBox QR Generator.</li>
+    <li>Type or paste your link or text and generate the code.</li>
+    <li>Test the code with at least two different phones before you use it.</li>
+  </ol>
+
+  <h2>Tips so it scans every time</h2>
+  <ul>
+    <li><strong>Keep strong contrast.</strong> A dark code on a light background is the safest choice. Pale colors and busy backgrounds make scanning harder.</li>
+    <li><strong>Leave a clear border.</strong> Empty space around the code helps the camera find its edges.</li>
+    <li><strong>Make it big enough.</strong> A code printed about 2 cm (0.8 inch) wide works for close scanning. A common rule of thumb is that a code can be scanned from about ten times its width away, so a sign read from 2 meters away needs a code roughly 20 cm wide.</li>
+    <li><strong>Use a short link.</strong> Fewer characters create a simpler pattern that is easier to read.</li>
+    <li><strong>Do not stretch or distort it.</strong> Keep the code square and flat. Curved or shiny surfaces can cause glare.</li>
+  </ul>
+
+  <h2>Static and dynamic codes</h2>
+  <p>A static code stores the link or text directly in the pattern. It never expires, but you cannot change it after you create it. A dynamic code points to a redirect run by a service, so you can change the destination and track scans, but it usually costs money and stops working if the service ends. Free generators usually create static codes, so double-check your link before you print anything.</p>
+
+  <h2>Where to use QR codes</h2>
+  <ul>
+    <li>Restaurant menus and table cards</li>
+    <li>Flyers, posters and event signs</li>
+    <li>Business cards that link to a website or profile</li>
+    <li>Product packaging that links to instructions</li>
+    <li>Wi-Fi sharing at home or in a small business</li>
+  </ul>
+
+  <h2>Stay safe with QR codes</h2>
+  <ul>
+    <li>Scan only codes from sources you trust.</li>
+    <li>Read the link your phone shows before you open it.</li>
+    <li>Be careful with stickers placed over another code in a public place. Scammers sometimes cover real codes with fake ones.</li>
+    <li>If you display a code in a public place, check it now and then to make sure nobody has covered it.</li>
+  </ul>
+
+  <h2>Common mistakes</h2>
+  <ul>
+    <li><strong>Not testing.</strong> A code that looks fine on screen can fail on paper.</li>
+    <li><strong>Printing it too small.</strong> Tiny codes are hard to scan, especially on a crowded page.</li>
+    <li><strong>Forgetting https://.</strong> Include the full address so the phone opens the right page.</li>
+    <li><strong>Linking to a page that is hard to use on a phone.</strong> Most people will scan with a phone, so check the page there.</li>
+    <li><strong>Adding long tracking parameters.</strong> They make the pattern denser and harder to read.</li>
+  </ul>
+
+  <div class="cta">
+    <h2>Make your QR code now</h2>
+    <p>Enter a link or text and generate a code in seconds.</p>
+    <a class="btn" href="/qr-generator.html">Open the QR Generator</a>
+  </div>
+
+  <div class="faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I scan a QR code?</h3>
+    <p>Open your phone's camera app and point it at the code. Tap the banner that appears to open the link. Most current iPhone and Android phones scan codes without a separate app.</p>
+    <h3>Do QR codes expire?</h3>
+    <p>A static code does not expire. The page it points to can disappear, though, so keep that page live for as long as the code is in use.</p>
+    <h3>What size should a QR code be?</h3>
+    <p>For close-up use, such as a business card or a menu, aim for at least about 2 cm wide. Make it larger if people will scan it from farther away.</p>
+  </div>
+
+  <h2>More free tools</h2>
+  <div class="more"><a href="/image-compressor.html">Image Compressor</a><a href="/password-generator.html">Password Generator</a><a href="/pdf-merger.html">PDF Merger</a></div>
+
+  <p class="note">Test every QR code with more than one phone before you print it or share it.</p>
+</article>
+<footer class="footer">
+  <div class="footer-inner">
+    <div><a href="/" class="logo-area" style="margin-bottom:12px;"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a><p style="font-size:0.85rem;color:var(--muted);">Free online tools for everyone.</p></div>
+    <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+    <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+    <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/image-to-pdf.html">Image to PDF</a><a href="/bmi-calculator.html">BMI Calculator</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+</footer>
+</body>
+</html>
