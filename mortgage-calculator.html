@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mortgage Calculator - Monthly Home Payment with Taxes &amp; Insurance | KitUpBox</title>
+  <meta name="description" content="Free mortgage calculator. Estimate your monthly home loan payment including principal, interest, property tax, home insurance, PMI and HOA fees.">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text .brand-name { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus { border-color: var(--primary); }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+
+    .results { margin-top: 20px; display: none; }
+    .results.show { display: block; }
+    .result-main { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+    .result-main .label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 5px; }
+    .result-main .value { font-size: 2rem; font-weight: 800; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .result-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
+    .result-item .label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 5px; }
+    .result-item .value { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+
+    .tool-box select.text-input { appearance: auto; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .breakdown { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; }
+    .brow { display: flex; justify-content: space-between; padding: 11px 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .brow:last-child { border-bottom: none; }
+    .brow span:last-child { font-weight: 700; }
+    .bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin: 14px 0 4px; background: var(--border); }
+    .bar i { display: block; height: 100%; }
+    .hint { font-size: 0.78rem; color: var(--text-muted); margin: -10px 0 16px; }
+    @media (max-width: 600px) { .two { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Mortgage Calculator</div>
+
+  <section class="page-header">
+    <div class="icon-big">🏠</div>
+    <h1>Mortgage Calculator</h1>
+    <p>Estimate your monthly home payment with principal, interest, property tax, home insurance, PMI and HOA fees.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label for="price">🏡 Home Price ($):</label>
+      <input type="number" id="price" class="text-input" value="300000" min="0">
+
+      <div class="two">
+        <div>
+          <label for="down">💵 Down Payment ($):</label>
+          <input type="number" id="down" class="text-input" value="60000" min="0">
+        </div>
+        <div>
+          <label for="downPct">Down Payment (%):</label>
+          <input type="number" id="downPct" class="text-input" value="20" min="0" max="100" step="0.1">
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <label for="rate">📊 Interest Rate (% per year):</label>
+          <input type="number" id="rate" class="text-input" value="6.5" step="0.01" min="0">
+        </div>
+        <div>
+          <label for="years">⏱️ Loan Term:</label>
+          <select id="years" class="text-input">
+            <option value="30" selected>30 years</option>
+            <option value="25">25 years</option>
+            <option value="20">20 years</option>
+            <option value="15">15 years</option>
+            <option value="10">10 years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <label for="taxRate">🏛️ Property Tax (% per year):</label>
+          <input type="number" id="taxRate" class="text-input" value="1.1" step="0.01" min="0">
+        </div>
+        <div>
+          <label for="ins">🛡️ Home Insurance ($ per year):</label>
+          <input type="number" id="ins" class="text-input" value="1200" min="0">
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <label for="hoa">🏘️ HOA Fees ($ per month):</label>
+          <input type="number" id="hoa" class="text-input" value="0" min="0">
+        </div>
+        <div>
+          <label for="pmiRate">PMI (% of loan per year):</label>
+          <input type="number" id="pmiRate" class="text-input" value="0.5" step="0.01" min="0">
+        </div>
+      </div>
+      <p class="hint">PMI is added only when your down payment is under 20%.</p>
+
+      <button class="action-btn" onclick="calc()">🏠 Calculate Payment</button>
+
+      <div class="results" id="results">
+        <div class="result-main">
+          <div class="label">Estimated Monthly Payment</div>
+          <div class="value" id="total">$0</div>
+        </div>
+        <div class="bar" id="bar"></div>
+        <div class="breakdown">
+          <div class="brow"><span>Principal &amp; interest</span><span id="pi">$0</span></div>
+          <div class="brow"><span>Property tax</span><span id="tax">$0</span></div>
+          <div class="brow"><span>Home insurance</span><span id="insM">$0</span></div>
+          <div class="brow"><span>PMI (mortgage insurance)</span><span id="pmi">$0</span></div>
+          <div class="brow"><span>HOA fees</span><span id="hoaM">$0</span></div>
+        </div>
+        <div class="result-grid" style="margin-top:12px">
+          <div class="result-item"><div class="label">Loan Amount</div><div class="value" id="loan">$0</div></div>
+          <div class="result-item"><div class="label">Total Interest</div><div class="value" id="int">$0</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="content-section">
+  <h2>What is a mortgage payment?</h2>
+  <p>A mortgage is a loan used to buy a home. You repay it every month for a set number of years, most often 30 or 15. Your real monthly cost is usually more than the loan repayment alone. Lenders and home listings often show the full amount, which is made of up to five parts: principal and interest, property tax, home insurance, mortgage insurance and HOA fees.</p>
+
+  <h2>What is included in the monthly payment</h2>
+  <ul>
+    <li><strong>Principal and interest:</strong> the repayment on the loan itself. The principal is the amount you borrowed. Interest is what the lender charges for lending it.</li>
+    <li><strong>Property tax:</strong> a yearly tax charged by your local government, split into 12 monthly amounts. The rate depends on where you live.</li>
+    <li><strong>Home insurance:</strong> covers damage to the house. Lenders require it, and the cost is also split across 12 months.</li>
+    <li><strong>PMI:</strong> private mortgage insurance. Many lenders ask for it when your down payment is below 20% of the price. It protects the lender, not you.</li>
+    <li><strong>HOA fees:</strong> a monthly fee paid to a homeowners association, common in condos and some housing communities.</li>
+  </ul>
+  <p>Utilities such as electricity, water and internet are not part of a mortgage payment, and this calculator does not include them.</p>
+
+  <h2>How to use the mortgage calculator</h2>
+  <ol>
+    <li>Enter the home price and your down payment. You can type either the dollar amount or the percentage, and the other box updates.</li>
+    <li>Enter the interest rate your lender quotes and choose the loan term.</li>
+    <li>Enter the yearly property tax rate and the yearly home insurance cost. Check the listing or your county website for these.</li>
+    <li>Add HOA fees if the home has them.</li>
+    <li>Press Calculate Payment to see your total monthly payment and each part of it.</li>
+  </ol>
+
+  <h2>Mortgage formula</h2>
+  <p>The principal and interest part uses the standard loan formula:</p>
+  <p><strong>M = P × r × (1 + r)<sup>n</sup> ÷ ((1 + r)<sup>n</sup> − 1)</strong></p>
+  <ul>
+    <li><strong>P</strong> is the loan amount: the home price minus your down payment.</li>
+    <li><strong>r</strong> is the monthly interest rate: the yearly rate divided by 12, then by 100.</li>
+    <li><strong>n</strong> is the number of monthly payments: years × 12.</li>
+  </ul>
+  <p>The tax is the home price × tax rate ÷ 12. Insurance is the yearly cost ÷ 12. PMI is the loan amount × PMI rate ÷ 12.</p>
+
+  <h3>Worked example</h3>
+  <p>Take a $300,000 home with 20% down ($60,000). The loan is $240,000 at 6.5% a year for 30 years. Principal and interest come to about $1,517 a month. Add property tax at 1.1% of the price (about $275 a month) and home insurance of $1,200 a year ($100 a month). The total is about $1,892 a month. Because the down payment is 20%, there is no PMI.</p>
+
+  <h3>15 years or 30 years?</h3>
+  <p>For the same $240,000 loan at 6.5%, a 15-year term has a higher monthly payment of about $2,091 for principal and interest, but you pay about $136,318 in interest over the life of the loan. The 30-year term costs about $1,517 a month and about $306,107 in interest. A shorter term costs more each month and far less overall. Rates for 15-year loans are often lower too, which this calculator does not assume, so enter the rate you are actually offered.</p>
+
+  <h3>Ways to lower your monthly payment</h3>
+  <ul>
+    <li>Save a larger down payment. A down payment of 20% or more avoids PMI on most loans.</li>
+    <li>Compare rates from several lenders. Even a small rate difference changes the payment for 30 years.</li>
+    <li>Improve your credit score before you apply, since lenders often give better rates for stronger scores.</li>
+    <li>Compare home insurance quotes.</li>
+    <li>Look at homes in areas with lower property tax rates.</li>
+  </ul>
+  <p style="color:var(--text-muted);font-size:0.85rem">Results are estimates for planning. Your lender's figures can differ because of fees, closing costs, how taxes and insurance are assessed, and rate changes. Ask your lender for an official Loan Estimate before you decide.</p>
+</section>
+
+<section class="content-section">
+  <h2>Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How is a monthly mortgage payment calculated?</div><div class="faq-a">Principal and interest are calculated with the loan formula shown above. Then one twelfth of the yearly property tax and home insurance is added, plus PMI and HOA fees if they apply.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How much down payment do I need?</div><div class="faq-a">It depends on the loan type and the lender. Some loans allow a down payment of 3% to 5%. Putting down 20% or more usually means you do not pay PMI. Ask your lender which options you qualify for.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">What is PMI and when does it end?</div><div class="faq-a">PMI is private mortgage insurance. Lenders often require it when you borrow more than 80% of the home's value. On many loans it can be removed once you have built enough equity. Ask your lender about the rules for your loan.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Why is my lender's payment different from this result?</div><div class="faq-a">Tax and insurance amounts are estimates. A county may reassess a home after a sale, which can raise the tax. Your lender may also include fees or a different insurance cost. Use this result for planning and your lender's Loan Estimate for the exact figure.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Does this include utilities, repairs or closing costs?</div><div class="faq-a">No. Utilities, repairs, maintenance and one-time closing costs are not part of the monthly mortgage payment shown here. Plan for them separately.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Is the calculation done on my device?</div><div class="faq-a">Yes. The calculation runs in your browser when you press Calculate Payment.</div></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div><h4>KitUpBox</h4><p style="font-size:0.85rem;color:var(--text-muted)">Free online tools for everyday work. No installation needed.</p></div>
+    <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></div>
+    <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+  function $(id) { return document.getElementById(id); }
+  function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function num(id) { var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  function showToast(msg, isError) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isError ? ' error' : '');
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(function () { t.className = 'toast'; }, 3000);
+  }
+
+   $('down').addEventListener('input', function () {
+    var p = num('price');
+    if (p > 0) $('downPct').value = (num('down') / p * 100).toFixed(1).replace(/\.0$/, '');
+  });
+  $('downPct').addEventListener('input', function () {
+    $('down').value = Math.round(num('price') * num('downPct') / 100);
+  });
+  $('price').addEventListener('input', function () {
+    $('down').value = Math.round(num('price') * num('downPct') / 100);
+  });
+
+  function calc() {
+    var price = num('price'), down = num('down'), R = num('rate'), yrs = parseInt($('years').value, 10);
+    if (!(price > 0)) { showToast('Enter a home price above zero.', true); return; }
+    if (down < 0 || down >= price) { showToast('Down payment must be less than the home price.', true); return; }
+    if (R < 0) { showToast('Interest rate cannot be negative.', true); return; }
+    var loan = price - down, n = yrs * 12, r = R / 1200;
+    var pi = r === 0 ? loan / n : loan * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    var tax = price * num('taxRate') / 100 / 12;
+    var insM = num('ins') / 12;
+    var pmi = (down / price < 0.2) ? loan * num('pmiRate') / 100 / 12 : 0;
+    var hoa = num('hoa');
+    var total = pi + tax + insM + pmi + hoa;
+    $('total').textContent = fmt(total);
+    $('pi').textContent = fmt(pi);
+    $('tax').textContent = fmt(tax);
+    $('insM').textContent = fmt(insM);
+    $('pmi').textContent = fmt(pmi);
+    $('hoaM').textContent = fmt(hoa);
+    $('loan').textContent = fmt(loan);
+    $('int').textContent = fmt(pi * n - loan);
+    var parts = [[pi, '#1e3a8a'], [tax, '#3b82f6'], [insM, '#8b5cf6'], [pmi, '#f59e0b'], [hoa, '#10b981']];
+    $('bar').innerHTML = parts.map(function (p) { return p[0] > 0 ? '<i style="width:' + (p[0] / total * 100) + '%;background:' + p[1] + '"></i>' : ''; }).join('');
+    $('results').classList.add('show');
+  }
+
+  document.querySelectorAll('.text-input').forEach(function (el) {
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') calc(); });
+  });
+  document.querySelectorAll('.faq-q').forEach(function (q) {
+    function toggle() { q.parentElement.classList.toggle('open'); }
+    q.addEventListener('click', toggle);
+    q.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+
+  calc();
+</script>
+
+</body>
+</html>
