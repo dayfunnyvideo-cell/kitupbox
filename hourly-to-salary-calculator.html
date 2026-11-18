@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hourly to Salary Calculator - Convert Hourly Pay to Yearly | KitUpBox</title>
+  <meta name="description" content="Free hourly to salary calculator. Convert your hourly wage to yearly, monthly, biweekly, weekly and daily pay before tax.">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text .brand-name { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus { border-color: var(--primary); }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+
+    .results { margin-top: 20px; display: none; }
+    .results.show { display: block; }
+    .result-main { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+    .result-main .label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 5px; }
+    .result-main .value { font-size: 2rem; font-weight: 800; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .result-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
+    .result-item .label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 5px; }
+    .result-item .value { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+
+    .tool-box select.text-input { appearance: auto; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .breakdown { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; }
+    .brow { display: flex; justify-content: space-between; padding: 11px 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .brow:last-child { border-bottom: none; }
+    .brow span:last-child { font-weight: 700; }
+    .bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin: 14px 0 4px; background: var(--border); }
+    .bar i { display: block; height: 100%; }
+    .hint { font-size: 0.78rem; color: var(--text-muted); margin: -10px 0 16px; }
+    @media (max-width: 600px) { .two { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Hourly to Salary Calculator</div>
+
+  <section class="page-header">
+    <div class="icon-big">💲</div>
+    <h1>Hourly to Salary Calculator</h1>
+    <p>Convert your hourly wage to yearly, monthly, biweekly, weekly and daily pay.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label for="hourly">💲 Hourly Pay ($):</label>
+      <input type="number" id="hourly" class="text-input" value="25" step="0.01" min="0">
+      <div class="two">
+        <div><label for="hpw">⏱️ Hours per Week:</label><input type="number" id="hpw" class="text-input" value="40" step="0.5" min="0" max="168"></div>
+        <div><label for="wpy">📅 Weeks Worked per Year:</label><input type="number" id="wpy" class="text-input" value="52" min="1" max="52"></div>
+      </div>
+      <p class="hint">Use 52 weeks if you are paid for vacations and holidays. Use fewer if you take unpaid time off.</p>
+      <button class="action-btn" onclick="calc()">💲 Calculate Salary</button>
+      <div class="results" id="results">
+        <div class="result-main"><div class="label">Yearly Pay (before tax)</div><div class="value" id="yearly">$0</div></div>
+        <div class="breakdown">
+          <div class="brow"><span>Monthly</span><span id="monthly">$0</span></div>
+          <div class="brow"><span>Every 2 weeks (26 paychecks)</span><span id="biweekly">$0</span></div>
+          <div class="brow"><span>Weekly</span><span id="weekly">$0</span></div>
+          <div class="brow"><span>Daily (5-day week)</span><span id="daily">$0</span></div>
+          <div class="brow"><span>Total hours per year</span><span id="hours">0</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="content-section">
+  <h2>How to turn an hourly wage into a yearly salary</h2>
+  <p>Many jobs in the United States pay by the hour, while job ads, loan forms and budgets often talk about a yearly salary. This calculator converts between them. It works out your yearly, monthly, every-two-weeks, weekly and daily pay from your hourly rate and the hours you work.</p>
+
+  <h2>The formula</h2>
+  <p><strong>Yearly pay = hourly pay × hours per week × weeks per year</strong></p>
+  <ul>
+    <li>Monthly pay is the yearly pay divided by 12.</li>
+    <li>Pay every two weeks is the yearly pay divided by 26.</li>
+    <li>Weekly pay is the yearly pay divided by 52.</li>
+    <li>Daily pay is the hourly pay times your hours per week, divided by 5.</li>
+  </ul>
+
+  <h3>Worked example</h3>
+  <p>At $25 an hour for 40 hours a week and 52 weeks a year, the yearly pay is $25 × 40 × 52 = $52,000. That is about $4,333 a month, $2,000 every two weeks, $1,000 a week and $200 a day. A full-time year is 2,080 hours, so a quick rule is to multiply the hourly rate by 2,080.</p>
+  <p>If you take two weeks of unpaid time off and work 50 weeks, the same $25 an hour comes to $50,000 a year.</p>
+
+  <h2>How to use the calculator</h2>
+  <ol>
+    <li>Enter your hourly pay.</li>
+    <li>Enter the hours you work in a normal week.</li>
+    <li>Enter the weeks you are paid each year. Use 52 if your vacation and holidays are paid.</li>
+    <li>Press Calculate Salary to see your pay for each period.</li>
+  </ol>
+
+  <h3>Things to keep in mind</h3>
+  <ul>
+    <li>The result is <strong>before tax</strong>. Federal, state and payroll taxes, health insurance and retirement contributions are taken out, so your take-home pay is lower.</li>
+    <li>Overtime, bonuses and tips are not included. Add them separately if you earn them.</li>
+    <li>Salaried jobs often include paid time off and benefits. Compare the whole offer, not only the pay figure.</li>
+  </ul>
+  <p style="color:var(--text-muted);font-size:0.85rem">Results are estimates for planning. Check your pay stub or your employer for exact figures.</p>
+</section>
+
+<section class="content-section">
+  <h2>Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How do I convert an hourly wage to a yearly salary?</div><div class="faq-a">Multiply your hourly pay by the hours you work each week, then by the number of weeks you are paid each year. For a full-time job that is usually hourly pay × 40 × 52, or hourly pay × 2,080.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Is the result before or after tax?</div><div class="faq-a">It is before tax. Your take-home pay is lower after federal, state and payroll taxes and any deductions.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How many working hours are in a year?</div><div class="faq-a">A standard full-time year has 40 hours × 52 weeks = 2,080 hours. If you work fewer hours or weeks, enter your own numbers.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Does this include overtime?</div><div class="faq-a">No. Overtime is usually paid at a higher rate and varies from week to week, so it is not included. Add it to the result yourself.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Why use 26 for pay every two weeks?</div><div class="faq-a">There are 52 weeks in a year, so a payment every two weeks happens 26 times a year. Some employers pay twice a month instead, which is 24 payments.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Is the calculation done on my device?</div><div class="faq-a">Yes. The calculation runs in your browser when you press Calculate Salary.</div></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div><h4>KitUpBox</h4><p style="font-size:0.85rem;color:var(--text-muted)">Free online tools for everyday work. No installation needed.</p></div>
+    <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></div>
+    <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+  function fmt2(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function calc() {
+    var h = num('hourly'), hpw = num('hpw'), wpy = num('wpy');
+    if (!(h > 0) || !(hpw > 0) || !(wpy > 0)) { showToast('Enter an hourly pay, hours per week and weeks per year above zero.', true); return; }
+    if (hpw > 168 || wpy > 52) { showToast('Hours per week must be 168 or less and weeks per year 52 or less.', true); return; }
+    var yearly = h * hpw * wpy;
+    $('yearly').textContent = fmt2(yearly);
+    $('monthly').textContent = fmt2(yearly / 12);
+    $('biweekly').textContent = fmt2(yearly / 26);
+    $('weekly').textContent = fmt2(yearly / 52);
+    $('daily').textContent = fmt2(h * hpw / 5);
+    $('hours').textContent = (hpw * wpy).toLocaleString('en-US');
+    $('results').classList.add('show');
+  }
+  function $(id) { return document.getElementById(id); }
+  function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function num(id) { var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+  function showToast(msg, isError) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isError ? ' error' : '');
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(function () { t.className = 'toast'; }, 3000);
+  }
+  document.querySelectorAll('.text-input').forEach(function (el) {
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') calc(); });
+  });
+  document.querySelectorAll('.faq-q').forEach(function (q) {
+    function toggle() { q.parentElement.classList.toggle('open'); }
+    q.addEventListener('click', toggle);
+    q.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+  calc();
+</script>
+
+</body>
+</html>
