@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Loan Calculator - Monthly Car Payment with Tax &amp; Trade-in | KitUpBox</title>
+  <meta name="description" content="Free auto loan calculator. Estimate your monthly car payment, total interest and loan amount with down payment, trade-in, sales tax and loan term.">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text .brand-name { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus { border-color: var(--primary); }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+
+    .results { margin-top: 20px; display: none; }
+    .results.show { display: block; }
+    .result-main { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+    .result-main .label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 5px; }
+    .result-main .value { font-size: 2rem; font-weight: 800; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .result-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
+    .result-item .label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 5px; }
+    .result-item .value { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+
+    .tool-box select.text-input { appearance: auto; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .breakdown { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; }
+    .brow { display: flex; justify-content: space-between; padding: 11px 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .brow:last-child { border-bottom: none; }
+    .brow span:last-child { font-weight: 700; }
+    .bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin: 14px 0 4px; background: var(--border); }
+    .bar i { display: block; height: 100%; }
+    .hint { font-size: 0.78rem; color: var(--text-muted); margin: -10px 0 16px; }
+    @media (max-width: 600px) { .two { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Auto Loan Calculator</div>
+
+  <section class="page-header">
+    <div class="icon-big">🚗</div>
+    <h1>Auto Loan Calculator</h1>
+    <p>Estimate your monthly car payment with down payment, trade-in, sales tax and loan term.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label for="price">🚗 Vehicle Price ($):</label>
+      <input type="number" id="price" class="text-input" value="30000" min="0">
+      <div class="two">
+        <div><label for="down">💵 Down Payment ($):</label><input type="number" id="down" class="text-input" value="3000" min="0"></div>
+        <div><label for="trade">🔁 Trade-in Value ($):</label><input type="number" id="trade" class="text-input" value="0" min="0"></div>
+      </div>
+      <div class="two">
+        <div><label for="rate">📊 Interest Rate (% per year):</label><input type="number" id="rate" class="text-input" value="7" step="0.01" min="0"></div>
+        <div><label for="months">⏱️ Loan Term:</label>
+          <select id="months" class="text-input">
+            <option value="24">24 months (2 years)</option>
+            <option value="36">36 months (3 years)</option>
+            <option value="48">48 months (4 years)</option>
+            <option value="60" selected>60 months (5 years)</option>
+            <option value="72">72 months (6 years)</option>
+            <option value="84">84 months (7 years)</option>
+          </select></div>
+      </div>
+      <label for="tax">🏛️ Sales Tax (%):</label>
+      <input type="number" id="tax" class="text-input" value="6" step="0.01" min="0">
+      <p class="hint">Sales tax rules differ by state. This calculator taxes the price minus your trade-in.</p>
+      <button class="action-btn" onclick="calc()">🚗 Calculate Payment</button>
+      <div class="results" id="results">
+        <div class="result-main"><div class="label">Estimated Monthly Payment</div><div class="value" id="pay">$0</div></div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label">Loan Amount</div><div class="value" id="loan">$0</div></div>
+          <div class="result-item"><div class="label">Sales Tax</div><div class="value" id="taxAmt">$0</div></div>
+          <div class="result-item"><div class="label">Total Interest</div><div class="value" id="int">$0</div></div>
+          <div class="result-item"><div class="label">Total Cost of Loan</div><div class="value" id="totalPaid">$0</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="content-section">
+  <h2>What is an auto loan?</h2>
+  <p>An auto loan is money you borrow to buy a car, truck or SUV. You repay it in equal monthly payments over a set number of months, usually 36 to 84. The vehicle itself is the security for the loan, so the lender can take it back if you stop paying.</p>
+
+  <h2>What affects your monthly car payment</h2>
+  <ul>
+    <li><strong>Vehicle price:</strong> the higher the price, the larger the loan.</li>
+    <li><strong>Down payment and trade-in:</strong> every dollar you put down is a dollar you do not borrow or pay interest on.</li>
+    <li><strong>Interest rate:</strong> set by the lender. It often depends on your credit score, the loan term and whether the car is new or used.</li>
+    <li><strong>Loan term:</strong> a longer term lowers the monthly payment but raises the total interest.</li>
+    <li><strong>Sales tax:</strong> added by most states. Some states tax the full price and others tax the price after a trade-in.</li>
+  </ul>
+
+  <h2>How to use the auto loan calculator</h2>
+  <ol>
+    <li>Enter the vehicle price.</li>
+    <li>Enter your down payment and the value of any car you are trading in.</li>
+    <li>Enter the interest rate and choose the loan term in months.</li>
+    <li>Enter your state's sales tax rate.</li>
+    <li>Press Calculate Payment to see the monthly payment, loan amount, tax and total interest.</li>
+  </ol>
+
+  <h2>Auto loan formula</h2>
+  <p>The payment uses the standard loan formula:</p>
+  <p><strong>M = P × r × (1 + r)<sup>n</sup> ÷ ((1 + r)<sup>n</sup> − 1)</strong></p>
+  <ul>
+    <li><strong>P</strong> is the loan amount: price minus trade-in, plus sales tax, minus down payment.</li>
+    <li><strong>r</strong> is the monthly interest rate: the yearly rate divided by 12, then by 100.</li>
+    <li><strong>n</strong> is the number of monthly payments.</li>
+  </ul>
+
+  <h3>Worked example</h3>
+  <p>Say you buy a $30,000 vehicle with $3,000 down, no trade-in, 6% sales tax and a 7% rate. The tax is $1,800, so the loan is $28,800. Over 60 months the payment is about $570 a month and the total interest is about $5,416. Over 72 months the payment drops to about $491 a month, but the total interest rises to about $6,553.</p>
+
+  <h3>Tips for a smaller car loan</h3>
+  <ul>
+    <li>Save a bigger down payment before you buy.</li>
+    <li>Get loan quotes from a bank, a credit union and the dealer, then compare the rates.</li>
+    <li>Pick the shortest term whose payment fits your budget comfortably.</li>
+    <li>Remember insurance, fuel and repairs. They are not part of the loan payment.</li>
+  </ul>
+  <p style="color:var(--text-muted);font-size:0.85rem">Results are estimates for planning. Your lender may add fees, title and registration costs, or use a different way to count interest. Ask for the official loan terms before you sign.</p>
+</section>
+
+<section class="content-section">
+  <h2>Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How is a car payment calculated?</div><div class="faq-a">The loan amount, interest rate and number of months go into the loan formula shown above. The result is a fixed payment that repays the loan and its interest by the last month.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Is a longer car loan a good idea?</div><div class="faq-a">A longer loan lowers the monthly payment but you pay more interest overall, and you may owe more than the car is worth for longer. Choose the shortest term you can afford.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Does a trade-in lower my payment?</div><div class="faq-a">Yes. The trade-in value reduces the price you finance. In many states it also reduces the amount that sales tax is charged on, but rules differ by state.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Why is my dealer's payment different?</div><div class="faq-a">Dealers may include fees, add-ons, warranties or a different tax amount. Ask for a full breakdown of the price and the loan terms.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Does this include insurance and fuel?</div><div class="faq-a">No. Insurance, fuel, repairs and registration are separate costs. Plan for them on top of the loan payment.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Is the calculation done on my device?</div><div class="faq-a">Yes. The calculation runs in your browser when you press Calculate Payment.</div></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div><h4>KitUpBox</h4><p style="font-size:0.85rem;color:var(--text-muted)">Free online tools for everyday work. No installation needed.</p></div>
+    <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></div>
+    <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+  function calc() {
+    var price = num('price'), down = num('down'), trade = num('trade'), R = num('rate'), n = parseInt($('months').value, 10), t = num('tax');
+    if (!(price > 0)) { showToast('Enter a vehicle price above zero.', true); return; }
+    if (R < 0 || t < 0) { showToast('Rate and tax cannot be negative.', true); return; }
+    var taxable = Math.max(price - trade, 0);
+    var taxAmt = taxable * t / 100;
+    var loan = price - trade + taxAmt - down;
+    if (loan <= 0) { showToast('Your down payment and trade-in cover the full cost. No loan is needed.', true); return; }
+    var r = R / 1200;
+    var pay = r === 0 ? loan / n : loan * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    $('pay').textContent = fmt(pay);
+    $('loan').textContent = fmt(loan);
+    $('taxAmt').textContent = fmt(taxAmt);
+    $('int').textContent = fmt(pay * n - loan);
+    $('totalPaid').textContent = fmt(pay * n + down + trade);
+    $('results').classList.add('show');
+  }
+  function $(id) { return document.getElementById(id); }
+  function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function num(id) { var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+  function showToast(msg, isError) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isError ? ' error' : '');
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(function () { t.className = 'toast'; }, 3000);
+  }
+  document.querySelectorAll('.text-input').forEach(function (el) {
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') calc(); });
+  });
+  document.querySelectorAll('.faq-q').forEach(function (q) {
+    function toggle() { q.parentElement.classList.toggle('open'); }
+    q.addEventListener('click', toggle);
+    q.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+  calc();
+</script>
+
+</body>
+</html>
