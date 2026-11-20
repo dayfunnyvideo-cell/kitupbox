@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator - Calculate Your Exact Age Free | KitUpBox</title>
+  <meta name="description" content="Free age calculator. Find your exact age in years, months and days from your date of birth, plus total days, weeks, months, your next birthday and the day you were born.">
+  <meta name="keywords" content="age calculator, calculate age, date of birth calculator, how old am i, birthday calculator">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text .brand-name { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+    .share-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus { border-color: var(--primary); }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); }
+    .action-btn:hover { transform: translateY(-2px); }
+
+    .results { margin-top: 20px; display: none; }
+    .results.show { display: block; }
+    .result-main { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+    .result-main .label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 5px; }
+    .result-main .value { font-size: 2rem; font-weight: 800; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .result-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
+    .result-item .label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 5px; }
+    .result-item .value { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer a:hover { color: var(--primary); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>Age Calculator</div>
+
+  <section class="page-header">
+    <div class="icon-big">🎂</div>
+    <h1>Age Calculator</h1>
+    <p>Find your exact age in years, months and days from your date of birth.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label for="dob">📅 Your Date of Birth:</label>
+      <input type="date" id="dob" class="text-input">
+
+      <label for="asOf">📅 Calculate Age As Of:</label>
+      <input type="date" id="asOf" class="text-input">
+
+      <button class="action-btn" onclick="calculateAge()">🎂 Calculate Age</button>
+
+      <div class="results" id="results">
+        <div class="result-main">
+          <div class="label">Your Age</div>
+          <div class="value" id="ageMain">0 Years</div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item">
+            <div class="label">📆 Years</div>
+            <div class="value" id="years">0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">📅 Months</div>
+            <div class="value" id="months">0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">🗓️ Days</div>
+            <div class="value" id="days">0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">🗓️ Total Months</div>
+            <div class="value" id="totalMonths">0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">📅 Total Weeks</div>
+            <div class="value" id="totalWeeks">0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">⏰ Total Days</div>
+            <div class="value" id="totalDays">0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">⏱️ Total Hours</div>
+            <div class="value" id="totalHours">0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">⏳ Total Minutes</div>
+            <div class="value" id="totalMinutes">0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">🎉 Next Birthday</div>
+            <div class="value" id="nextBday">0 days</div>
+          </div>
+          <div class="result-item">
+            <div class="label">📆 Day of Week</div>
+            <div class="value" id="dayOfWeek">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <h2>📖 What is an age calculator?</h2>
+    <p>An age calculator finds the time between your date of birth and a second date, which is today unless you choose another one. It shows your age in years, months and days, and also as total months, weeks, days, hours and minutes. People use it for forms, school and sports cutoff dates, a baby's age in months, or just to see how long they have been around.</p>
+
+    <h3>✨ What this calculator shows</h3>
+    <ul>
+      <li><strong>Exact age:</strong> full years, months and days.</li>
+      <li><strong>Totals:</strong> months, weeks, days, hours and minutes since birth.</li>
+      <li><strong>Next birthday:</strong> how many days are left.</li>
+      <li><strong>Day of the week:</strong> the day you were born.</li>
+      <li><strong>Any date:</strong> use "Calculate Age As Of" to find age on a past or future date.</li>
+    </ul>
+
+    <h2>How to use the age calculator</h2>
+    <ol>
+      <li>Pick your date of birth.</li>
+      <li>Leave "Calculate Age As Of" on today, or choose another date.</li>
+      <li>Press Calculate Age to see your result.</li>
+    </ol>
+
+    <h3>💡 How age is worked out</h3>
+    <p>The calculator subtracts the birth date from the second date in three steps: years, then months, then days. If the day of the month comes out negative, it borrows the number of days from the previous month and takes one month away. If the months come out negative, it borrows 12 months from the years.</p>
+    <p><strong>Example:</strong> someone born on March 15, 1990 on November 17, 2026 is 36 years, 8 months and 2 days old. That is 440 months, 1,913 weeks or 13,396 days in total.</p>
+    <p><strong>Another example:</strong> someone born on August 28, 1995 on November 17, 2026 is 31 years, 2 months and 20 days old, which is 11,404 days.</p>
+    <p>A baby born on May 10, 2024 is 2 years, 6 months and 7 days old on November 17, 2026. That is 30 months in total, which is the number many doctors use for young children.</p>
+
+    <h3>🎯 When an exact age matters</h3>
+    <ul>
+      <li>School enrollment, where a child often must reach a certain age by a cutoff date set by the district or state</li>
+      <li>Youth sports leagues, which group children by age on a set date</li>
+      <li>Driver's license, voting and other age limits, which differ by state and by rule</li>
+      <li>Retirement and benefit planning, where the age you reach on a date changes what you qualify for</li>
+      <li>Tracking a baby's age in months for check-ups</li>
+      <li>Planning a milestone birthday</li>
+    </ul>
+
+    <h3>🎂 Leap day birthdays</h3>
+    <p>People born on February 29 have a birthday only in leap years. In other years, this calculator counts their next birthday as March 1. Some places and organizations treat February 28 as the birthday instead, so check the rule of the office or form you are dealing with.</p>
+    <p style="color:var(--text-muted);font-size:0.85rem">This calculator is for general use. For legal or official purposes, rely on the documents and rules of the organization that asks for your age.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How is age calculated from a date of birth?</div><div class="faq-a">Subtract the birth date from the second date: first the years, then the months, then the days. When the days or months go below zero, borrow from the next larger unit.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I calculate my age in months?</div><div class="faq-a">Multiply the full years by 12 and add the extra months. This calculator shows it as Total Months. For a baby born in May 2024, that is 30 months in November 2026.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it handle leap years?</div><div class="faq-a">Yes. Total days include February 29 in leap years, so the day counts are correct.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What happens if I was born on February 29?</div><div class="faq-a">You have a birthday only in leap years. In other years this calculator counts your next birthday as March 1. Rules differ by place, so check with the office or form.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I find my age on a past or future date?</div><div class="faq-a">Yes. Change the "Calculate Age As Of" date to any day, for example a school cutoff date or the day of an event.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my birth date stored?</div><div class="faq-a">No. The calculation runs in your browser when you press the button. This page does not save the dates you choose.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is it accurate for official use?</div><div class="faq-a">The calculation is accurate for general use. For legal or official needs, follow the rules and documents of the organization that asks for your age.</div></div>
+  </section>
+
+  <section class="content-section">
+    <h2>🔗 Related Tools</h2>
+    <div class="related-grid">
+      <a class="related-card" href="/bmi-calculator.html"><div class="icon" style="background:#fce7f3;">⚖️</div><h4>BMI Calculator</h4></a>
+      <a class="related-card" href="/percentage-calculator.html"><div class="icon" style="background:#fef3c7;">📊</div><h4>Percentage Calculator</h4></a>
+      <a class="related-card" href="/word-counter.html"><div class="icon" style="background:#dbeafe;">🔢</div><h4>Word Counter</h4></a>
+      <a class="related-card" href="/stopwatch.html"><div class="icon" style="background:#fef3c7;">⏱️</div><h4>Stopwatch</h4></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+      <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/age-calculator.html">Age Calculator</a><a href="/bmi-calculator.html">BMI Calculator</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+  </footer>
+
+  <div id="toast" class="toast">Success!</div>
+
+  <script>
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.toggle('error', isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function toggleFaq(el) { el.classList.toggle('open'); }
+
+    function shareThisTool() {
+      const url = 'https://kitupbox.onrender.com/age-calculator.html';
+      if (navigator.share) {
+        navigator.share({ title: 'Age Calculator - KitUpBox', url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      }
+    }
+
+    function parseLocal(v) {
+      const p = v.split('-').map(Number);
+      return new Date(p[0], p[1] - 1, p[2]);
+    }
+
+    function calculateAge() {
+      const dobInput = document.getElementById('dob').value;
+      const asOfInput = document.getElementById('asOf').value;
+
+      if (!dobInput) { showToast('Enter your date of birth', true); return; }
+
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const dob = parseLocal(dobInput);
+      const asOf = asOfInput ? parseLocal(asOfInput) : today;
+
+      if (dob > asOf) { showToast('Date of birth cannot be after the "as of" date', true); return; }
+
+      let years = asOf.getFullYear() - dob.getFullYear();
+      let months = asOf.getMonth() - dob.getMonth();
+      let days = asOf.getDate() - dob.getDate();
+
+      if (days < 0) {
+        months--;
+        const prevMonth = new Date(asOf.getFullYear(), asOf.getMonth(), 0);
+        days += prevMonth.getDate();
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+      if (years > 150) { showToast('Please check the date of birth', true); return; }
+
+      const dayMs = 1000 * 60 * 60 * 24;
+      const totalDays = Math.round((Date.UTC(asOf.getFullYear(), asOf.getMonth(), asOf.getDate()) - Date.UTC(dob.getFullYear(), dob.getMonth(), dob.getDate())) / dayMs);
+      const sinceMidnight = (asOf.getTime() === today.getTime()) ? (now.getHours() * 60 + now.getMinutes()) : 0;
+      const totalMinutes = totalDays * 1440 + sinceMidnight;
+      const totalHours = Math.floor(totalMinutes / 60);
+      const totalMonths = years * 12 + months;
+      const totalWeeks = Math.floor(totalDays / 7);
+
+      let nextBday = new Date(asOf.getFullYear(), dob.getMonth(), dob.getDate());
+      if (nextBday < asOf) nextBday = new Date(asOf.getFullYear() + 1, dob.getMonth(), dob.getDate());
+      const daysToBday = Math.round((Date.UTC(nextBday.getFullYear(), nextBday.getMonth(), nextBday.getDate()) - Date.UTC(asOf.getFullYear(), asOf.getMonth(), asOf.getDate())) / dayMs);
+
+      const days_arr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dayName = days_arr[dob.getDay()];
+
+      document.getElementById('years').innerText = years;
+      document.getElementById('months').innerText = months;
+      document.getElementById('days').innerText = days;
+      document.getElementById('totalMonths').innerText = totalMonths.toLocaleString();
+      document.getElementById('totalWeeks').innerText = totalWeeks.toLocaleString();
+      document.getElementById('totalDays').innerText = totalDays.toLocaleString();
+      document.getElementById('totalHours').innerText = totalHours.toLocaleString();
+      document.getElementById('totalMinutes').innerText = totalMinutes.toLocaleString();
+      document.getElementById('nextBday').innerText = daysToBday === 0 ? 'Today! 🎉' : daysToBday + ' days';
+      document.getElementById('dayOfWeek').innerText = dayName;
+      document.getElementById('ageMain').innerText = `${years} Years, ${months} Months, ${days} Days`;
+
+      document.getElementById('results').classList.add('show');
+      showToast('✅ Age Calculated!');
+    }
+
+    // Set today's date in asOf
+    (function () {
+      const n = new Date();
+      const pad = x => String(x).padStart(2, '0');
+      document.getElementById('asOf').value = n.getFullYear() + '-' + pad(n.getMonth() + 1) + '-' + pad(n.getDate());
+    })();
+  </script>
+
+</body>
+</html>
