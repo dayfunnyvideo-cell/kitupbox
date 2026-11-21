@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code Generator - Create Free QR Codes Online | KitUpBox</title>
-  <meta name="description" content="Free online QR Code Generator. Create QR codes for URLs, text, phone numbers, and more. Download as PNG. No signup, 100% secure.">
+  <meta name="description" content="Free QR code generator. Make QR codes for website links, text, email, phone numbers and Wi-Fi networks, and download them as a PNG. No sign-up.">
   <meta name="keywords" content="qr code generator, create qr code, free qr code, qr code maker, qr generator online">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -18,7 +18,7 @@
     .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
     .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
     .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
-    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text .brand-name { font-size: 1.1rem; font-weight: 700; }
     .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
     .nav { display: flex; gap: 22px; align-items: center; }
     .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
@@ -43,8 +43,13 @@
     .action-btn:hover { transform: translateY(-2px); }
     .action-btn.secondary { background: #475569; box-shadow: none; }
     .output-box { margin-top: 18px; padding: 25px; background: var(--bg); border-radius: 10px; font-size: 0.9rem; min-height: 80px; border: 1px solid var(--border); text-align: center; }
-    .qr-display { display: flex; justify-content: center; align-items: center; padding: 20px; background: #fff; border-radius: 12px; margin-top: 15px; }
-    .qr-display canvas, .qr-display img { max-width: 100%; }
+    .qr-display { display: flex; justify-content: center; align-items: center; padding: 24px; background: #fff; border-radius: 12px; margin-top: 15px; }
+    .qr-display canvas, .qr-display img { max-width: 100%; height: auto; }
+    .type-group { display: none; }
+    .type-group.active { display: block; }
+    .qr-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 12px; word-break: break-all; }
+    .check-row { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; font-size: 0.9rem; }
+    .check-row input { width: 18px; height: 18px; }
 
     .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
     .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
@@ -87,8 +92,8 @@
 <body>
 
   <header class="header">
-    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
-    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
     <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
   </header>
 
@@ -102,68 +107,113 @@
 
   <section class="tool-wrapper">
     <div class="tool-box">
-      <label>📝 Enter Text or URL:</label>
-      <input type="text" id="qrText" class="text-input" placeholder="https://example.com">
+      <label for="qrType">📌 What should the QR code open?</label>
+      <select id="qrType" class="text-input" onchange="setType()">
+        <option value="url" selected>Website link (URL)</option>
+        <option value="text">Plain text</option>
+        <option value="email">Email address</option>
+        <option value="phone">Phone number</option>
+        <option value="wifi">Wi-Fi network</option>
+      </select>
+
+      <div class="type-group active" id="g-url">
+        <label for="qrUrl">🔗 Website link:</label>
+        <input type="text" id="qrUrl" class="text-input" placeholder="https://example.com" autocomplete="off">
+      </div>
+      <div class="type-group" id="g-text">
+        <label for="qrText">📝 Your text:</label>
+        <input type="text" id="qrText" class="text-input" placeholder="Type any text" autocomplete="off">
+      </div>
+      <div class="type-group" id="g-email">
+        <label for="emailTo">📧 Email address:</label>
+        <input type="email" id="emailTo" class="text-input" placeholder="name@example.com" autocomplete="off">
+        <label for="emailSubject">Subject (optional):</label>
+        <input type="text" id="emailSubject" class="text-input" placeholder="Hello" autocomplete="off">
+      </div>
+      <div class="type-group" id="g-phone">
+        <label for="phoneNum">📞 Phone number:</label>
+        <input type="tel" id="phoneNum" class="text-input" placeholder="+1 555 123 4567" autocomplete="off">
+      </div>
+      <div class="type-group" id="g-wifi">
+        <label for="wifiSsid">📶 Network name (SSID):</label>
+        <input type="text" id="wifiSsid" class="text-input" placeholder="MyHomeWiFi" autocomplete="off">
+        <label for="wifiSec">Security:</label>
+        <select id="wifiSec" class="text-input">
+          <option value="WPA" selected>WPA / WPA2 / WPA3</option>
+          <option value="WEP">WEP</option>
+          <option value="nopass">None (open network)</option>
+        </select>
+        <label for="wifiPass">Password:</label>
+        <input type="text" id="wifiPass" class="text-input" placeholder="Wi-Fi password" autocomplete="off">
+        <div class="check-row"><input type="checkbox" id="wifiHidden"><label for="wifiHidden" style="margin:0;font-weight:500;">Hidden network</label></div>
+      </div>
+
+      <label for="qrSize">📐 Image size:</label>
+      <select id="qrSize" class="text-input">
+        <option value="256">Small (256 px)</option>
+        <option value="512" selected>Medium (512 px)</option>
+        <option value="1024">Large (1024 px, for print)</option>
+      </select>
+
       <button class="action-btn" onclick="generateQR()">🔳 Generate QR Code</button>
       <button class="action-btn secondary" id="downloadBtn" onclick="downloadQR()" style="display:none;">⬇️ Download QR (PNG)</button>
       <div class="output-box" id="qrOutput">QR code will appear here...</div>
     </div>
   </section>
 
-  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
-
   <section class="content-section">
-    <h2>📖 What is a QR Code?</h2>
-    <p>QR Code (Quick Response Code) is a 2D barcode that can store information like URLs, text, phone numbers, and more. When scanned with a smartphone camera, it instantly opens the stored information.</p>
-    <p>Our QR Code Generator is free and works <strong>entirely in your browser</strong> — no data is sent to any server.</p>
+    <h2>📖 What is a QR code?</h2>
+    <p>A QR code (Quick Response code) is a square pattern that stores information, such as a web address, some text, an email or Wi-Fi details. When you point a phone camera at it, the phone reads the pattern and offers to open the link or use the information. You can see them on menus, posters, packages, business cards and Wi-Fi signs.</p>
+    <p>This generator makes the QR code in your browser. The text you enter is not sent to our server.</p>
 
-    <h3>✨ Key Features</h3>
-    <ul>
-      <li><strong>100% Free</strong> — No signup, no charges</li>
-      <li><strong>Multiple Types</strong> — URLs, text, phone, email</li>
-      <li><strong>PNG Download</strong> — High-quality QR image</li>
-      <li><strong>Instant Generation</strong> — QR in one click</li>
-      <li><strong>Secure & Private</strong> — Nothing uploaded</li>
-      <li><strong>Works Everywhere</strong> — All devices</li>
-    </ul>
-
-    <h3>🎯 How to Use QR Generator</h3>
+    <h2>How to make a QR code</h2>
     <ol>
-      <li>Enter text, URL, or phone number</li>
-      <li>Click "Generate QR Code"</li>
-      <li>Download your QR code as PNG</li>
+      <li>Choose what the code should do: open a website link, show text, start an email, call a phone number or join a Wi-Fi network.</li>
+      <li>Fill in the details. For a website, type or paste the link.</li>
+      <li>Pick an image size. Choose Large if you plan to print it.</li>
+      <li>Press Generate QR Code, then Download QR (PNG).</li>
+      <li>Scan it with your phone to test it before you share or print it.</li>
     </ol>
 
-    <h3>💡 What Can You Store in a QR Code?</h3>
+    <h3>✨ What you can store in a QR code</h3>
     <ul>
-      <li>Website URLs</li>
-      <li>Plain text messages</li>
-      <li>Phone numbers</li>
-      <li>Email addresses</li>
-      <li>Wi-Fi passwords</li>
-      <li>Business card info (vCard)</li>
-      <li>Location coordinates</li>
+      <li><strong>Website link:</strong> opens a page when scanned. If you leave out "https://", this tool adds it for you.</li>
+      <li><strong>Plain text:</strong> shows a short message or note.</li>
+      <li><strong>Email:</strong> opens a new email to the address you set, with an optional subject.</li>
+      <li><strong>Phone number:</strong> offers to call the number.</li>
+      <li><strong>Wi-Fi network:</strong> lets people join your network without typing the password. Share this code only with people you trust, because anyone who scans it can join.</li>
     </ul>
 
-    <h3>❓ Why Choose KitUpBox QR Generator?</h3>
-    <p>Unlike other QR generators, we don't track what you create. Everything happens in your browser, ensuring complete privacy. Plus, our QR codes are high quality with no expiry date.</p>
+    <h3>🖨️ Tips for a QR code that scans well</h3>
+    <ul>
+      <li><strong>Keep it dark on light.</strong> Black on white works best. Do not invert the colors.</li>
+      <li><strong>Leave a white border</strong> around the code. The downloaded image already includes one, so do not crop it.</li>
+      <li><strong>Print it big enough.</strong> As a common rule of thumb, the code should be about one tenth as wide as the distance people scan from. A code on a business card can be small, but a poster needs a large one.</li>
+      <li><strong>Use short text.</strong> Shorter links make a simpler pattern that is easier to scan. A short link is better than a long one with many extra parts.</li>
+      <li><strong>Test before you print.</strong> Scan the code with two different phones.</li>
+    </ul>
+
+    <h3>🔒 Static codes and staying safe</h3>
+    <p>The codes made here are <strong>static</strong>. They hold the information itself, so they do not expire and do not depend on our site. The downside is that you cannot change where a printed code points. If the link might change, set up a redirect on your own website and put that link in the code.</p>
+    <p>Be careful with codes you did not make. A QR code can lead to a fake page, so check the web address your phone shows before you open it or type in any details.</p>
   </section>
 
   <section class="content-section">
     <h2>❓ Frequently Asked Questions</h2>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Do QR codes expire?</div><div class="faq-a">No! The QR codes generated here are static and never expire. They work forever.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I change the color of the QR code?</div><div class="faq-a">Currently we generate standard black-and-white QR codes for maximum scannability. Colored QR codes may come in a future update.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is there a limit on how many QR codes I can create?</div><div class="faq-a">No limit! Create as many QR codes as you want — completely free.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I scan the QR code?</div><div class="faq-a">Open your smartphone camera, point it at the QR code, and tap the notification that appears. Or use any QR scanner app.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I use these QR codes commercially?</div><div class="faq-a">Yes! The QR codes are yours to use for any purpose — personal or commercial.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What's the maximum text length?</div><div class="faq-a">QR codes can store up to ~4000 characters, but shorter text produces cleaner, easier-to-scan codes.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Do QR codes made here expire?</div><div class="faq-a">No. These are static codes. The information is stored in the pattern itself, so they keep working as long as the link or information inside is still valid.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I scan a QR code?</div><div class="faq-a">Open your phone camera, point it at the code and tap the link or notification that appears. If your camera does not do it, use a QR scanner app.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I make a QR code for my Wi-Fi?</div><div class="faq-a">Choose Wi-Fi network, enter the network name, the security type and the password, then generate the code. People who scan it can join without typing the password.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I change the color of the QR code?</div><div class="faq-a">Not at the moment. The codes are black on white because that scans most reliably.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is there a limit on the length?</div><div class="faq-a">Yes. A QR code can hold only so much. This tool uses a strong error correction setting, which allows roughly 1,200 characters of plain text, and it lowers the setting automatically for longer text. Short text gives a cleaner code that is easier to scan.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I use these QR codes for business?</div><div class="faq-a">Yes. The codes you make are yours to use, including on products, menus and flyers. Test them before you print a large run.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is the difference between static and dynamic QR codes?</div><div class="faq-a">A static code holds the information inside it and cannot be changed after you print it. A dynamic code holds a short link that can be redirected later, and it usually needs a paid service. This tool makes static codes.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my text saved?</div><div class="faq-a">No. The code is made in your browser, and this page does not save what you enter.</div></div>
   </section>
-
-  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
 
   <section class="content-section">
     <h2>🔗 Related Tools</h2>
     <div class="related-grid">
+      <a class="related-card" href="/how-to-create-a-qr-code.html"><div class="icon" style="background:#dbeafe;">📖</div><h4>How to Create a QR Code</h4></a>
       <a class="related-card" href="/barcode-generator.html"><div class="icon" style="background:#fed7aa;">📊</div><h4>Barcode Generator</h4></a>
       <a class="related-card" href="/qr-scanner.html"><div class="icon" style="background:#fed7aa;">📷</div><h4>QR Code Scanner</h4></a>
       <a class="related-card" href="/password-generator.html"><div class="icon" style="background:#ede9fe;">🔐</div><h4>Password Generator</h4></a>
@@ -173,8 +223,8 @@
 
   <footer class="footer">
     <div class="footer-inner">
-      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
-      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
       <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
       <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/qr-generator.html">QR Generator</a><a href="/image-to-pdf.html">Image to PDF</a></div>
     </div>
@@ -197,37 +247,123 @@
     function shareThisTool() {
       const url = 'https://kitupbox.onrender.com/qr-generator.html';
       if (navigator.share) navigator.share({ title: 'QR Generator - KitUpBox', url }).catch(() => {});
-      else navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!'));
+      else if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => showToast('✅ Link copied!')).catch(() => showToast('Could not copy the link', true));
+    }
+
+    const LEVELS = ['H', 'Q', 'M', 'L'];
+
+    function setType() {
+      const t = document.getElementById('qrType').value;
+      document.querySelectorAll('.type-group').forEach(g => g.classList.toggle('active', g.id === 'g-' + t));
+    }
+
+    function wifiEsc(v) { return v.replace(/([\;,:"])/g, '\\$1'); }
+
+    function buildPayload() {
+      const t = document.getElementById('qrType').value;
+      const val = id => document.getElementById(id).value.trim();
+
+      if (t === 'url') {
+        let u = val('qrUrl');
+        if (!u) return { error: 'Enter a website link first' };
+        if (!/^[a-z][a-z0-9+.\-]*:/i.test(u) && !/\s/.test(u) && /^[^\s\/]+\.[^\s\/]+/.test(u)) u = 'https://' + u;
+        return { payload: u };
+      }
+      if (t === 'text') {
+        const x = document.getElementById('qrText').value;
+        if (!x.trim()) return { error: 'Enter some text first' };
+        return { payload: x };
+      }
+      if (t === 'email') {
+        const to = val('emailTo');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) return { error: 'Enter a valid email address' };
+        const subj = val('emailSubject');
+        return { payload: 'mailto:' + to + (subj ? '?subject=' + encodeURIComponent(subj) : '') };
+      }
+      if (t === 'phone') {
+        const p = val('phoneNum').replace(/[^\d+]/g, '');
+        if (!/^\+?\d{5,15}$/.test(p)) return { error: 'Enter a valid phone number' };
+        return { payload: 'tel:' + p };
+      }
+      if (t === 'wifi') {
+        const ssid = val('wifiSsid');
+        const sec = document.getElementById('wifiSec').value;
+        const pass = document.getElementById('wifiPass').value;
+        if (!ssid) return { error: 'Enter the network name' };
+        if (sec !== 'nopass' && !pass) return { error: 'Enter the Wi-Fi password' };
+        let p = 'WIFI:T:' + sec + ';S:' + wifiEsc(ssid) + ';';
+        if (sec !== 'nopass') p += 'P:' + wifiEsc(pass) + ';';
+        if (document.getElementById('wifiHidden').checked) p += 'H:true;';
+        return { payload: p + ';', secret: true };
+      }
+      return { error: 'Choose a type' };
     }
 
     function generateQR() {
-      const text = document.getElementById('qrText').value.trim();
       const out = document.getElementById('qrOutput');
       const dlBtn = document.getElementById('downloadBtn');
 
-      if (!text) {
-        showToast('Enter text or URL first', true);
+      if (typeof QRCode === 'undefined') {
+        showToast('The QR tool did not load. Check your internet and reload the page.', true);
+        return;
+      }
+      const built = buildPayload();
+      if (built.error) { showToast(built.error, true); return; }
+
+      const size = parseInt(document.getElementById('qrSize').value, 10) || 512;
+      let used = null;
+      for (const lv of LEVELS) {
+        out.innerHTML = '<div class="qr-display" id="qrDisplay"></div>';
+        try {
+          qrObj = new QRCode(document.getElementById('qrDisplay'), {
+            text: built.payload,
+            width: size,
+            height: size,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel[lv]
+          });
+          used = lv;
+          break;
+        } catch (e) { qrObj = null; }
+      }
+
+      if (!used) {
+        out.innerHTML = 'QR code will appear here...';
+        dlBtn.style.display = 'none';
+        showToast('That is too long for a QR code. Please shorten it.', true);
         return;
       }
 
-      out.innerHTML = '<div class="qr-display" id="qrDisplay"></div>';
-      qrObj = new QRCode(document.getElementById('qrDisplay'), {
-        text: text,
-        width: 250,
-        height: 250,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
-
+      if (!built.secret) {
+        const note = document.createElement('div');
+        note.className = 'qr-note';
+        note.textContent = 'This code contains: ' + built.payload;
+        out.appendChild(note);
+      }
       dlBtn.style.display = 'block';
-      showToast('✅ QR Code generated!');
+      showToast(used === 'H' ? '✅ QR Code generated!' : '✅ QR Code generated (long text, lower error correction)');
     }
 
     function downloadQR() {
       const canvas = document.querySelector('#qrDisplay canvas');
       const img = document.querySelector('#qrDisplay img');
-      const src = canvas ? canvas.toDataURL('image/png') : (img ? img.src : null);
+      let src = null;
+
+      if (canvas) {
+        const n = (qrObj && qrObj._oQRCode && qrObj._oQRCode.getModuleCount) ? qrObj._oQRCode.getModuleCount() : 33;
+        const margin = Math.round(canvas.width / n * 4);
+        const c = document.createElement('canvas');
+        c.width = canvas.width + margin * 2;
+        c.height = canvas.height + margin * 2;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, c.width, c.height);
+        ctx.drawImage(canvas, margin, margin);
+        src = c.toDataURL('image/png');
+      } else if (img) {
+        src = img.src;
+      }
 
       if (!src) {
         showToast('Generate QR first', true);
@@ -237,9 +373,15 @@
       const link = document.createElement('a');
       link.href = src;
       link.download = 'KitUpBox_QR.png';
+      document.body.appendChild(link);
       link.click();
+      link.remove();
       showToast('⬇️ QR Code downloaded!');
     }
+
+    document.querySelectorAll('.text-input').forEach(el => {
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' && el.tagName === 'INPUT') generateQR(); });
+    });
   </script>
 
 </body>
