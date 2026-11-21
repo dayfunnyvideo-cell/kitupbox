@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Word Counter - Count Words, Characters & Sentences Free | KitUpBox</title>
-  <meta name="description" content="Free online Word Counter. Count words, characters, sentences, paragraphs, and reading time instantly. Perfect for essays, blogs, and SEO content.">
+  <meta name="description" content="Free word counter. Count words, characters with and without spaces, sentences and paragraphs, and see reading time and speaking time as you type. Good for essays, posts and captions.">
   <meta name="keywords" content="word counter, character counter, word count tool, count words online, sentence counter">
 
   <style>
@@ -16,7 +16,7 @@
     .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
     .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
     .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
-    .logo-text h1 { font-size: 1.1rem; font-weight: 700; }
+    .logo-text .brand-name { font-size: 1.1rem; font-weight: 700; }
     .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
     .nav { display: flex; gap: 22px; align-items: center; }
     .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
@@ -90,8 +90,8 @@
 <body>
 
   <header class="header">
-    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></a>
-    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/#categories">Categories</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
     <div><button class="share-btn" onclick="shareThisTool()">📤 Share</button></div>
   </header>
 
@@ -105,6 +105,7 @@
 
   <section class="tool-wrapper">
     <div class="tool-box">
+      <label for="textInput" style="display:block;font-weight:600;font-size:0.9rem;margin-bottom:8px;">✍️ Your text:</label>
       <textarea id="textInput" class="text-area" placeholder="Type or paste your text here... Counts update automatically."></textarea>
 
       <div class="btn-row">
@@ -141,56 +142,87 @@
         <div class="stat-card">
           <div class="icon">⏱️</div>
           <div class="label">Reading Time</div>
-          <div class="value" id="readTime">0 min</div>
+          <div class="value" id="readTime">0 sec</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon">🎤</div>
+          <div class="label">Speaking Time</div>
+          <div class="value" id="speakTime">0 sec</div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
-
   <section class="content-section">
-    <h2>📖 What is a Word Counter?</h2>
-    <p>A Word Counter is a tool that counts the number of words, characters, sentences, and paragraphs in a piece of text. It's essential for writers, students, bloggers, and SEO professionals.</p>
+    <h2>📖 What is a word counter?</h2>
+    <p>A word counter counts the words, characters, sentences and paragraphs in a piece of text. Writers use it to stay inside a limit, such as an essay with a maximum length or a post with a character cap. This one updates the numbers as you type or paste, so you always see where you stand.</p>
 
-    <h3>✨ Key Features</h3>
+    <h3>✨ What this word counter shows</h3>
     <ul>
-      <li><strong>Real-time Counting</strong> — Updates as you type</li>
-      <li><strong>Complete Stats</strong> — Words, chars, sentences, paragraphs</li>
-      <li><strong>Reading Time</strong> — Estimated based on 200 WPM</li>
-      <li><strong>Free Forever</strong> — No signup, no limits</li>
-      <li><strong>Privacy First</strong> — Nothing uploaded</li>
+      <li><strong>Words:</strong> every group of characters separated by spaces or line breaks.</li>
+      <li><strong>Characters:</strong> all characters, including spaces and line breaks.</li>
+      <li><strong>No spaces:</strong> characters without any spaces or line breaks.</li>
+      <li><strong>Sentences and paragraphs:</strong> counted from punctuation and blank lines.</li>
+      <li><strong>Reading time and speaking time:</strong> how long the text takes to read silently or to say out loud.</li>
     </ul>
 
-    <h3>🎯 When to Use Word Counter?</h3>
+    <h2>How to use the word counter</h2>
+    <ol>
+      <li>Type or paste your text into the box.</li>
+      <li>Read the counts below the box. They change as you edit.</li>
+      <li>Use Copy Text to copy it, or Clear to start again.</li>
+    </ol>
+
+    <h3>💡 How the numbers are worked out</h3>
     <ul>
-      <li><strong>Students</strong> — Essays with word limits</li>
-      <li><strong>Bloggers</strong> — SEO-optimized articles</li>
-      <li><strong>Writers</strong> — Novel and story chapters</li>
-      <li><strong>Journalists</strong> — News articles with word counts</li>
-      <li><strong>Social Media</strong> — Tweets, captions, posts</li>
-      <li><strong>SEO</strong> — Meta descriptions, titles</li>
-      <li><strong>Academic</strong> — Thesis and research papers</li>
+      <li><strong>Words:</strong> the text is split wherever there is a space or a line break, and each piece counts as one word. So "I have 3 cats" is 4 words, and a hyphenated word such as "well-known" is 1 word.</li>
+      <li><strong>Sentences:</strong> a sentence is counted when it ends with a period, question mark or exclamation mark followed by a space or the end of the text. A number such as 3.5 does not end a sentence.</li>
+      <li><strong>Paragraphs:</strong> blocks of text separated by a blank line.</li>
+      <li><strong>Reading time:</strong> words divided by 200 words per minute. Adults often read somewhere around 200 to 250 words per minute, so this is a safe average. A 1,000 word article takes about 5 minutes to read.</li>
+      <li><strong>Speaking time:</strong> words divided by about 130 words per minute, a common pace for speaking aloud. A 1,000 word speech takes about 8 minutes.</li>
     </ul>
 
-    <h3>💡 Reading Time Calculation</h3>
-    <p>We estimate reading time based on an average reading speed of <strong>200 words per minute</strong>. This is the standard used by most publishers and content platforms.</p>
+    <h3>🎯 Common word and character limits</h3>
+    <p>Limits depend on the school, the app and the site, and they can change, so always check the rules you are given. These are common examples:</p>
+    <ul>
+      <li><strong>College application essay:</strong> the Common App personal essay allows up to 650 words.</li>
+      <li><strong>Post on X (Twitter):</strong> 280 characters for most accounts.</li>
+      <li><strong>Instagram caption:</strong> up to 2,200 characters.</li>
+      <li><strong>Text message (SMS):</strong> 160 characters fit in one standard message.</li>
+      <li><strong>Page title for search results:</strong> about 60 characters before it may be cut off.</li>
+      <li><strong>Meta description:</strong> about 150 to 160 characters before it may be cut off.</li>
+    </ul>
 
-    <h3>❓ Why Use KitUpBox Word Counter?</h3>
-    <p>Our tool is fast, accurate, and completely free. No signup required. Everything runs in your browser — your text never leaves your device.</p>
+    <h3>✍️ Who uses a word counter</h3>
+    <ul>
+      <li><strong>Students:</strong> essays and papers with a word limit.</li>
+      <li><strong>Bloggers and marketers:</strong> articles, titles and descriptions.</li>
+      <li><strong>Writers:</strong> chapters and stories.</li>
+      <li><strong>Speakers:</strong> checking how long a talk will run.</li>
+      <li><strong>Social media users:</strong> captions and posts with a character cap.</li>
+    </ul>
+
+    <h3>Tips for staying within a limit</h3>
+    <ul>
+      <li>Write the first draft without counting, then trim.</li>
+      <li>Cut filler such as "very", "really" and "in order to".</li>
+      <li>Replace long phrases with one clear word.</li>
+      <li>Remove repeated points, and keep the strongest example.</li>
+    </ul>
+    <p style="color:var(--text-muted);font-size:0.85rem">Different programs count a little differently, for example with symbols or dashes standing alone. If a strict limit matters, check your count in the program or form that will receive the text.</p>
   </section>
 
   <section class="content-section">
     <h2>❓ Frequently Asked Questions</h2>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How is word count calculated?</div><div class="faq-a">We split your text by spaces and count each group of characters as one word. Standard word counting method.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it count numbers as words?</div><div class="faq-a">Yes, numbers count as words. For example, "I have 3 cats" = 4 words.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What counts as a sentence?</div><div class="faq-a">A sentence ends with a period (.), question mark (?), or exclamation mark (!).</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How is reading time calculated?</div><div class="faq-a">We divide total words by 200 (average reading speed) to estimate minutes.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my text saved?</div><div class="faq-a">No! Everything is processed in your browser. Your text is never sent to any server.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is there a text limit?</div><div class="faq-a">No specific limit. Paste as much text as you want.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How is word count calculated?</div><div class="faq-a">The text is split at every space and line break, and each piece counts as one word. This is the usual method for counting words.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it count numbers as words?</div><div class="faq-a">Yes. A number counts as a word, so "I have 3 cats" is 4 words.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is the difference between characters and characters without spaces?</div><div class="faq-a">Characters counts everything, including spaces and line breaks. The no-spaces count leaves out spaces and line breaks. Some forms ask for one and some for the other.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What counts as a sentence?</div><div class="faq-a">A sentence is counted when text ends with a period, question mark or exclamation mark followed by a space or the end of the text.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How is reading time calculated?</div><div class="faq-a">We divide the number of words by 200, an average adult reading speed in words per minute. Speaking time uses about 130 words per minute.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does it work for other languages?</div><div class="faq-a">It works for languages that put spaces between words, such as English, Spanish and Hindi. Languages written without spaces between words, such as Chinese and Japanese, need a character count instead.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is my text saved?</div><div class="faq-a">No. The counting runs in your browser, and this page does not send or save what you type.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is there a text limit?</div><div class="faq-a">This page has no set limit. Very large texts may make your browser slow.</div></div>
   </section>
-
-  <div class="ad-slot"><div class="ad-inner">Advertisement Space (Responsive)</div></div>
 
   <section class="content-section">
     <h2>🔗 Related Tools</h2>
@@ -204,8 +236,8 @@
 
   <footer class="footer">
     <div class="footer-inner">
-      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><h1>KitUpBox</h1><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
-      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
+      <div><div class="logo-area" style="margin-bottom: 12px;"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></div><p style="font-size: 0.85rem; color: var(--text-muted);">Free online tools for everyone.</p></div>
+      <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a></div>
       <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
       <div><h4>Popular Tools</h4><a href="/pdf-merger.html">PDF Merger</a><a href="/word-counter.html">Word Counter</a><a href="/qr-generator.html">QR Generator</a></div>
     </div>
@@ -236,31 +268,46 @@
 
     const textarea = document.getElementById('textInput');
 
+    function formatTime(words, wpm) {
+      const totalSec = Math.round(words / wpm * 60);
+      if (totalSec < 60) return totalSec + ' sec';
+      const m = Math.floor(totalSec / 60);
+      const sec = totalSec % 60;
+      return sec ? `${m} min ${sec} sec` : `${m} min`;
+    }
+
     function updateCounts() {
       const text = textarea.value;
+      const trimmed = text.trim();
 
-      const words = text.trim() ? text.trim().split(/\s+/).filter(w => w.length > 0) : [];
-      const wordCount = words.length;
-
-      const charCount = text.length;
-      const charNoSpace = text.replace(/\s/g, '').length;
-
-      const sentences = text.trim() ? text.split(/[.!?]+/).filter(s => s.trim().length > 0).length : 0;
-      const paragraphs = text.trim() ? text.split(/\n\s*\n/).filter(p => p.trim().length > 0).length : 0;
-      const readingTime = Math.ceil(wordCount / 200);
+      const wordCount = trimmed ? trimmed.split(/\s+/).length : 0;
+      const charCount = Array.from(text).length;
+      const charNoSpace = Array.from(text.replace(/\s/g, '')).length;
+      const sentences = trimmed ? trimmed.split(/[.!?]+(?:\s+|$)/).filter(x => x.trim().length > 0).length : 0;
+      const paragraphs = trimmed ? text.split(/\n\s*\n/).filter(p => p.trim().length > 0).length : 0;
 
       document.getElementById('wordCount').innerText = wordCount.toLocaleString();
       document.getElementById('charCount').innerText = charCount.toLocaleString();
       document.getElementById('charNoSpace').innerText = charNoSpace.toLocaleString();
       document.getElementById('sentenceCount').innerText = sentences.toLocaleString();
       document.getElementById('paraCount').innerText = paragraphs.toLocaleString();
-      document.getElementById('readTime').innerText = readingTime + ' min';
+      document.getElementById('readTime').innerText = formatTime(wordCount, 200);
+      document.getElementById('speakTime').innerText = formatTime(wordCount, 130);
     }
 
     function copyText() {
       const text = textarea.value;
       if (!text) { showToast('No text to copy', true); return; }
-      navigator.clipboard.writeText(text).then(() => showToast('✅ Text copied!'));
+      const fallback = () => {
+        textarea.select();
+        try { document.execCommand('copy'); showToast('✅ Text copied!'); }
+        catch (e) { showToast('Could not copy. Select the text and copy it manually.', true); }
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast('✅ Text copied!')).catch(fallback);
+      } else {
+        fallback();
+      }
     }
 
     function clearText() {
