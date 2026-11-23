@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPA Calculator - Semester & Cumulative GPA, Weighted or Unweighted | KitUpBox</title>
+  <meta name="description" content="Free GPA calculator. Add your courses, grades and credits to get your semester GPA and overall GPA, with an optional weighted GPA for Honors, AP and IB courses.">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root { --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --primary: #3b82f6; --purple: #8b5cf6; --text: #1e293b; --text-muted: #64748b; --green: #10b981; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+    .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 20px; }
+    .logo-text .brand-name { font-size: 1.1rem; font-weight: 700; }
+    .logo-text p { font-size: 0.68rem; color: var(--text-muted); }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav a:hover { color: var(--primary); }
+
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 20px 30px 0; font-size: 0.85rem; color: var(--text-muted); }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb span { margin: 0 8px; }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: 20px 30px; text-align: center; }
+    .page-header .icon-big { font-size: 3rem; margin-bottom: 10px; }
+    .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; }
+
+    .tool-wrapper { max-width: 750px; margin: 20px auto; padding: 0 30px; }
+    .tool-box { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .tool-box label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .text-input { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-size: 0.95rem; outline: none; margin-bottom: 18px; font-family: inherit; }
+    .text-input:focus { border-color: var(--primary); }
+
+    .action-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); margin-bottom: 10px; }
+    .action-btn:hover { transform: translateY(-2px); }
+
+    .results { margin-top: 20px; display: none; }
+    .results.show { display: block; }
+    .result-main { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+    .result-main .label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 5px; }
+    .result-main .value { font-size: 2rem; font-weight: 800; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .result-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; text-align: center; }
+    .result-item .label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 5px; }
+    .result-item .value { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+
+    .ad-slot { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .ad-inner { background: rgba(226, 232, 240, 0.4); border: 1px dashed var(--border); border-radius: 12px; padding: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .content-section { max-width: 850px; margin: 0 auto; padding: 20px 30px; }
+    .content-section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .content-section h3 { font-size: 1.15rem; font-weight: 700; margin: 25px 0 10px; }
+    .content-section p { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8; }
+    .content-section ul, .content-section ol { margin: 15px 0 20px 25px; font-size: 0.95rem; }
+    .content-section li { margin-bottom: 8px; }
+
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .faq-q { padding: 18px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-muted); }
+    .faq-item.open .faq-a { display: block; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .related-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.12); border-color: var(--primary); }
+    .related-card .icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .related-card h4 { font-size: 0.9rem; font-weight: 600; }
+
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 30px 25px; margin-top: 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .footer h4 { font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; }
+    .footer a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; z-index: 10001; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 900px) { .nav { display: none; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .header { padding: 10px 15px; } .page-header h1 { font-size: 1.6rem; } .page-header { padding: 15px 20px; } .tool-wrapper { padding: 0 15px; } .tool-box { padding: 22px 18px; } .content-section { padding: 15px 20px; } .content-section h2 { font-size: 1.3rem; } .breadcrumb { padding: 15px 20px 0; } .ad-slot { padding: 0 15px; } .footer-inner { grid-template-columns: 1fr; } }
+
+    .tool-box select.text-input { appearance: auto; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .breakdown { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; }
+    .brow { display: flex; justify-content: space-between; padding: 11px 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .brow:last-child { border-bottom: none; }
+    .brow span:last-child { font-weight: 700; }
+    .bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin: 14px 0 4px; background: var(--border); }
+    .bar i { display: block; height: 100%; }
+    .hint { font-size: 0.78rem; color: var(--text-muted); margin: -10px 0 16px; }
+    @media (max-width: 600px) { .two { grid-template-columns: 1fr; } }
+
+    .course-row { display: grid; grid-template-columns: 1.6fr 1fr 0.8fr 36px; gap: 8px; align-items: start; margin-bottom: 10px; }
+    .course-row.weighted { grid-template-columns: 1.4fr 0.9fr 0.7fr 1fr 36px; }
+    .course-row .text-input { margin-bottom: 0; padding: 12px 10px; min-width: 0; }
+    .course-row .wt { display: none; }
+    .course-row.weighted .wt { display: block; }
+    .rm-btn { height: 44px; border: 1px solid var(--border); background: var(--bg); border-radius: 10px; cursor: pointer; font-size: 1rem; color: var(--text-muted); }
+    .rm-btn:hover { color: #ef4444; border-color: #ef4444; }
+    .row-head { display: grid; grid-template-columns: 1.6fr 1fr 0.8fr 36px; gap: 8px; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; }
+    .row-head.weighted { grid-template-columns: 1.4fr 0.9fr 0.7fr 1fr 36px; }
+    .row-head .wt { display: none; }
+    .row-head.weighted .wt { display: block; }
+    .add-btn { width: 100%; padding: 12px; background: var(--bg); border: 1px dashed var(--primary); color: var(--primary); border-radius: 10px; font-weight: 700; cursor: pointer; margin: 6px 0 18px; font-size: 0.95rem; }
+    .chk { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 16px; font-weight: 500; }
+    .chk input { width: 18px; height: 18px; }
+    .scale { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 10px 0 20px; }
+    .scale th, .scale td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    .scale th { background: var(--bg); }
+    @media (max-width: 600px) {
+      .course-row, .course-row.weighted { grid-template-columns: 1fr 1fr 36px; }
+      .course-row .text-input:first-child { grid-column: 1 / 4; }
+      .course-row.weighted .wt { grid-column: 1 / 3; }
+      .row-head, .row-head.weighted { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="logo-area"><div class="logo-icon">K</div><div class="logo-text"><div class="brand-name">KitUpBox</div><p>Tools for a Smarter You</p></div></a>
+    <nav class="nav"><a href="/">Home</a><a href="/#popular">Tools</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+  </header>
+
+  <div class="breadcrumb"><a href="/">Home</a><span>›</span>GPA Calculator</div>
+
+  <section class="page-header">
+    <div class="icon-big">🎓</div>
+    <h1>GPA Calculator</h1>
+    <p>Work out your semester and overall GPA from your grades and credits.</p>
+  </section>
+
+  <section class="tool-wrapper">
+    <div class="tool-box">
+      <label class="chk"><input type="checkbox" id="weighted" onchange="toggleWeighted()"> <span>Use weighted GPA (Honors, AP, IB)</span></label>
+      <div class="row-head" id="rowHead"><span>Course (optional)</span><span>Grade</span><span>Credits</span><span class="wt">Type</span><span></span></div>
+      <div id="rows"></div>
+      <button class="add-btn" type="button" onclick="addRow()">+ Add course</button>
+
+      <label>📚 Already have a GPA? (optional)</label>
+      <div class="two">
+        <div><input type="number" id="prevGpa" class="text-input" placeholder="Current GPA, e.g. 3.2" step="0.01" min="0" max="6" aria-label="Current GPA"></div>
+        <div><input type="number" id="prevCredits" class="text-input" placeholder="Credits so far, e.g. 30" step="0.5" min="0" aria-label="Credits completed so far"></div>
+      </div>
+      <p class="hint">Fill both boxes to see your new overall GPA.</p>
+
+      <button class="action-btn" onclick="calc()">🎓 Calculate GPA</button>
+      <div class="results" id="results">
+        <div class="result-main"><div class="label">GPA for these courses</div><div class="value" id="gpa">0.00</div></div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label">Total Credits</div><div class="value" id="credits">0</div></div>
+          <div class="result-item"><div class="label">Quality Points</div><div class="value" id="points">0</div></div>
+          <div class="result-item" id="cumBox" style="grid-column:1 / 3;display:none"><div class="label">New Overall GPA</div><div class="value" id="cum">0.00</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="content-section">
+  <h2>What is GPA?</h2>
+  <p>GPA stands for grade point average. It turns the letter grades you earn in school into one number, usually on a scale from 0.0 to 4.0. Schools, colleges and scholarship programs use it to see how a student is doing overall. This calculator works out your GPA for a term and, if you give your earlier GPA, your new overall GPA.</p>
+
+  <h2>How to use the GPA calculator</h2>
+  <ol>
+    <li>For each course, pick the grade you got or expect to get.</li>
+    <li>Enter the credits for the course. A course with more credits counts more.</li>
+    <li>Add or remove rows with the buttons. You can add a course name if you like.</li>
+    <li>If your school uses weighted grades, tick the weighted box and choose Regular, Honors or AP / IB for each course.</li>
+    <li>To see your overall GPA, enter your current GPA and the credits you have so far.</li>
+    <li>Press Calculate GPA.</li>
+  </ol>
+
+  <h2>GPA formula</h2>
+  <p><strong>GPA = total quality points ÷ total credits</strong></p>
+  <p>The quality points for a course are its grade points multiplied by its credits. The usual grade points on the 4.0 scale are below. Rows with no grade are left out of the calculation.</p>
+  <table class="scale">
+    <tr><th>Grade</th><th>Points</th><th>Grade</th><th>Points</th></tr>
+    <tr><td>A+ / A</td><td>4.0</td><td>C</td><td>2.0</td></tr>
+    <tr><td>A-</td><td>3.7</td><td>C-</td><td>1.7</td></tr>
+    <tr><td>B+</td><td>3.3</td><td>D+</td><td>1.3</td></tr>
+    <tr><td>B</td><td>3.0</td><td>D</td><td>1.0</td></tr>
+    <tr><td>B-</td><td>2.7</td><td>D-</td><td>0.7</td></tr>
+    <tr><td>C+</td><td>2.3</td><td>F</td><td>0.0</td></tr>
+  </table>
+
+  <h3>Worked example</h3>
+  <p>Say you take four courses: Math, 4 credits, grade A (4.0); English, 3 credits, B+ (3.3); History, 3 credits, B (3.0); and Chemistry, 4 credits, A- (3.7).</p>
+  <ul>
+    <li>Math: 4 × 4.0 = 16.0 quality points</li>
+    <li>English: 3 × 3.3 = 9.9</li>
+    <li>History: 3 × 3.0 = 9.0</li>
+    <li>Chemistry: 4 × 3.7 = 14.8</li>
+  </ul>
+  <p>The total is 49.7 quality points over 14 credits, so the GPA is 49.7 ÷ 14 = <strong>3.55</strong>.</p>
+  <p>Now suppose you already had a 3.2 GPA over 30 credits. Your earlier quality points are 3.2 × 30 = 96. Your new overall GPA is (96 + 49.7) ÷ (30 + 14) = 145.7 ÷ 44 = <strong>3.31</strong>.</p>
+
+  <h3>Weighted GPA</h3>
+  <p>Some high schools give extra points for harder courses, so a student can go above 4.0. A common pattern is +0.5 for Honors and +1.0 for AP or IB, which turns an A in an AP course into 5.0. For example, an AP course with an A (5.0) for 4 credits, an Honors course with a B (3.5) for 3 credits and a regular course with an A- (3.7) for 3 credits gives (20 + 10.5 + 11.1) ÷ 10 = <strong>4.16</strong>. The extra points are added only to passing grades. Schools set their own weights, so check your school's policy.</p>
+
+  <h3>Things to keep in mind</h3>
+  <ul>
+    <li>Schools do not all use the same scale. Some do not use plus and minus grades, and a few count an A+ as 4.3.</li>
+    <li>Colleges often work out GPA differently from high schools, and many show both a term GPA and a cumulative GPA.</li>
+    <li>Pass and fail courses are usually not counted. Leave the grade blank on those rows.</li>
+    <li>If a number matters for an application or a scholarship, use the figure on your official transcript.</li>
+  </ul>
+  <p style="color:var(--text-muted);font-size:0.85rem">Results are estimates for planning. Your school's official GPA can differ because of its own scale, rounding and rules for repeated courses.</p>
+</section>
+
+<section class="content-section">
+  <h2>Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How do I calculate my GPA?</div><div class="faq-a">Multiply each course grade point by its credits, add the results, and divide by the total credits. This calculator does it for you when you pick grades and credits.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">What is a good GPA?</div><div class="faq-a">It depends on your goals and your school. A 4.0 is the top of the unweighted scale. Programs and scholarships set their own requirements, so check the ones you are aiming for.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">What is the difference between weighted and unweighted GPA?</div><div class="faq-a">Unweighted GPA counts every course the same on a 4.0 scale. Weighted GPA adds extra points for harder courses such as Honors, AP and IB, so it can go above 4.0.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How do I find my overall GPA with a new semester?</div><div class="faq-a">Enter your current GPA and the credits you have so far in the optional boxes. The calculator combines them with the new courses to give your new overall GPA.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Do credits matter?</div><div class="faq-a">Yes. A course with more credits counts more. An A in a 4 credit course raises your GPA more than an A in a 1 credit course.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">How do I handle pass/fail courses?</div><div class="faq-a">Pass and fail courses are usually left out of GPA. Leave the grade blank on that row and it will not be counted.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Can I use this for college and high school?</div><div class="faq-a">Yes, if your school uses the standard 4.0 scale with plus and minus grades. If your school uses a different scale, the result may not match.</div></div>
+  <div class="faq-item"><div class="faq-q" role="button" tabindex="0">Is my information saved?</div><div class="faq-a">No. The calculation runs in your browser when you press the button, and this page does not save what you enter.</div></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div><h4>KitUpBox</h4><p style="font-size:0.85rem;color:var(--text-muted)">Free online tools for everyday work. No installation needed.</p></div>
+    <div><h4>Quick Links</h4><a href="/">Home</a><a href="/blog.html">Blog</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></div>
+    <div><h4>Legal</h4><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a><a href="/disclaimer.html">Disclaimer</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 KitUpBox. All rights reserved.</div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+  var GRADES = [['A+',4.0],['A',4.0],['A-',3.7],['B+',3.3],['B',3.0],['B-',2.7],['C+',2.3],['C',2.0],['C-',1.7],['D+',1.3],['D',1.0],['D-',0.7],['F',0.0]];
+
+  function gradeOptions(sel) {
+    var h = '<option value="">Grade</option>';
+    GRADES.forEach(function (g, i) { h += '<option value="' + g[1] + '"' + (sel === g[0] ? ' selected' : '') + '>' + g[0] + '</option>'; });
+    return h;
+  }
+
+  function addRow(grade) {
+    var d = document.createElement('div');
+    d.className = 'course-row' + ($('weighted').checked ? ' weighted' : '');
+    d.innerHTML = '<input type="text" class="text-input" placeholder="Course (optional)" aria-label="Course name" autocomplete="off">' +
+      '<select class="text-input gsel" aria-label="Grade">' + gradeOptions(grade) + '</select>' +
+      '<input type="number" class="text-input cr" value="3" min="0" step="0.5" aria-label="Credits">' +
+      '<select class="text-input wt tsel" aria-label="Course type"><option value="0">Regular</option><option value="0.5">Honors (+0.5)</option><option value="1">AP / IB (+1.0)</option></select>' +
+      '<button type="button" class="rm-btn" aria-label="Remove course" onclick="removeRow(this)">✕</button>';
+    $('rows').appendChild(d);
+  }
+
+  function removeRow(btn) {
+    if (document.querySelectorAll('#rows .course-row').length <= 1) { showToast('Keep at least one course row.', true); return; }
+    btn.parentNode.remove();
+  }
+
+  function toggleWeighted() {
+    var w = $('weighted').checked;
+    document.querySelectorAll('#rows .course-row').forEach(function (r) { r.classList.toggle('weighted', w); });
+    $('rowHead').classList.toggle('weighted', w);
+  }
+
+  function calc() {
+    var weighted = $('weighted').checked, credits = 0, points = 0, used = 0;
+    var rows = document.querySelectorAll('#rows .course-row');
+    for (var i = 0; i < rows.length; i++) {
+      var g = rows[i].querySelector('.gsel').value;
+      var c = parseFloat(rows[i].querySelector('.cr').value);
+      if (g === '' || !(c > 0)) continue;
+      var gp = parseFloat(g);
+      if (weighted && gp > 0) gp += parseFloat(rows[i].querySelector('.tsel').value) || 0;
+      credits += c; points += gp * c; used++;
+    }
+    if (!used) { showToast('Pick a grade and enter credits for at least one course.', true); return; }
+
+    var pg = $('prevGpa').value.trim(), pc = $('prevCredits').value.trim();
+    var showCum = false, cum = 0;
+    if (pg !== '' || pc !== '') {
+      var pgn = parseFloat(pg), pcn = parseFloat(pc);
+      if (isNaN(pgn) || isNaN(pcn) || pgn < 0 || pgn > 6 || !(pcn > 0)) { showToast('To see your overall GPA, enter both your current GPA and your credits so far.', true); return; }
+      cum = (pgn * pcn + points) / (pcn + credits);
+      showCum = true;
+    }
+
+    $('gpa').textContent = (points / credits).toFixed(2);
+    $('credits').textContent = (Math.round(credits * 100) / 100).toString();
+    $('points').textContent = (Math.round(points * 100) / 100).toFixed(2);
+    $('cumBox').style.display = showCum ? 'block' : 'none';
+    if (showCum) $('cum').textContent = cum.toFixed(2);
+    $('results').classList.add('show');
+  }
+
+  ['A', 'B+', 'A-', 'B', ''].forEach(function (g) { addRow(g); });
+  var sample = [['Math', 'A', 4], ['English', 'B+', 3], ['History', 'B', 3], ['Chemistry', 'A-', 4], ['Elective', '', 3]];
+  document.querySelectorAll('#rows .course-row').forEach(function (r, i) {
+    r.querySelector('input[type=text]').value = sample[i][0];
+    r.querySelector('.gsel').value = ({ 'A': '4', 'B+': '3.3', 'B': '3', 'A-': '3.7', '': '' })[sample[i][1]];
+    r.querySelector('.cr').value = sample[i][2];
+  });
+  function $(id) { return document.getElementById(id); }
+  function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function num(id) { var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+  function showToast(msg, isError) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isError ? ' error' : '');
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(function () { t.className = 'toast'; }, 3000);
+  }
+  document.querySelectorAll('.text-input').forEach(function (el) {
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') calc(); });
+  });
+  document.querySelectorAll('.faq-q').forEach(function (q) {
+    function toggle() { q.parentElement.classList.toggle('open'); }
+    q.addEventListener('click', toggle);
+    q.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+  calc();
+</script>
+
+</body>
+</html>
