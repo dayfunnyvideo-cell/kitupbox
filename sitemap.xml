@@ -53,9 +53,8 @@
 <url><loc>https://kitupbox.onrender.com/how-to-create-a-strong-password.html</loc></url>
 <url><loc>https://kitupbox.onrender.com/how-to-count-words-and-characters.html</loc></url>
 <url><loc>https://kitupbox.onrender.com/how-to-create-a-qr-code.html</loc></url>  <url>
-    <loc>https://kitupbox.onrender.com/how-to-convert-units.html</loc>
-    <lastmod>2026-11-17</lastmod>
-  </url>
+  <loc>https://kitupbox.onrender.com/how-to-convert-units.html</loc><lastmod>2026-11-17</lastmod> </url>
+  <url><loc>https://kitupbox.onrender.com/how-much-house-can-i-afford.html</loc><lastmod>2026-11-28</lastmod></url>
   
   <!-- Legal Pages -->
   <url><loc>https://kitupbox.onrender.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
